@@ -1,7 +1,23 @@
-import logo from './logo.svg';
-import './App.css';
+import logo from "./logo.svg";
+import "./App.css";
+import Button from "@mui/material/Button";
+import { useEffect, useState } from "react";
 
-function App() {
+const App = () => {
+  const [counter, setCounter] = useState(0);
+
+  const handleClick = () => {
+    let newCounter = counter + 1;
+    setCounter(counter + 1);
+  };
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCounter(0);
+    }, 5000);
+    return () => clearInterval(interval);
+  });
+
   return (
     <div className="App">
       <header className="App-header">
@@ -18,8 +34,14 @@ function App() {
           Learn React
         </a>
       </header>
+      <p>The counter is: {counter}</p>
+      <body className="boton">
+        <Button variant="text" onClick={handleClick}>
+          First Button
+        </Button>
+      </body>
     </div>
   );
-}
+};
 
 export default App;
