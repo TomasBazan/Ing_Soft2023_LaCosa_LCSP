@@ -1,5 +1,5 @@
 import logo from "./logo.svg";
-import "./App.css";
+import "./styles/App.css";
 import Button from "@mui/material/Button";
 import { useEffect, useState } from "react";
 
