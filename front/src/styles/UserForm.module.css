@@ -1,19 +1,19 @@
 .contactForm {
-    width: 300px;
-    margin: 2em;
-  }
-  
-  .contactForm Input {
-    padding: 5px;
-    margin: 5px;
-  }
+	width: 300px;
+	margin: 2em;
+}
 
-  .contactForm Select {
-    padding: 5px;
-    margin: 5px;
-  }
-  
-  .form {
-    display: flex;
-    flex-direction: column;
-  }
+.contactForm Input {
+	padding: 5px;
+	margin: 5px;
+}
+
+.contactForm Select {
+	padding: 5px;
+	margin: 5px;
+}
+
+.form {
+	display: flex;
+	flex-direction: column;
+}
