@@ -1,7 +1,0 @@
-#!/usr/bin/env sh
-. "$(dirname -- "$0")/_/husky.sh"
-
-# Change the working directory to your project's root
-cd "$(dirname "$0")/../"
-ls -a
-npm run format && npm run lint
