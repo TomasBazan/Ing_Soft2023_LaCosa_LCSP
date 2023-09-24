@@ -1,0 +1,38 @@
+.App {
+	text-align: center;
+}
+
+.App-logo {
+	height: 20vmin;
+	pointer-events: none;
+}
+
+.App-logo {
+	animation: combinedAnimation infinite 5s linear;
+}
+
+.App-header {
+	background-color: #282c34;
+	min-height: 10vh;
+	display: flex;
+	flex-direction: column;
+	align-items: right;
+	justify-content: center;
+	font-size: calc(10px + 2vmin);
+	color: blueviolet;
+}
+
+.App-link {
+	color: #61dafb;
+}
+
+@keyframes combinedAnimation {
+	0%,
+	100% {
+		transform: scale(0.5);
+	}
+
+	50% {
+		transform: scale(1);
+	}
+}
