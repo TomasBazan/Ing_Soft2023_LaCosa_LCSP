@@ -22,12 +22,6 @@ const validate = (values) => {
 	return errors;
 };
 
-/* const handleSubmit = (values, {setSubmitting}) => {
-	// Handle form submission logic here, e.g., make an API call
-	console.log(values);
-	setSubmitting(false);
-}; */
-
 const UserForm = () => {
 	const formik = useFormik({
 		initialValues,
