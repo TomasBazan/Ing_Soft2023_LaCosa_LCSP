@@ -3,6 +3,7 @@ import {createSlice} from '@reduxjs/toolkit';
 // Estado inicial para player
 const initialState = {
 	name: '',
+	id: 0,
 };
 
 // Cambios de estado para player
@@ -13,8 +14,11 @@ const playerSlice = createSlice({
 		setName: (state, action) => {
 			state.name = action.payload;
 		},
+		setPlayerId: (state, action) => {
+			state.id = action.payload;
+		},
 	},
 });
 
-export const {setName} = playerSlice.actions;
+export const {setName, setPlayerId} = playerSlice.actions;
 export default playerSlice.reducer;
