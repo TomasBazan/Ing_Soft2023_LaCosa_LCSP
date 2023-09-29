@@ -1,28 +1,38 @@
 // UserForm is our functional component
 import {useFormik} from 'formik';
-// import styles from './UserForm.module.css';
+import {useDispatch, useSelector} from 'react-redux';
+import {setPlayerName} from '../../appActions';
 
 // UserForm is our functional component
 
-const initialValues = {username: ''};
-const onSubmit = (values) => {
-	// call the API with this data as a payload
-	console.log('family friendly comment');
-	console.log('family friendly comment');
-	console.log('family friendly comment');
-	console.log('family friendly comment');
-	console.log('family friendly comment');
-};
-const validate = (values) => {
-	const errors = {};
-	if (!values.username) {
-		errors.username = 'this field is required';
-	}
-
-	return errors;
-};
-
 const UserForm = () => {
+	const name = useSelector((state) => state.player.name);
+
+	const dispatch = useDispatch();
+	const initialValues = {username: ''};
+	const onSubmit = (values) => {
+		// call the API with this data as a payload
+
+		console.log('family friendly comment');
+		console.log('family friendly comment');
+
+		console.log(values.username);
+
+		dispatch(setPlayerName(values.username));
+		console.log(name);
+
+		//reset the form
+		//formik.resetForm();
+	};
+	const validate = (values) => {
+		const errors = {};
+		if (!values.username) {
+			errors.username = 'this field is required';
+		}
+
+		return errors;
+	};
+
 	const formik = useFormik({
 		initialValues,
 		onSubmit,
