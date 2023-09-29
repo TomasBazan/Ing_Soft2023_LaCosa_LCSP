@@ -21,8 +21,8 @@ const UserForm = () => {
 		dispatch(setPlayerName(values.username));
 		console.log(name);
 
-		//reset the form
-		//formik.resetForm();
+		// reset the form
+		formik.resetForm();
 	};
 	const validate = (values) => {
 		const errors = {};
