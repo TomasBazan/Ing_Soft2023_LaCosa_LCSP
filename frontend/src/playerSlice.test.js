@@ -1,6 +1,7 @@
 import {configureStore} from '@reduxjs/toolkit';
 import {render} from '@testing-library/react';
 import {Provider} from 'react-redux';
+// eslint-disable-next-line no-unused-vars
 import React from 'react';
 import playerReducer, {setName} from './playerSlice';
 
