@@ -1,0 +1,16 @@
+.card-button {
+	border-radius: 25px;
+	margin: 0;
+	padding: 0;
+}
+
+.card-image {
+	max-width: 100%;
+	border-radius: 25px;
+	height: auto;
+	padding: 0px;
+}
+
+button:focus {
+	outline: none;
+}
