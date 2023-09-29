@@ -6,3 +6,10 @@ para correr:
 ``` cd frontend
 ``` npm install
 ``` npm run dev
+```
+
+## Correr los tests
+Los tests tienen que tener nombres de la forma `Modulo.test.js`, se ejecutarán todos automáticamente al correr:
+```bash
+npm test
+```
