@@ -6,7 +6,7 @@ const SendPlayerName = async ({player}) => {
 		return new Promise((resolve) => {
 			response.json().then((json) =>
 				resolve({
-					status: response.status_code,
+					status: response.status,
 					ok: response.ok,
 					json,
 				}),
@@ -26,12 +26,12 @@ const SendPlayerName = async ({player}) => {
 	};
 	return new Promise((resolve, reject) => {
 		fetch(SERVER_URL, config)
-			.then((res) => res.json())
-			.then((response) => {
-				if (response.ok) {
-					return resolve(parseJSONResponse(response));
+			.then(parseJSONResponse)
+			.then((json) => {
+				if (json.ok) {
+					return resolve(json);
 				}
-				return reject(response);
+				return reject(json);
 			})
 			.catch((error) => {
 				console.log('Error in sendPlayerName: ', {error});

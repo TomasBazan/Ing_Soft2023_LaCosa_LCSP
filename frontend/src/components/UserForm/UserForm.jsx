@@ -6,8 +6,8 @@ import {setPlayerId, setPlayerName} from '../../appActions';
 import React, {useState, useEffect} from 'react';
 import {Link} from 'react-router-dom';
 
-// import SendPlayerName from '../request/sendPlayerName';
-import SendPlayerName from '../request/sendPlayerName.mock';
+import SendPlayerName from '../request/sendPlayerName';
+// import SendPlayerName from '../request/sendPlayerName.mock';
 
 // UserForm is our functional component
 
@@ -25,8 +25,10 @@ const UserForm = () => {
 			const actualPlayer = {name: values.username, id: 0};
 			console.log(actualPlayer);
 			const resp = await SendPlayerName({player: actualPlayer});
-			const updatedPlayer = {name: resp.name, id: resp.id};
+			console.log(resp);
+			const updatedPlayer = {name: resp.json.data.name, id: resp.json.data.id};
 
+			console.log('Updated Player is: ', {updatedPlayer});
 			// const updatedPlayer = actualPlayer;
 			console.log('family friendly comment');
 			console.log(values.username);
@@ -40,9 +42,16 @@ const UserForm = () => {
 
 			// Set isLoggedIn to true when the user is logged in
 			setIsLoggedIn(true);
+			alert(resp.json.detail);
 		} catch (error) {
 			// Handle any errors from the API call
 			console.error('Error:', error);
+			// show an alert to the user and reset the form
+
+			if (!error.json.ok) {
+				alert('Error: invalid username please select a diferent one');
+			}
+			formik.resetForm();
 		}
 		// Reset the form
 		formik.resetForm();
@@ -82,7 +91,7 @@ const UserForm = () => {
 						{formik.errors.username ? (
 							<div className='error'> {formik.errors.username}</div>
 						) : null}
-						{/*<h2> {user.id}</h2>*/}
+						{/* <h2> {user.id}</h2> */}
 						<button type='submit' onClick={formik.handleSubmit}>
 							Submit
 						</button>
@@ -90,7 +99,7 @@ const UserForm = () => {
 				) : (
 					<div>
 						{/* Show additional buttons for logged-in users */}
-						{/*<h2> {user.id} </h2>*/}
+						{/* <h2> {user.id} </h2> */}
 
 						<Link to='/'>
 							<button>Unirse a partida</button>
