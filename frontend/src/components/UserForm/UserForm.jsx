@@ -3,6 +3,7 @@ import {useFormik} from 'formik';
 import {useDispatch} from 'react-redux';
 import {setPlayerId, setPlayerName} from '../../appActions';
 import SendPlayerName from '../../sendPlayerName';
+//eslint-disable-next-line no-unused-vars
 import React, {useState} from 'react';
 import {Link} from 'react-router-dom';
 
@@ -17,8 +18,8 @@ const UserForm = () => {
 			// Assuming SendPlayerName returns a promise
 			const actualPlayer = {name: values.username, id: 0};
 			console.log(actualPlayer);
-			//const updatedPlayer = await SendPlayerName({player: actualPlayer});
-			const updatedPlayer = actualPlayer;
+			const updatedPlayer = await SendPlayerName({player: actualPlayer});
+			//const updatedPlayer = actualPlayer;
 			console.log('family friendly comment');
 			console.log('family friendly comment');
 			console.log(values.username);
@@ -77,19 +78,18 @@ const UserForm = () => {
 							Submit
 						</button>
 					</div>
-				) : null}
+				) : (
+					<div>
+						{/* Show additional buttons for logged-in users */}
+						<Link to='/'>
+							<button>Unirse a partida</button>
+						</Link>
+						<Link to='/CreateGame'>
+							<button>Crear nueva partida</button>
+						</Link>
+					</div>
+				)}
 			</form>
-			{isLoggedIn ? (
-				<div>
-					{/* Show additional buttons for logged-in users */}
-					<Link to='/'>
-						<button>Unirse a partida</button>
-					</Link>
-					<Link to='/CreateGame'>
-						<button>Crear nueva partida</button>
-					</Link>
-				</div>
-			) : null}
 		</div>
 	);
 };
