@@ -1,9 +1,9 @@
 // UserForm is our functional component
 import {useFormik} from 'formik';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {setPlayerId, setPlayerName} from '../../appActions';
 // eslint-disable-next-line no-unused-vars
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {Link} from 'react-router-dom';
 
 // import SendPlayerName from '../request/sendPlayerName';
@@ -15,22 +15,28 @@ const UserForm = () => {
 	const [isLoggedIn, setIsLoggedIn] = useState(false);
 	const dispatch = useDispatch();
 	const initialValues = {username: ''};
+	const user = useSelector((state) => state.player);
+	useEffect(() => {
+		console.log('The user updated:', user);
+	}, [user]);
 	const onSubmit = async (values) => {
 		try {
 			// Assuming SendPlayerName returns a promise
 			const actualPlayer = {name: values.username, id: 0};
 			console.log(actualPlayer);
-			const updatedPlayer = await SendPlayerName({player: actualPlayer});
+			const resp = await SendPlayerName({player: actualPlayer});
+			const updatedPlayer = {name: resp.name, id: resp.id};
+
 			// const updatedPlayer = actualPlayer;
-			console.log('family friendly comment');
 			console.log('family friendly comment');
 			console.log(values.username);
 
-			console.log(updatedPlayer); // Assuming updatedPlayer has the response from the API
-
 			// Dispatch actions to update the Redux store
-			dispatch(setPlayerName(updatedPlayer.name));
 			dispatch(setPlayerId(updatedPlayer.id));
+			dispatch(setPlayerName(updatedPlayer.name));
+
+			console.log('the updated player is');
+			console.log(updatedPlayer); // Assuming updatedPlayer has the response from the API
 
 			// Set isLoggedIn to true when the user is logged in
 			setIsLoggedIn(true);
@@ -76,6 +82,7 @@ const UserForm = () => {
 						{formik.errors.username ? (
 							<div className='error'> {formik.errors.username}</div>
 						) : null}
+						{/*<h2> {user.id}</h2>*/}
 						<button type='submit' onClick={formik.handleSubmit}>
 							Submit
 						</button>
@@ -83,6 +90,8 @@ const UserForm = () => {
 				) : (
 					<div>
 						{/* Show additional buttons for logged-in users */}
+						{/*<h2> {user.id} </h2>*/}
+
 						<Link to='/'>
 							<button>Unirse a partida</button>
 						</Link>
