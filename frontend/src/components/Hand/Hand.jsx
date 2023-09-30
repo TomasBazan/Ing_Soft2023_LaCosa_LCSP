@@ -5,7 +5,11 @@ import Card from '../../components/Card/Card.jsx';
 
 // mock format of json response. Player's hand is an array of card tokens
 const mock = JSON.parse(
-	'{"status": "", "message": "","data": ["img37", "img40","img72"]}',
+	JSON.stringify({
+		status: '',
+		message: '',
+		data: ['img37', 'img40', 'img72', 'img78'],
+	}),
 );
 
 const Hand = () => {
