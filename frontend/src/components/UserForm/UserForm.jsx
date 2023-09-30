@@ -3,10 +3,13 @@ import {useFormik} from 'formik';
 import {useDispatch} from 'react-redux';
 import {setPlayerId, setPlayerName} from '../../appActions';
 import SendPlayerName from '../../sendPlayerName';
+import React, {useState} from 'react';
+import {Link} from 'react-router-dom';
 
 // UserForm is our functional component
 
 const UserForm = () => {
+	const [isLoggedIn, setIsLoggedIn] = useState(false);
 	const dispatch = useDispatch();
 	const initialValues = {username: ''};
 	const onSubmit = async (values) => {
@@ -14,8 +17,8 @@ const UserForm = () => {
 			// Assuming SendPlayerName returns a promise
 			const actualPlayer = {name: values.username, id: 0};
 			console.log(actualPlayer);
-			const updatedPlayer = await SendPlayerName({player: actualPlayer});
-
+			//const updatedPlayer = await SendPlayerName({player: actualPlayer});
+			const updatedPlayer = actualPlayer;
 			console.log('family friendly comment');
 			console.log('family friendly comment');
 			console.log(values.username);
@@ -25,6 +28,9 @@ const UserForm = () => {
 			// Dispatch actions to update the Redux store
 			dispatch(setPlayerName(updatedPlayer.name));
 			dispatch(setPlayerId(updatedPlayer.id));
+
+			// Set isLoggedIn to true when the user is logged in
+			setIsLoggedIn(true);
 		} catch (error) {
 			// Handle any errors from the API call
 			console.error('Error:', error);
@@ -52,24 +58,38 @@ const UserForm = () => {
 	return (
 		<div>
 			<form onSubmit={formik.handleSubmit}>
-				<div className='form/control'>
-					<label htmlFor='username'>User Name</label>
-					<input
-						type='text'
-						id='username'
-						name='username'
-						onChange={formik.handleChange}
-						onBlur={formik.handleBlur}
-						value={formik.values.username}
-					/>
-					{formik.errors.username ? (
-						<div className='error'> {formik.errors.username}</div>
-					) : null}
-				</div>
+				{!isLoggedIn ? (
+					<div className='form/control'>
+						<h1>Choose a nickname </h1>
+						<label htmlFor='username'>User Name</label>
+						<input
+							type='text'
+							id='username'
+							name='username'
+							onChange={formik.handleChange}
+							onBlur={formik.handleBlur}
+							value={formik.values.username}
+						/>
+						{formik.errors.username ? (
+							<div className='error'> {formik.errors.username}</div>
+						) : null}
+						<button type='submit' onClick={formik.handleSubmit}>
+							Submit
+						</button>
+					</div>
+				) : null}
 			</form>
-			<button type='submit' onClick={formik.handleSubmit}>
-				Submit
-			</button>
+			{isLoggedIn ? (
+				<div>
+					{/* Show additional buttons for logged-in users */}
+					<Link to='/'>
+						<button>Unirse a partida</button>
+					</Link>
+					<Link to='/CreateGame'>
+						<button>Crear nueva partida</button>
+					</Link>
+				</div>
+			) : null}
 		</div>
 	);
 };

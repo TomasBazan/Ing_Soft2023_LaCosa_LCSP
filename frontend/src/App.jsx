@@ -3,14 +3,21 @@
 // import viteLogo from '../../../../../../../vite.svg';
 import './App.css';
 import UserForm from './components/UserForm/UserForm.jsx';
+import {BrowserRouter, Routes, Route, Link} from 'react-router-dom';
+import CreateGameForm from './components/CreateGameForm/CreateGameForm.jsx';
 
 function App() {
 	return (
-		<>
-			<div className='App'>
-				<UserForm />
+		<BrowserRouter>
+			<div>
+				<Link to='/'></Link>
 			</div>
-		</>
+
+			<Routes>
+				<Route path='/' element={<UserForm />} />
+				<Route path='/CreateGame' element={<CreateGameForm />} />
+			</Routes>
+		</BrowserRouter>
 	);
 }
 
