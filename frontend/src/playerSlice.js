@@ -14,11 +14,11 @@ const playerSlice = createSlice({
 		setName: (state, action) => {
 			state.name = action.payload;
 		},
-		setPlayerId: (state, action) => {
+		setId: (state, action) => {
 			state.id = action.payload;
 		},
 	},
 });
 
-export const {setName, setPlayerId} = playerSlice.actions;
+export const {setName, setId} = playerSlice.actions;
 export default playerSlice.reducer;
