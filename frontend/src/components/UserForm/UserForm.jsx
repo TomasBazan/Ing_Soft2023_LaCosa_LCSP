@@ -2,10 +2,12 @@
 import {useFormik} from 'formik';
 import {useDispatch} from 'react-redux';
 import {setPlayerId, setPlayerName} from '../../appActions';
-import SendPlayerName from '../../sendPlayerName';
 // eslint-disable-next-line no-unused-vars
 import React, {useState} from 'react';
 import {Link} from 'react-router-dom';
+
+// import SendPlayerName from '../request/sendPlayerName';
+import SendPlayerName from '../request/sendPlayerName.mock';
 
 // UserForm is our functional component
 
