@@ -2,8 +2,8 @@
 import {useFormik} from 'formik';
 import {useDispatch} from 'react-redux';
 import {setPlayerId, setPlayerName} from '../../appActions';
-import SendPlayerName from '../../sendPlayerName';
-
+// import SendPlayerName from '../request/sendPlayerName';
+import SendPlayerName from '../request/sendPlayerName.mock';
 // UserForm is our functional component
 
 const UserForm = () => {
