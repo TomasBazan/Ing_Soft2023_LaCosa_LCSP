@@ -1,6 +1,6 @@
-const SERVER_URL = 'https://localhost:8000/game';
+const SERVER_URL = 'https://localhost:8000/hand';
 
-const getGameStatus = async (idPlayer) => {
+const getHand = async (idPlayer) => {
 	const parseJSONResponse = (response) => {
 		return new Promise((resolve) => {
 			response.json().then((json) =>
@@ -15,7 +15,9 @@ const getGameStatus = async (idPlayer) => {
 
 	const config = {
 		method: 'GET',
-		header: {},
+		header: {
+			'Content-Type': 'application/json',
+		},
 		body: JSON.stringify(idPlayer),
 	};
 	return new Promise((resolve, reject) => {
@@ -32,4 +34,5 @@ const getGameStatus = async (idPlayer) => {
 			});
 	});
 };
-export default getGameStatus;
+
+export default getHand;
