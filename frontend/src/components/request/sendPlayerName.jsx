@@ -1,11 +1,20 @@
 // Recive un objeto con el nombre del jugador y lo envia al servidor
+const SERVER_URL = 'http://localhost:8000/register';
+
 const SendPlayerName = async ({player}) => {
-	console.log(player.name);
-	const handleResponse = (response) => {
-		const newName = response.name;
-		const newId = response.playerId;
-		const player = {name: newName, id: newId};
-		return player;
+	const parseJSONResponse = (response) => {
+		return new Promise((resolve) => {
+			response.json().then((json) =>
+				resolve({
+					status: response.status_code,
+					ok: response.ok,
+					json,
+				}),
+			);
+		});
+	};
+	const playerToSend = {
+		name: player.name,
 	};
 	// const playerToSend = {name: player.name};
 	const config = {
@@ -13,19 +22,20 @@ const SendPlayerName = async ({player}) => {
 		headers: {
 			'Content-Type': 'application/json',
 		},
-		body: JSON.stringify(player.name),
+		body: JSON.stringify(playerToSend),
 	};
 	return new Promise((resolve, reject) => {
-		fetch('https://localhost:8000/player/register', config)
+		fetch(SERVER_URL, config)
 			.then((res) => res.json())
 			.then((response) => {
 				if (response.ok) {
-					return resolve(handleResponse(response));
+					return resolve(parseJSONResponse(response));
 				}
 				return reject(response);
 			})
 			.catch((error) => {
-				reject(error);
+				console.log('Error in sendPlayerName: ', {error});
+				throw error;
 			});
 	});
 };
