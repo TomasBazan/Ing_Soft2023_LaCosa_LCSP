@@ -1,21 +1,14 @@
 import Card from '../Card/Card.jsx';
-import {useEffect, useState} from 'react';
+import {useState} from 'react';
 import {useDispatch} from 'react-redux';
 import {appendToHand} from '../../services/handSlice';
 
 const Deck = () => {
-	const [clicked, setClicked] = useState(false);
-	const [imageSrc, setImageSrc] = useState([]);
-	const dispatch = useDispatch();
+	const backImage = 'img65';
 
-	// inicializar el mazo con el primer fetch
-	const mockInitGet = JSON.parse(
-		JSON.stringify({
-			status: '',
-			message: '',
-			data: ['img65'],
-		}),
-	);
+	const [clicked, setClicked] = useState(false);
+	const [imageSrc, setImageSrc] = useState(backImage);
+	const dispatch = useDispatch();
 
 	const mockPick = JSON.parse(
 		JSON.stringify({
@@ -24,17 +17,6 @@ const Deck = () => {
 			data: ['img197'],
 		}),
 	);
-
-	// when component mounts
-	useEffect(() => {
-		const fetchCard = async () => {
-			// fetch back of first card in deck as initial state
-			// image is hardcoded because http request does not work
-			setImageSrc(mockInitGet.data[0]);
-		};
-		fetchCard();
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
 
 	// when deck is clicked
 	const handleClick = () => {
@@ -56,7 +38,7 @@ const Deck = () => {
 			setTimeout(() => {
 				dispatch(appendToHand(mockPick.data));
 				// display back of next card in deck
-				setImageSrc(mockInitGet.data[0]);
+				setImageSrc(backImage);
 			}, 1000);
 			// set clicked to true to avoid infinite picking of cards
 			setClicked(true);
