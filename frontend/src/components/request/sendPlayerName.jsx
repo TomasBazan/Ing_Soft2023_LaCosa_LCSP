@@ -12,13 +12,13 @@ const SendPlayerName = async ({player}) => {
 						ok: response.ok,
 						id: json.data.id,
 						name: json.data.name,
-						detail: json.detail,
+						detail: response.detail,
 					});
 				} else {
 					resolve({
 						status: response.status_code,
 						ok: response.ok,
-						detail: json.detail,
+						detail: response.detail,
 					});
 				}
 			});

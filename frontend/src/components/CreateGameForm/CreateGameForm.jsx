@@ -1,14 +1,27 @@
 import {useFormik} from 'formik';
 import {useSelector} from 'react-redux';
 import {Flex, Button} from '@chakra-ui/react';
+import {CreateGame} from '../request/createGame';
 
 const CreateGameForm = () => {
 	const userId = useSelector((state) => state.player.id);
 	const initialValues = {GameName: ''};
-	const onSubmit = (values) => {
+	const onSubmit = async (values) => {
 		// call the API with this data as a payload
 		console.log('family friendly comment');
 		console.log({values, userId});
+
+		const Game = {
+			id_player: userId,
+			name: values.GameName,
+			//password: 'elpepe',
+			min_players: 4,
+			max_players: 12,
+		};
+		// en este sprint min_players: 4, max_players: 12, esta harcodeado pero en proximos lo agregamos
+		const resp = await CreateGame({game: Game});
+		console.log(resp);
+
 		console.log('family friendly comment');
 	};
 	const validate = (values) => {
