@@ -1,34 +1,27 @@
 const SERVER_URL = 'http://localhost:8000/game';
 
-export const CreateGame = async ({game}) => {
+export const createGame = async ({game}) => {
 	const parseJSONResponse = (response) => {
 		return new Promise((resolve) =>
 			response.json().then((json) => {
-				if (json.ok) {
+				if (response.ok) {
 					resolve({
-						status: response.status,
+						status: response.status_code,
 						ok: response.ok,
-						detail: response.detail,
-						gameId: response.data.gameId,
+						detail: json.detail, // ver el detail cuando esta ok
+						gameId: json.data.game_id,
 					});
 				} else {
 					resolve({
 						status: response.status,
 						ok: response.ok,
-						detail: response.detail,
+						detail: json.detail, // ver el detail cuando esta !ok
 					});
 				}
 			}),
 		);
 	};
 
-	/* const gameToSend = {
-		id_player: game.id_player,
-		name: game.name,
-		min_players: game.min_players,
-		max_players: game.max_players,
-		password: game.password,
-	}; */
 	const config = {
 		method: 'POST',
 		headers: {
@@ -51,4 +44,4 @@ export const CreateGame = async ({game}) => {
 			});
 	});
 };
-//export default CreateGame;
+// export default CreateGame;

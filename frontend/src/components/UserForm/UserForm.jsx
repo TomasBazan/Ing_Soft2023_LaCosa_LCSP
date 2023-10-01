@@ -1,65 +1,43 @@
-// UserForm is our functional component
 import {useFormik} from 'formik';
-import {useDispatch, useSelector} from 'react-redux';
+import {useDispatch} from 'react-redux';
 import {setPlayerId, setPlayerName} from '../../appActions';
 // eslint-disable-next-line no-unused-vars
 import React, {useState, useEffect} from 'react';
 import {Link} from 'react-router-dom';
-
-import SendPlayerName from '../request/sendPlayerName';
+import sendPlayerName from '../request/sendPlayerName';
 // import SendPlayerName from '../request/sendPlayerName.mock';
 
 // UserForm is our functional component
-
 const UserForm = () => {
 	const [isLoggedIn, setIsLoggedIn] = useState(false);
 	const dispatch = useDispatch();
 	const initialValues = {username: ''};
-	const user = useSelector((state) => state.player);
-	useEffect(() => {
-		console.log('The user updated:', user);
-	}, [user]);
+
 	const onSubmit = async (values) => {
+		const actualPlayer = {name: values.username, id: 0};
 		try {
-			// Assuming SendPlayerName returns a promise
-			const actualPlayer = {name: values.username, id: 0};
-			console.log(actualPlayer);
-			const resp = await SendPlayerName({player: actualPlayer});
-			console.log(resp);
+			const resp = await sendPlayerName({player: actualPlayer});
 			const updatedPlayer = {name: resp.name, id: resp.id};
-
-			console.log('Updated Player is: ', {updatedPlayer});
-			// const updatedPlayer = actualPlayer;
-			console.log(values.username);
-
-			// Dispatch actions to update the Redux store
 			dispatch(setPlayerId(updatedPlayer.id));
 			dispatch(setPlayerName(updatedPlayer.name));
-
-			console.log('the updated player is', {updatedPlayer});
-
-			// Set isLoggedIn to true when the user is logged in
 			setIsLoggedIn(true);
-			alert(resp.detail);
+			alert('Succes: ' + resp.detail);
 		} catch (error) {
-			// Handle any errors from the API call
-			console.error('Error:', error);
-			// show an alert to the user and reset the form
-
+			// The status code is missing in the response
+			console.error('Error: ' + error);
 			if (!error.ok) {
-				alert('Error: invalid username please select a diferent one');
+				alert(error.detail);
 			}
 			formik.resetForm();
 		}
-		// Reset the form
 		formik.resetForm();
 	};
+
 	const validate = (values) => {
 		const errors = {};
 		if (!values.username) {
 			errors.username = 'this field is required';
 		}
-
 		return errors;
 	};
 
@@ -68,8 +46,6 @@ const UserForm = () => {
 		onSubmit,
 		validate,
 	});
-
-	console.log('Form values', formik.values);
 
 	return (
 		<div>

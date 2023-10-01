@@ -1,35 +1,38 @@
 import {useFormik} from 'formik';
 import {useSelector} from 'react-redux';
 import {Flex, Button} from '@chakra-ui/react';
-import {CreateGame} from '../request/createGame';
+import {createGame} from '../request/createGame';
 
 const CreateGameForm = () => {
 	const userId = useSelector((state) => state.player.id);
 	const initialValues = {GameName: ''};
 	const onSubmit = async (values) => {
-		// call the API with this data as a payload
-		console.log('family friendly comment');
-		console.log({values, userId});
-
+		// en este sprint min_players: 4, max_players: 12, esta harcodeado pero en proximos lo agregamos
 		const Game = {
 			id_player: userId,
 			name: values.GameName,
-			//password: 'elpepe',
+			// password: 'elpepe',
 			min_players: 4,
 			max_players: 12,
 		};
-		// en este sprint min_players: 4, max_players: 12, esta harcodeado pero en proximos lo agregamos
-		const resp = await CreateGame({game: Game});
-		console.log(resp);
-
-		console.log('family friendly comment');
+		try {
+			const resp = await createGame({game: Game});
+			console.log('The response of the call is: ', resp);
+			alert('Partida creada correctamente. Detail: ' + resp.detail);
+		} catch (error) {
+			console.log('Error al crear la partida');
+			if (!error.ok) {
+				alert('Detail: ' + error.detail);
+			}
+		}
+		console.log('After the try-catch statement');
 	};
+
 	const validate = (values) => {
 		const errors = {};
 		if (!values.GameName) {
 			errors.username = 'this field is required';
 		}
-
 		return errors;
 	};
 
@@ -38,8 +41,6 @@ const CreateGameForm = () => {
 		onSubmit,
 		validate,
 	});
-
-	console.log('Form values', formik.values);
 
 	return (
 		<Flex h='100vh' justifyContent='center' alignItems='center'>
