@@ -6,8 +6,8 @@ import {setPlayerId, setPlayerName} from '../../appActions';
 import React, {useState, useEffect} from 'react';
 import {Link} from 'react-router-dom';
 
-// import SendPlayerName from '../request/sendPlayerName';
-import SendPlayerName from '../request/sendPlayerName.mock';
+import SendPlayerName from '../request/sendPlayerName';
+// import SendPlayerName from '../request/sendPlayerName.mock';
 
 // UserForm is our functional component
 
@@ -25,24 +25,31 @@ const UserForm = () => {
 			const actualPlayer = {name: values.username, id: 0};
 			console.log(actualPlayer);
 			const resp = await SendPlayerName({player: actualPlayer});
+			console.log(resp);
 			const updatedPlayer = {name: resp.name, id: resp.id};
 
+			console.log('Updated Player is: ', {updatedPlayer});
 			// const updatedPlayer = actualPlayer;
-			console.log('family friendly comment');
 			console.log(values.username);
 
 			// Dispatch actions to update the Redux store
 			dispatch(setPlayerId(updatedPlayer.id));
 			dispatch(setPlayerName(updatedPlayer.name));
 
-			console.log('the updated player is');
-			console.log(updatedPlayer); // Assuming updatedPlayer has the response from the API
+			console.log('the updated player is', {updatedPlayer});
 
 			// Set isLoggedIn to true when the user is logged in
 			setIsLoggedIn(true);
+			alert(resp.detail);
 		} catch (error) {
 			// Handle any errors from the API call
 			console.error('Error:', error);
+			// show an alert to the user and reset the form
+
+			if (!error.ok) {
+				alert('Error: invalid username please select a diferent one');
+			}
+			formik.resetForm();
 		}
 		// Reset the form
 		formik.resetForm();
@@ -82,7 +89,7 @@ const UserForm = () => {
 						{formik.errors.username ? (
 							<div className='error'> {formik.errors.username}</div>
 						) : null}
-						{/*<h2> {user.id}</h2>*/}
+						{/* <h2> {user.id}</h2> */}
 						<button type='submit' onClick={formik.handleSubmit}>
 							Submit
 						</button>
@@ -90,7 +97,7 @@ const UserForm = () => {
 				) : (
 					<div>
 						{/* Show additional buttons for logged-in users */}
-						{/*<h2> {user.id} </h2>*/}
+						{/* <h2> {user.id} </h2> */}
 
 						<Link to='/'>
 							<button>Unirse a partida</button>
