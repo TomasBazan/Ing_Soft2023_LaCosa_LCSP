@@ -26,29 +26,27 @@ const UserForm = () => {
 			console.log(actualPlayer);
 			const resp = await SendPlayerName({player: actualPlayer});
 			console.log(resp);
-			const updatedPlayer = {name: resp.json.data.name, id: resp.json.data.id};
+			const updatedPlayer = {name: resp.name, id: resp.id};
 
 			console.log('Updated Player is: ', {updatedPlayer});
 			// const updatedPlayer = actualPlayer;
-			console.log('family friendly comment');
 			console.log(values.username);
 
 			// Dispatch actions to update the Redux store
 			dispatch(setPlayerId(updatedPlayer.id));
 			dispatch(setPlayerName(updatedPlayer.name));
 
-			console.log('the updated player is');
-			console.log(updatedPlayer); // Assuming updatedPlayer has the response from the API
+			console.log('the updated player is', {updatedPlayer});
 
 			// Set isLoggedIn to true when the user is logged in
 			setIsLoggedIn(true);
-			alert(resp.json.detail);
+			alert(resp.detail);
 		} catch (error) {
 			// Handle any errors from the API call
 			console.error('Error:', error);
 			// show an alert to the user and reset the form
 
-			if (!error.json.ok) {
+			if (!error.ok) {
 				alert('Error: invalid username please select a diferent one');
 			}
 			formik.resetForm();

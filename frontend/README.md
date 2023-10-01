@@ -1,8 +1,8 @@
-# React + Vite
+## When using SendPlayerName:
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+- {"status_code":200,"detail":"User pepe2 registered successfully","id":36,"name":"pepe2","game":null,"is_alive":true}
 
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- In Succes:
+  return: {status:200, ok: true, name:'string', id: 'string'}
+- In Failure:
+  return: {status: 400:, ok:false , detail: 'Erro while validating the name}
