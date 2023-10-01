@@ -4,7 +4,7 @@
 
 - In Succes:
 
-  ``` json
+  ```json
   {
       status:200,
       ok: true,
@@ -14,18 +14,14 @@
   }
   ```
 
-  
-
 - In Failure:
-  ``` JSON
+  ```JSON
   {
       // status: 400:, Status is missing in the response
       ok:false ,
       detail: 'Error while validating the name'
   }
   ```
-
-  
 
 ---
 
@@ -34,7 +30,8 @@
 ## createGame
 
 - Succes
-  ``` json
+
+  ```json
   {
   	status: 200,
     	ok: true
@@ -43,10 +40,10 @@
   }
   ```
 
-  * Failure 
+  - Failure
 
-    ``` json
-    {  
+    ```json
+    {
     	status: 400,
       	ok: false
       	detail: "Game *nameOfTheGame* created successfully.",
@@ -57,7 +54,7 @@
 
 - In Succes:
 
-  ``` json
+  ```json
   {
       status:200,
       ok: true,
@@ -67,11 +64,9 @@
   }
   ```
 
-  
-
 - In Failure:
 
-  ``` JSON
+  ```JSON
   {
       status: 400:,
       ok:false ,
@@ -80,13 +75,11 @@
   }
   ```
 
-
-
 ## joinGame
 
 - In Succes:
 
-  ``` json
+  ```json
   {
       status:200,
       ok: true,
@@ -95,11 +88,9 @@
   }
   ```
 
-  
-
 - In Failure:
 
-  ``` JSON
+  ```JSON
   {
       status: 400:,
       ok:false ,
@@ -108,13 +99,11 @@
   }
   ```
 
-
-
 # getGameStatus
 
 - In Succes:
 
-  ``` json
+  ```json
   {
       status:200,
       ok: true,
@@ -124,35 +113,25 @@
   }
   ```
 
-  
-
 - In Failure:
 
-  ``` JSON
+  ```JSON
   {
       status: 400:,
       ok:false ,
       detail: 'msg'
   }
   ```
-
-
-
-
-
-
 
 ---
 
 # Cards
 
-
-
 ## getNewCard
 
 - In Succes:
 
-  ``` json
+  ```json
   {
       status:200,
       ok: true,
@@ -161,25 +140,21 @@
   }
   ```
 
-  
-
 - In Failure:
 
-  ``` JSON
+  ```JSON
   {
       status: 400:,
       ok:false ,
       detail: 'msg'
   }
   ```
-
-  
 
 ## getHandStatus
 
 - In Succes:
 
-  ``` json
+  ```json
   {
       status:200,
       ok: true,
@@ -188,16 +163,12 @@
   }
   ```
 
-  
-
 - In Failure:
 
-  ``` JSON
+  ```JSON
   {
       status: 400:,
       ok:false ,
       detail: 'msg'
   }
   ```
-
-  
