@@ -99,7 +99,7 @@ const UserForm = () => {
 						{/* Show additional buttons for logged-in users */}
 						{/* <h2> {user.id} </h2> */}
 
-						<Link to='/'>
+						<Link to='Games/'>
 							<button>Unirse a partida</button>
 						</Link>
 						<Link to='/CreateGame'>
