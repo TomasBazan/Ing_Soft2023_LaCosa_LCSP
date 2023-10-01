@@ -5,15 +5,6 @@ import {useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {setHand} from '../../services/handSlice';
 
-// mock format of json response. Player's hand is an array of card tokens
-const mock = JSON.parse(
-	JSON.stringify({
-		status: '',
-		message: '',
-		data: ['img37', 'img40', 'img72', 'img78'],
-	}),
-);
-
 // represents a player's hand
 const Hand = () => {
 	// select cards state
@@ -25,7 +16,7 @@ const Hand = () => {
 		// fetch  player's hand
 		const fetchHand = async () => {
 			try {
-				const response = await fetch('/cards', {
+				const response = await fetch('/hand', {
 					method: 'GET',
 					headers: {
 						'Content-Type': 'application/json',
@@ -37,8 +28,6 @@ const Hand = () => {
 			} catch (error) {
 				console.error("Error fetching player's hand:", error);
 			}
-			// dispatch is hardcoded because http request does not work at the moment
-			dispatch(setHand(mock.data));
 		};
 		fetchHand();
 	}, [dispatch]);
