@@ -6,7 +6,7 @@ import './App.css';
 import UserForm from './components/UserForm/UserForm.jsx';
 import {BrowserRouter, Routes, Route, Link} from 'react-router-dom';
 import CreateGameForm from './components/CreateGameForm/CreateGameForm.jsx';
-import ListarPartidas from './components/lobby/lobby';
+import ListarPartidas from './components/ListarPartidas/ListarPartidas';
 
 function App() {
 	const Test = () => {
