@@ -10,38 +10,33 @@ const Deck = () => {
 	const [imageSrc, setImageSrc] = useState(backImage);
 	const dispatch = useDispatch();
 
-	const mockPick = JSON.parse(
-		JSON.stringify({
-			status: '',
-			message: '',
-			data: ['img197'],
-		}),
-	);
-
 	// when deck is clicked
-	const handleClick = () => {
-		// try {
-		// 	// fetches the next card in deck
-		// 	const response = await fetch('http://localhost:8000/hand/', {
-		// 		method: 'PUT',
-		// 	});
-		// 	setImageSrc(response.json().data);
-		// } catch (error) {
-		// 	console.error("Error fetching player's hand:", error);
-		// }
-
-		// if it wasn't clicked already
-		if (!clicked) {
-			// display first hand
-			setImageSrc(mockPick.data[0]);
-			// wait and update player's hand with picked card
-			setTimeout(() => {
-				dispatch(appendToHand(mockPick.data));
-				// display back of next card in deck
-				setImageSrc(backImage);
-			}, 1000);
-			// set clicked to true to avoid infinite picking of cards
-			setClicked(true);
+	const handleClick = async () => {
+		try {
+			// fetches the next card in deck
+			const response = await fetch('/hand', {
+				method: 'PUT',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+			});
+			const res = await response.json();
+			// if it wasn't clicked already
+			if (!clicked) {
+				const pickedCard = res.data;
+				// display first card
+				setImageSrc(pickedCard[0]); // doesn't consider cases where more than card is picked
+				// wait and update player's hand with picked card
+				setTimeout(() => {
+					dispatch(appendToHand(pickedCard));
+					// display back of next card in deck
+					setImageSrc(backImage);
+				}, 500);
+				// set clicked to true to avoid infinite picking of cards
+				setClicked(true);
+			}
+		} catch (error) {
+			console.error("Error fetching player's hand:", error);
 		}
 	};
 
