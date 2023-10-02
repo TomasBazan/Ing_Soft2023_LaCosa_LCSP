@@ -7,19 +7,9 @@ import UserForm from './components/UserForm/UserForm.jsx';
 import {BrowserRouter, Routes, Route, Link} from 'react-router-dom';
 import CreateGameForm from './components/CreateGameForm/CreateGameForm.jsx';
 import ListarPartidas from './components/ListarPartidas/ListarPartidas';
+import Lobby from './components/Lobby/Lobby';
 
 function App() {
-	const Test = () => {
-		const userId = useSelector((state) => state.player.id);
-
-		return (
-			<div>
-				<h1>ESTA WORKING BROTHER MAN</h1>
-				<h1>Y el id es {userId}</h1>
-			</div>
-		);
-	};
-
 	return (
 		<BrowserRouter>
 			<div>
@@ -30,7 +20,7 @@ function App() {
 				<Route path='/' element={<UserForm />} />
 				<Route path='/CreateGame' element={<CreateGameForm />} />
 				<Route path='/Games' element={<ListarPartidas />} />
-				<Route path='/Games/Partida-Inicial' element={<Test />} />
+				<Route path='/Games/Partida-Inicial' element={<Lobby />} />
 			</Routes>
 		</BrowserRouter>
 	);
