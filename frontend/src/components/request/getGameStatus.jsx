@@ -1,15 +1,25 @@
-const SERVER_URL = 'https://localhost:8000/game';
+const SERVER_URL = 'http://localhost:8000/game';
 
 const getGameStatus = async (idPlayer) => {
 	const parseJSONResponse = (response) => {
 		return new Promise((resolve) => {
-			response.json().then((json) =>
-				resolve({
-					status: response.status,
-					ok: response.ok,
-					json,
-				}),
-			);
+			response.json().then((json) => {
+				if (response.ok) {
+					resolve({
+						status: response.status,
+						ok: response.ok,
+						players: json.data.players,
+						position: json.data.my_position,
+						rol: json.data.my_rol,
+					});
+				} else {
+					resolve({
+						status: response.status,
+						ok: response.ok,
+						detail: json.detail,
+					});
+				}
+			});
 		});
 	};
 
@@ -17,8 +27,8 @@ const getGameStatus = async (idPlayer) => {
 		method: 'GET',
 		headers: {
 			'Content-Type': 'application/json',
+			'id-player': idPlayer,
 		},
-		body: JSON.stringify(idPlayer),
 	};
 	return new Promise((resolve, reject) => {
 		fetch(SERVER_URL, config)
