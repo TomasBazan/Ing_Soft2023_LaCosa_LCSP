@@ -1,6 +1,6 @@
 const SERVER_URL = 'http://localhost:8000/hand/play';
 // Should pass an object with the idPlayer, targetId and cardToken
-const playCard = async ({values}) => {
+const playCard = async (values) => {
 	const parseJSONResponse = (response) => {
 		return new Promise((resolve) => {
 			response.json().then((json) => {
@@ -11,7 +11,8 @@ const playCard = async ({values}) => {
 						idPlayer: json.data.id_player,
 						cardToken: json.data.card_token,
 						targetId: json.data.target_id,
-						// data: hay que ver bien que devuelve
+						user: json.data.user,
+						targetUser: json.data.target_user,
 					});
 				} else {
 					resolve({
@@ -23,13 +24,17 @@ const playCard = async ({values}) => {
 			});
 		});
 	};
-
+	const bodyTosend = {
+		id_usuario: values.idPlayer,
+		target_id: values.targetId,
+		card_token: values.cardToken,
+	};
 	const config = {
 		method: 'POST',
 		header: {
 			'Content-Type': 'application/json',
 		},
-		body: JSON.stringify(values),
+		body: JSON.stringify(bodyTosend),
 	};
 	return new Promise((resolve, reject) => {
 		fetch(SERVER_URL, config)

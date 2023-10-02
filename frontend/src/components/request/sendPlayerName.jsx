@@ -15,7 +15,7 @@ const sendPlayerName = async ({player}) => {
 					});
 				} else {
 					resolve({
-						// status: response.status_code,
+						status: response.status_code,
 						ok: response.ok,
 						detail: json.detail,
 					});

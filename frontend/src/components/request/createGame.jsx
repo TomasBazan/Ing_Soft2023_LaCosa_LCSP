@@ -8,14 +8,14 @@ export const createGame = async ({game}) => {
 					resolve({
 						status: response.status_code,
 						ok: response.ok,
-						detail: json.detail, // ver el detail cuando esta ok
+						detail: json.detail,
 						gameId: json.data.game_id,
 					});
 				} else {
 					resolve({
 						status: response.status,
 						ok: response.ok,
-						detail: json.detail, // ver el detail cuando esta !ok
+						detail: json.detail,
 					});
 				}
 			}),

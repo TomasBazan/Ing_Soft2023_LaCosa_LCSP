@@ -1,6 +1,6 @@
 const SERVER_URL = 'http://localhost:8000/game/join';
-// Should recieve an Object {idUser}
-const getLobyStatus = ({idUser}) => {
+
+const getLobyStatus = (idPlayer) => {
 	const handleJSONParser = (response) => {
 		return new Promise((resolve) => {
 			response.json().then((json) => {
@@ -26,8 +26,8 @@ const getLobyStatus = ({idUser}) => {
 		method: 'GET',
 		headers: {
 			'Content-Type': 'application/json',
+			'id-player': idPlayer,
 		},
-		body: JSON.stringify({idUser}),
 	};
 	return new Promise((resolve, reject) => {
 		fetch(SERVER_URL, config)
