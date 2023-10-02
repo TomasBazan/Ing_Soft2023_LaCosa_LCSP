@@ -3,11 +3,11 @@ import {
 	Button,
 	OrderedList,
 	ListItem,
-	//ChakraProvider,
+	// ChakraProvider,
 } from '@chakra-ui/react';
-//import {Link} from 'react-router-dom';
+// import {Link} from 'react-router-dom';
 import getLobbyStatus from '../request/getLobyStatus';
-//import {useSelector} from 'react-redux';
+// import {useSelector} from 'react-redux';
 
 // mock respuestas por ahora
 const resp1 = {
