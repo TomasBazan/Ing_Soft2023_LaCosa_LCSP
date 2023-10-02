@@ -1,30 +1,26 @@
 import {createSlice} from '@reduxjs/toolkit';
 
-// Estado inicial para player
 const initialState = {
 	players: [],
-	canStart: false,
+	position: 0,
+	rol: 0,
 };
-// { players: [user_name: str, id_player: int is_host:bool], can_start : bool } }
-// Cambios de estado para player
-const lobbySlice = createSlice({
+
+const gameSlice = createSlice({
 	name: 'game',
 	initialState,
 	reducers: {
-		setLobby: (state, action) => {
+		setPlayers: (state, action) => {
 			state.players = action.payload;
 		},
-		appendToLobby: (state, action) => {
-			// Append the new card to the existing array of cards
-			state.players = [...state.players, ...action.payload];
+		setPosition: (state, action) => {
+			state.position = action.payload;
 		},
-		setCanStart: (state, action) => {
-			state.canStart = action.payload;
+		setRol: (state, action) => {
+			state.rol = action.payload;
 		},
 	},
 });
 
-// Action creators are generated for each case reducer funcion
-export const {setLobby, appendToLobby, setCanStart} = lobbySlice.actions;
-// return de reducer for game
-export default lobbySlice.reducer;
+export const {setPlayers, setPosition, setRol} = gameSlice.actions;
+export default gameSlice.reducer;

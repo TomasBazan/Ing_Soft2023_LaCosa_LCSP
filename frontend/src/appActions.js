@@ -1,11 +1,17 @@
 import {createAction} from '@reduxjs/toolkit';
 
-// Definiciones de acciones
+// Player actions
 export const setPlayerName = createAction('player/setName');
 export const setPlayerId = createAction('player/setId');
 export const setPlayerLogedIn = createAction('player/setLogedIn');
+// Hand actions
 export const setHand = createAction('hand/setHand');
 export const appendToHand = createAction('hand/appendToHand');
-export const setLobby = createAction('game/setLobby');
-export const appendToLobby = createAction('game/appendToLobby');
-export const setCanStart = createAction('game/setCanStart');
+// Loby actions
+export const setLobby = createAction('lobby/setLobby');
+export const appendToLobby = createAction('lobby/appendtolobby');
+export const setCanStart = createAction('lobby/setCanStart');
+// In game actions
+export const setPlayerInGame = createAction('game/setPlayers');
+export const setPositionInGame = createAction('game/setPosition');
+export const setRolInGame = createAction('game/setRol');
