@@ -20,4 +20,19 @@ export const handlers = [
       })
     );
   }),
+
+  rest.post('https://localhost:8000/hand/play', (req, res, ctx) => {
+    console.log('Request intercepted:', req);
+    return res(
+      ctx.status(200),
+      ctx.json({
+        status: '',
+        ok: '',
+        idPlayer: 1,
+        cardToken: '207',
+        targetId: '',
+        data: ''
+      })
+    );
+  }),
 ];
