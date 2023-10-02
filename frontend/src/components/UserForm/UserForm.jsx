@@ -1,16 +1,16 @@
 import {useFormik} from 'formik';
-import {useDispatch} from 'react-redux';
-import {setPlayerId, setPlayerName} from '../../appActions';
+import {useDispatch, useSelector} from 'react-redux';
+import {setPlayerId, setPlayerName, setPlayerLogedIn} from '../../appActions';
 // eslint-disable-next-line no-unused-vars
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 import {Link} from 'react-router-dom';
 import sendPlayerName from '../request/sendPlayerName';
 // import SendPlayerName from '../request/sendPlayerName.mock';
 
 // UserForm is our functional component
 const UserForm = () => {
-	const [isLoggedIn, setIsLoggedIn] = useState(false);
 	const dispatch = useDispatch();
+	const firstPlayer = useSelector((state) => state.player);
 	const initialValues = {username: ''};
 
 	const onSubmit = async (values) => {
@@ -20,7 +20,7 @@ const UserForm = () => {
 			const updatedPlayer = {name: resp.name, id: resp.id};
 			dispatch(setPlayerId(updatedPlayer.id));
 			dispatch(setPlayerName(updatedPlayer.name));
-			setIsLoggedIn(true);
+			dispatch(setPlayerLogedIn(true));
 			alert('Succes: ' + resp.detail);
 		} catch (error) {
 			// The status code is missing in the response
@@ -40,17 +40,15 @@ const UserForm = () => {
 		}
 		return errors;
 	};
-
 	const formik = useFormik({
 		initialValues,
 		onSubmit,
 		validate,
 	});
-
 	return (
 		<div>
 			<form onSubmit={formik.handleSubmit}>
-				{!isLoggedIn ? (
+				{!firstPlayer.loged ? (
 					<div className='form/control'>
 						<h1>Choose a nickname </h1>
 						<label htmlFor='username'>User Name</label>
@@ -65,16 +63,12 @@ const UserForm = () => {
 						{formik.errors.username ? (
 							<div className='error'> {formik.errors.username}</div>
 						) : null}
-						{/* <h2> {user.id}</h2> */}
 						<button type='submit' onClick={formik.handleSubmit}>
 							Submit
 						</button>
 					</div>
 				) : (
 					<div>
-						{/* Show additional buttons for logged-in users */}
-						{/* <h2> {user.id} </h2> */}
-
 						<Link to='Games/'>
 							<button>Unirse a partida</button>
 						</Link>
