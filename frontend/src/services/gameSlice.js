@@ -1,13 +1,11 @@
 import {createSlice} from '@reduxjs/toolkit';
 
-// Estado inicial para player
 const initialState = {
 	players: [],
 	position: 0,
 	rol: 0,
 };
 
-// Cambios de estado para player
 const gameSlice = createSlice({
 	name: 'game',
 	initialState,
@@ -24,7 +22,5 @@ const gameSlice = createSlice({
 	},
 });
 
-// Action creators are generated for each case reducer funcion
 export const {setPlayers, setPosition, setRol} = gameSlice.actions;
-// return de reducer for game
 export default gameSlice.reducer;
