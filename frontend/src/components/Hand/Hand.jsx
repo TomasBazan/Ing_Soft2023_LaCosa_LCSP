@@ -1,33 +1,38 @@
 import './Hand.css';
-
-import {useEffect, useState} from 'react';
 import Card from '../../components/Card/Card.jsx';
 
-// mock format of json response. Player's hand is an array of card tokens
-const mock = JSON.parse(
-	'{"status": "", "message": "","data": ["img37", "img40","img72"]}',
-);
+import {useEffect} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
+import {setHand} from '../../services/handSlice';
 
+// represents a player's hand
 const Hand = () => {
-	// save the player's hand as an array
-	const [cards, setCards] = useState([]);
+	// select cards state
+	const cards = useSelector((state) => state.hand.cards);
+	const dispatch = useDispatch();
 
+	// when component mounts
 	useEffect(() => {
-		// const fetchHand = async () => {
-		// 	try {
-		// 		// fetches the player's hand
-		// 		const response = await fetch('http://localhost:8000/hand/', {
-		// 			method: 'GET'
-		// 		});
-		// 		setCards(response.json().data);
-		// 	} catch (error) {
-		// 		console.error("Error fetching player's hand:", error);
-		// 	}
-		// };
-		// fetchHand();
-		setCards(mock.data);
-	}, []);
+		// fetch  player's hand
+		const fetchHand = async () => {
+			try {
+				const response = await fetch('/hand', {
+					method: 'GET',
+					headers: {
+						'Content-Type': 'application/json',
+					},
+				});
+				const res = await response.json();
+				// set player's hand state using redux
+				dispatch(setHand(res.data));
+			} catch (error) {
+				console.error("Error fetching player's hand:", error);
+			}
+		};
+		fetchHand();
+	}, [dispatch]);
 
+	// render cards in hand side by side
 	return (
 		<div className='hand'>
 			{cards.map((card) => (
