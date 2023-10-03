@@ -9,7 +9,7 @@ export const setHand = createAction('hand/setHand');
 export const appendToHand = createAction('hand/appendToHand');
 // Loby actions
 export const setLobby = createAction('lobby/setLobby');
-export const appendToLobby = createAction('lobby/appendtolobby');
+export const appendToLobby = createAction('lobby/appendToLobby');
 export const setCanStart = createAction('lobby/setCanStart');
 // In game actions
 export const setPlayerInGame = createAction('game/setPlayers');
