@@ -1,6 +1,7 @@
+/* eslint-disable camelcase */
 const SERVER_URL = 'http://localhost:8000/hand/play';
-// Should pass an object with the idPlayer, targetId and cardToken
-const playCard = async (values) => {
+
+const playCard = async (cardToken, idPlayer, targetPlayer) => {
 	const parseJSONResponse = (response) => {
 		return new Promise((resolve) => {
 			response.json().then((json) => {
@@ -24,19 +25,21 @@ const playCard = async (values) => {
 			});
 		});
 	};
-	const bodyTosend = {
-		id_usuario: values.idPlayer,
-		target_id: values.targetId,
-		card_token: values.cardToken,
-	};
+
+	const {card_token, id_usuario, target_id} = cardToken;
 	const config = {
 		method: 'POST',
-		header: {
+		headers: {
 			'Content-Type': 'application/json',
 		},
-		body: JSON.stringify(bodyTosend),
+		body: JSON.stringify({
+			card_token: `${card_token}.jpg`,
+			id_usuario,
+			target_id,
+		}),
 	};
 	return new Promise((resolve, reject) => {
+		console.log(config.body.cardToken);
 		fetch(SERVER_URL, config)
 			.then(parseJSONResponse)
 			.then((response) => {

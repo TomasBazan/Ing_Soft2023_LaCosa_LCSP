@@ -4,7 +4,7 @@
 // import {useSelector} from 'react-redux';
 import './App.css';
 import UserForm from './components/UserForm/UserForm.jsx';
-import {BrowserRouter, Routes, Route, Link} from 'react-router-dom';
+import {BrowserRouter, Routes, Route} from 'react-router-dom';
 import CreateGameForm from './components/CreateGameForm/CreateGameForm.jsx';
 import ListarPartidas from './components/ListarPartidas/ListarPartidas';
 import Game from './components/Game/Game.jsx';
@@ -14,8 +14,8 @@ import FinishGame from './containers/FinishGame';
 function App() {
 	return (
 		<BrowserRouter>
-			<div>
-				<Link to='/'></Link>
+			<div className='App'>
+				<UserForm />
 			</div>
 
 			<Routes>
