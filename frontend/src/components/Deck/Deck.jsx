@@ -4,7 +4,7 @@ import {useDispatch} from 'react-redux';
 import {appendToHand} from '../../services/handSlice';
 
 const Deck = () => {
-	const backImage = 'img65';
+	const backImage = 'reverse';
 
 	const [clicked, setClicked] = useState(false);
 	const [imageSrc, setImageSrc] = useState(backImage);
@@ -42,7 +42,7 @@ const Deck = () => {
 
 	return (
 		<div className='deck'>
-			<Card onClick={handleClick} token={imageSrc} />
+			<Card className='card' onClick={handleClick} token={imageSrc} />
 		</div>
 	);
 };
