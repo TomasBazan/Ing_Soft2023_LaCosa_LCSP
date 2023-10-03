@@ -15,7 +15,7 @@ const joinGame = ({idGame, password = null, idUser}) => {
 
 	const bodyRequest = {
 		id_game: idGame,
-		password,
+		password: password,
 		id_player: idUser,
 	};
 

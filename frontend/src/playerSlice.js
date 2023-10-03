@@ -15,7 +15,7 @@ const playerSlice = createSlice({
 		setName: (state, action) => {
 			state.name = action.payload;
 		},
-		setPlayerId: (state, action) => {
+		setId: (state, action) => {
 			state.id = action.payload;
 		},
 		setLogedIn: (state, action) => {
