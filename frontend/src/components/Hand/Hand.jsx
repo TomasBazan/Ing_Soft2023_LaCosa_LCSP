@@ -39,13 +39,16 @@ const Hand = () => {
 			}
 		};
 		fetchHand();
+		dispatch(setHand(['img37', 'img40', 'img22', 'img78']));
 	}, [dispatch]);
 
 	const handleClick = async (clickedCard) => {
 		if (selectedCard === clickedCard) {
 			console.log(clickedCard);
 
-			const res = await playCard({userId, clickedCard});
+			const cardToken = String(clickedCard);
+			console.log(cardToken);
+			const res = await playCard({card_token: cardToken, id_usuario: userId, target_id: 2});
 			// hace falta checkear efecto de la jugada
 			console.log(res);
 
@@ -54,6 +57,7 @@ const Hand = () => {
 			setTimeout(() => dispatch(cleanPlayArea()), 1000);
 		} else {
 			setSelectedCard(clickedCard);
+			// setIsSelected(true);
 		}
 	};
 
@@ -61,7 +65,12 @@ const Hand = () => {
 	return (
 		<div className='hand'>
 			{cards.map((card) => (
-				<Card key={card} onClick={() => handleClick(card)} token={card} />
+				<Card
+					className={`card ${selectedCard === card ? 'selected' : ''}`}
+					key={card}
+					onClick={() => handleClick(card)}
+					token={card}
+				/>
 			))}
 		</div>
 	);
