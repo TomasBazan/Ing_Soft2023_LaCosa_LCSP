@@ -17,14 +17,7 @@ const longListOfPlayers = [
 	{name: 'player11', id: 11, isAlive: false},
 	{name: 'player12', id: 12, isAlive: false},
 ];
-/* 
-const listOfPlayers = [
-	{name: 'pepe', id: 1, isAlive: false},
-	{name: 'santi', id: 2, isAlive: false},
-	{name: 'martin', id: 3, isAlive: false},
-	{name: 'juan', id: 4, isAlive: true},
-];
- */
+
 export const GameHistory = () => {
 	// const state = useSelector((state) => state);
 
@@ -38,6 +31,7 @@ export const GameHistory = () => {
 			</Heading>
 			<CardBody>
 				{longListOfPlayers.map((player) => {
+					// should be changed to state.game.players
 					return player.isAlive ? (
 						<Box key={player.id}>
 							<Heading size='xs'>{player.name}</Heading>
