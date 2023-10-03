@@ -1,6 +1,6 @@
-const SERVER_URL = 'https://localhost:8000/game';
+const SERVER_URL = 'http://localhost:8000/game';
 
-const createGame = async ({idPlayer, game}) => {
+export const createGame = async ({game}) => {
 	const parseJSONResponse = (response) => {
 		return new Promise((resolve) =>
 			response.json().then((json) => {
@@ -21,13 +21,15 @@ const createGame = async ({idPlayer, game}) => {
 			}),
 		);
 	};
+
 	const config = {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json',
 		},
-		body: JSON.stringify({idPlayer, game}),
+		body: JSON.stringify(game),
 	};
+	console.log('game to seeeend', {game});
 	return new Promise((resolve, reject) => {
 		fetch(SERVER_URL, config)
 			.then(parseJSONResponse)
@@ -42,4 +44,4 @@ const createGame = async ({idPlayer, game}) => {
 			});
 	});
 };
-export default createGame;
+// export default CreateGame;

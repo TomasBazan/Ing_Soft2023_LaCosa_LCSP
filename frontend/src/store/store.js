@@ -1,7 +1,6 @@
 import {configureStore} from '@reduxjs/toolkit';
 import playerReducer from '../playerSlice.js';
 import handReducer from '../services/handSlice.js';
-import playAreaSlice from '../services/playAreaSlice.js';
 import gameReducer from '../services/gameSlice.js';
 import lobbyReducer from '../services/lobbySlice.js';
 
@@ -10,7 +9,6 @@ const store = configureStore({
 	reducer: {
 		player: playerReducer,
 		hand: handReducer,
-		playArea: playAreaSlice,
 		lobby: lobbyReducer,
 		game: gameReducer,
 	},

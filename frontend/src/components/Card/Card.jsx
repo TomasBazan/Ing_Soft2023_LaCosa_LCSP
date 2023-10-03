@@ -1,11 +1,9 @@
 import PropTypes from 'prop-types';
 import './Card.css';
 
-const Card = ({className, onClick, token}) => {
-	// const bool = true;
-
+const Card = ({onClick, token}) => {
 	return (
-		<button className={className}>
+		<button className='card-button'>
 			<img
 				className='card-image'
 				src={`http://localhost:5173/src/assets/cards/${token}.jpg`}
@@ -19,7 +17,6 @@ const Card = ({className, onClick, token}) => {
 Card.propTypes = {
 	token: PropTypes.string.isRequired,
 	onClick: PropTypes.func,
-	className: PropTypes.string,
 };
 
 export default Card;
