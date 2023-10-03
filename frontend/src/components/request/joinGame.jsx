@@ -4,30 +4,19 @@ const joinGame = ({idGame, password = null, idUser}) => {
 	const handleJSONParser = (response) => {
 		return new Promise((resolve) => {
 			response.json().then((json) => {
-				if (response.ok) {
-					return resolve({
-						status: response.status_code,
-						ok: response.ok,
-						players: json.data.players,
-						canStart: json.data.can_start,
-						detail: json.detail,
-					});
-				} else {
-					return resolve({
-						status: response.status,
-						ok: response.ok,
-						canStart: json.data.can_start,
-						detail: json.detail,
-					});
-				}
+				return resolve({
+					status: response.status_code,
+					ok: response.ok,
+					detail: json.detail,
+				});
 			});
 		});
 	};
 
 	const bodyRequest = {
-		idGame,
-		password,
-		idUser,
+		id_game: idGame,
+		password: password,
+		id_player: idUser,
 	};
 
 	const config = {
@@ -38,6 +27,7 @@ const joinGame = ({idGame, password = null, idUser}) => {
 		body: JSON.stringify(bodyRequest),
 	};
 	return new Promise((resolve, reject) => {
+		console.log('config', config);
 		fetch(SERVER_URL, config)
 			.then(handleJSONParser)
 			.then((response) => {
