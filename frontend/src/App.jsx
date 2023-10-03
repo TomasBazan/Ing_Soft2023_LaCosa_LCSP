@@ -9,6 +9,7 @@ import CreateGameForm from './components/CreateGameForm/CreateGameForm.jsx';
 import ListarPartidas from './components/ListarPartidas/ListarPartidas';
 import Game from './components/Game/Game.jsx';
 import Lobby from './components/Lobby/Lobby';
+import FinishGame from './containers/FinishGame';
 
 function App() {
 	return (
@@ -23,6 +24,7 @@ function App() {
 				<Route path='/Games' element={<ListarPartidas />} />
 				<Route path='/Games/Partida-Inicial' element={<Lobby />} />
 				<Route path='/Games/Partida-Inicial/play' element={<Game />} />
+				<Route path='/Games/Partida-Inicial/finish' element={<FinishGame />} />
 			</Routes>
 		</BrowserRouter>
 	);
