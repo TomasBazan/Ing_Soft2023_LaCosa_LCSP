@@ -19,9 +19,7 @@ const handSlice = createSlice({
 		},
 		removeFromHand: (state, action) => {
 			// Remove the card from the array of cards
-			state.cards = state.cards.filter(
-				(card) => card.cardToken !== action.payload,
-			);
+			state.cards = state.cards.filter((card) => card !== action.payload);
 		},
 	},
 });

@@ -48,7 +48,11 @@ const Hand = () => {
 
 			const cardToken = String(clickedCard);
 			console.log(cardToken);
-			const res = await playCard({card_token: cardToken, id_usuario: userId, target_id: 2});
+			const res = await playCard({
+				card_token: cardToken,
+				id_usuario: userId,
+				target_id: 2,
+			});
 			// hace falta checkear efecto de la jugada
 			console.log(res);
 

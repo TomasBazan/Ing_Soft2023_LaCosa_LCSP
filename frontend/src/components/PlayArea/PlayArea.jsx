@@ -7,10 +7,7 @@ const PlayArea = () => {
 	const card = useSelector((state) => state.playArea.card);
 
 	return (
-		<div className='play-area'>
-			<h1>Play area</h1>
-			{card !== '' && <Card token={card} />}
-		</div>
+		<div className='play-area'>{card !== '' && <Card token={card} />}</div>
 	);
 };
 
