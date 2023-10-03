@@ -9,6 +9,7 @@ import getLobbyStatus from '../request/getLobbyStatus';
 import {useDispatch, useSelector} from 'react-redux';
 import {setCanStart, setLobby} from '../../appActions';
 import {useEffect} from 'react';
+import {Link} from 'react-router-dom';
 
 // mock respuestas por ahora 		{user_name: 'toomas', id: 5, is_host: 0},
 
@@ -73,10 +74,10 @@ const Lobby = () => {
 				))}
 			</OrderedList>
 			{gameStatus.canStart ? (
-				// <Link to='/Games/Partida-inicial/play'>
-				<Button onClick={onClick}>Begin</Button>
-			) : // </Link>
-			null}
+				<Link to='/Games/Partida-inicial/play'>
+					<Button onClick={onClick}>Begin</Button>
+				</Link>
+			) : null}
 		</VStack>
 	);
 };
