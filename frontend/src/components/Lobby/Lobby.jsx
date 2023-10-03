@@ -30,15 +30,15 @@ const Lobby = () => {
 
 	const dispatch = useDispatch();
 
-	// const userId = useSelector((state) => state.player.id);
-	const gameStatus = useSelector((state) => state.game);
+	const userId = useSelector((state) => state.player.id);
+	const gameStatus = useSelector((state) => state.lobby);
 
 	console.log(
 		'ahhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh',
 	);
 	console.log(gameStatus);
 
-	const userId = 1;
+	// const userId = 1;
 
 	useEffect(() => {
 		const buscarJugadores = async () => {
@@ -48,6 +48,7 @@ const Lobby = () => {
 				console.log('fetchedresp', fetchedresp);
 				dispatch(setLobby(fetchedresp.players));
 				dispatch(setCanStart(fetchedresp.canStart)); // Assuming the response key is "can_start"
+				console.log('desp de dispatch', gameStatus);
 			} catch (error) {
 				// Handle the error here
 				alert(error.detail);
@@ -58,7 +59,7 @@ const Lobby = () => {
 		buscarJugadores();
 	}, [dispatch]); // Empty dependency array to ensure it runs only once
 
-	console.log(gameStatus);
+	console.log('the gamestatus', gameStatus);
 
 	return (
 		<VStack spacing={4}>
