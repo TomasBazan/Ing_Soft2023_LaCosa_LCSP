@@ -3,13 +3,22 @@ const SERVER_URL = 'https://localhost:8000/game';
 const createGame = async ({idPlayer, game}) => {
 	const parseJSONResponse = (response) => {
 		return new Promise((resolve) =>
-			response.json().then((json) =>
-				resolve({
-					status: response.status,
-					ok: response.ok,
-					json,
-				}),
-			),
+			response.json().then((json) => {
+				if (response.ok) {
+					resolve({
+						status: response.status_code,
+						ok: response.ok,
+						detail: json.detail,
+						gameId: json.data.game_id,
+					});
+				} else {
+					resolve({
+						status: response.status,
+						ok: response.ok,
+						detail: json.detail,
+					});
+				}
+			}),
 		);
 	};
 	const config = {

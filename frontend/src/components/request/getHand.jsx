@@ -18,7 +18,7 @@ const getHand = async (idPlayer) => {
 		header: {
 			'Content-Type': 'application/json',
 		},
-		body: JSON.stringify(idPlayer),
+		// body: JSON.stringify(idPlayer),
 	};
 	return new Promise((resolve, reject) => {
 		fetch(SERVER_URL, config)
