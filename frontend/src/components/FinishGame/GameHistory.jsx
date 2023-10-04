@@ -40,7 +40,7 @@ export const GameHistory = () => {
 				{longListOfPlayers.map((player) => {
 					return player.isAlive ? (
 						<Box key={player.id}>
-							<Heading size='xs'>{player.name}</Heading>
+							<Heading size='xs'>Player: {player.name}</Heading>
 							<Text>Won the game.</Text>
 						</Box>
 					) : (
