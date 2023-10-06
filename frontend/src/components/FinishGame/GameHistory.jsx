@@ -26,6 +26,7 @@ export const GameHistory = ({results}) => {
 	// revisar la funcionalidad que checkea que todos estan vivos o muertos
 	const allStatusEndGame = results.players.map((player) => player.isAlive);
 	const inValidResult = checkAllSameStatus(allStatusEndGame);
+	console.log(inValidResult);
 	if (!inValidResult) {
 		return (
 			<Card display='flex'>
@@ -68,8 +69,8 @@ export const GameHistory = ({results}) => {
 		);
 	}
 
-	function checkAllSameStatus(status) {
-		return status.every((val, arr) => val === arr[0]);
+	function checkAllSameStatus(array) {
+		return array.every((value) => value === array[0]);
 	}
 };
 GameHistory.propTypes = {
