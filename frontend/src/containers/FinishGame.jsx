@@ -37,7 +37,7 @@ export const FinishGame = ({endGameStatus}) => {
 FinishGame.propTypes = {
 	endGameStatus: PropTypes.shape({
 		myPlayer: PropTypes.shape({
-			name: PropTypes.stringisRequired,
+			name: PropTypes.string.isRequired,
 			id: PropTypes.number.isRequired,
 		}),
 		players: PropTypes.arrayOf(
