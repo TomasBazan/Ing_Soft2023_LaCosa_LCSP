@@ -26,7 +26,6 @@ export const GameHistory = ({results}) => {
 	// revisar la funcionalidad que checkea que todos estan vivos o muertos
 	const allStatusEndGame = results.players.map((player) => player.isAlive);
 	const inValidResult = checkAllSameStatus(allStatusEndGame);
-	console.log(inValidResult);
 	if (!inValidResult) {
 		return (
 			<Card display='flex'>
@@ -76,7 +75,7 @@ export const GameHistory = ({results}) => {
 GameHistory.propTypes = {
 	results: PropTypes.shape({
 		myPlayer: PropTypes.shape({
-			name: PropTypes.stringisRequired,
+			name: PropTypes.string.isRequired,
 			id: PropTypes.number.isRequired,
 		}),
 		players: PropTypes.arrayOf(
