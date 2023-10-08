@@ -24,7 +24,7 @@ const getHand = async (idPlayer) => {
 
 	const config = {
 		method: 'GET',
-		header: {
+		headers: {
 			'Content-Type': 'application/json',
 			'id-player': idPlayer,
 		},

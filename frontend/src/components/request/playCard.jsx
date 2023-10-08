@@ -31,7 +31,7 @@ const playCard = async (values) => {
 	};
 	const config = {
 		method: 'POST',
-		header: {
+		headers: {
 			'Content-Type': 'application/json',
 		},
 		body: JSON.stringify(bodyTosend),
