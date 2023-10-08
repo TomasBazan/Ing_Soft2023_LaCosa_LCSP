@@ -26,7 +26,7 @@ const Deck = () => {
 		// if it wasn't clicked already
 		if (!clicked) {
 			const res = await getCard(userId);
-			const pickedCard = res.json.data;
+			const pickedCard = res.pickedCards;
 
 			// display first card
 			setImageSrc(pickedCard[0]);
@@ -34,7 +34,7 @@ const Deck = () => {
 			setTimeout(() => {
 				dispatch(appendToHand(pickedCard));
 				// display back of next card in deck
-				setImageSrc(backImage);
+				setImageSrc(backImage[res.nextCardType]);
 			}, 1000);
 			// set clicked to true to avoid infinite picking of cards
 			setClicked(true);
