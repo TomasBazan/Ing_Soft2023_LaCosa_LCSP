@@ -7,6 +7,7 @@ export const setPlayerLogedIn = createAction('player/setLogedIn');
 // Hand actions
 export const setHand = createAction('hand/setHand');
 export const appendToHand = createAction('hand/appendToHand');
+export const removeFromHand = createAction('hand/removeFromHand');
 // Play Area actions
 export const addToPlayArea = createAction('playArea/addToPlayArea');
 export const cleanPlayArea = createAction('playArea/cleanPlayArea');
