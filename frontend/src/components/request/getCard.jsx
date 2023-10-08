@@ -8,7 +8,8 @@ const getCard = async (idPlayer) => {
 					resolve({
 						status: response.status,
 						ok: response.ok,
-						cardToken: json.data.card_token,
+						pickedCards: json.data.picked_cards,
+						nextCardType: json.data.next_card_type,
 						detail: json.detail,
 					});
 				} else {
