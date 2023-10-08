@@ -1,6 +1,6 @@
 import { rest } from 'msw';
 
-export const handHandlers = [
+export const cardHandlers = [
 	rest.get('https://localhost:8000/hand', (req, res, ctx) => {
 		console.log('Request intercepted:', req);
 		return res(
