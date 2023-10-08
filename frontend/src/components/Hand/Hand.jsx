@@ -5,6 +5,7 @@ import getHand from '../request/getHand';
 import {useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {setHand} from '../../services/handSlice';
+import {v4 as uuidv4} from 'uuid';
 
 // represents a player's hand
 const Hand = () => {
@@ -28,7 +29,7 @@ const Hand = () => {
 	return (
 		<div className='hand'>
 			{cards.map((card) => (
-				<Card key={card} token={card} />
+				<Card key={uuidv4()} token={card} />
 			))}
 		</div>
 	);
