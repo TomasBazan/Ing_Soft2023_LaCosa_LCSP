@@ -20,7 +20,7 @@ const Hand = () => {
 		// fetch  player's hand
 		const fetchHand = async () => {
 			const res = await getHand(userId);
-			dispatch(setHand(res.json.data));
+			dispatch(setHand(res.cardToken));
 		};
 		fetchHand();
 	}, [dispatch]);
