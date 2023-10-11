@@ -4,8 +4,41 @@ import Deck from '../Deck/Deck.jsx';
 import Hand from '../Hand/Hand.jsx';
 import PlayArea from '../PlayArea/PlayArea';
 import {Grid, Center, Box, GridItem, Flex, Avatar} from '@chakra-ui/react';
+import {useDispatch, useSelector} from 'react-redux';
+import getGameStatus from '../request/getGameStatus';
+import {useEffect} from 'react';
+import {
+	setPlayerInGame,
+	setPositionInGame,
+	setRolInGame,
+} from '../../appActions';
 
-const Game = async () => {
+const Game = () => {
+	const game = useSelector((state) => state.game);
+	const myPlayer = useSelector((state) => state.player);
+	const dispatch = useDispatch();
+	useEffect(() => {
+		async function getDataOfGame(id) {
+			try {
+				const gameStatus = await getGameStatus(id);
+				dispatch(setPlayerInGame(gameStatus.players));
+				dispatch(setPositionInGame(gameStatus.position));
+				dispatch(setRolInGame(gameStatus.rol));
+			} catch (error) {
+				if (!error.ok) {
+					console.log('Error unexpected fetching data of the game');
+				} else {
+					console.log('Error in getGameStatus', error);
+				}
+			}
+		}
+		getDataOfGame(myPlayer.id);
+	}, [dispatch, myPlayer.id]);
+
+	const players = game.players;
+	console.log('All the players: ', players);
+
+	console.log('after players', players);
 	return (
 		<Center h='100%' w='100%'>
 			<Grid
@@ -20,9 +53,9 @@ const Game = async () => {
 				<GridItem rowSpan={1} colSpan={1} />
 				<GridItem rowSpan={1} colSpan={3} bg='blue'>
 					<Flex justify='center' justifyContent='space-evenly' direction='row'>
-						<Avatar></Avatar>
-						<Avatar></Avatar>
-						<Avatar></Avatar>
+						{players.slice(6, 9).map((player) => (
+							<Avatar key={player.name}>{player.name}</Avatar>
+						))}
 					</Flex>
 				</GridItem>
 				<GridItem rowSpan={1} colSpan={1} />
@@ -34,13 +67,12 @@ const Game = async () => {
 						alignItems='center'
 						justifyContent='space-evenly'
 					>
-						<Avatar></Avatar>
-						<Avatar></Avatar>
-						<Avatar></Avatar>
+						{players.slice(9, 12).map((player) => (
+							<Avatar key={player.name}>{player.name}</Avatar>
+						))}
 					</Flex>
 				</GridItem>
 				<GridItem rowSpan={3} colSpan={3} bg='red' gap={10}>
-					{/* BOx with a Deck component that aling in the center right */}
 					<Flex gap='12px' direction='row' justify='center'>
 						<Box w='200px' border='2px' color='black'>
 							<Deck />
@@ -59,17 +91,17 @@ const Game = async () => {
 						alignItems='center'
 						justifyContent='space-evenly'
 					>
-						<Avatar></Avatar>
-						<Avatar></Avatar>
-						<Avatar></Avatar>
+						{players.slice(3, 6).map((player) => (
+							<Avatar key={player.name}>{player.name}</Avatar>
+						))}
 					</Flex>
 				</GridItem>
 				<GridItem rowSpan={1} colSpan={1} />
 				<GridItem rowSpan={1} colSpan={3} bg='black'>
 					<Flex justify='center' direction='row' justifyContent='space-evenly'>
-						<Avatar></Avatar>
-						<Avatar></Avatar>
-						<Avatar></Avatar>
+						{players.slice(0, 3).map((player) => (
+							<Avatar key={player.name}>{player.name}</Avatar>
+						))}
 					</Flex>
 				</GridItem>
 				<GridItem rowSpan={2} colSpan={5} bg='yellow'>
