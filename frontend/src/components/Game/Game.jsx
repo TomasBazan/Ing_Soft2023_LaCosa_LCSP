@@ -36,6 +36,10 @@ const Game = () => {
 	}, [dispatch, myPlayer.id]);
 
 	const players = game.players;
+	const alivePlayers = players.filter((player) => player.is_alive === true);
+	const sortedPlayers = [...alivePlayers].sort(
+		(a, b) => a.position - b.position,
+	);
 
 	return (
 		<Center h='100%' w='100%'>
@@ -51,8 +55,8 @@ const Game = () => {
 				<GridItem rowSpan={1} colSpan={1} />
 				<GridItem rowSpan={1} colSpan={3} bg='blue'>
 					<Flex justify='center' justifyContent='space-evenly' direction='row'>
-						{players.slice(6, 9).map((player) => (
-							<Avatar key={player.user_name}>{player.user_name}</Avatar>
+						{sortedPlayers.slice(6, 9).map((player) => (
+							<Avatar key={player.name}>{player.name}</Avatar>
 						))}
 					</Flex>
 				</GridItem>
@@ -65,8 +69,8 @@ const Game = () => {
 						alignItems='center'
 						justifyContent='space-evenly'
 					>
-						{players.slice(9, 12).map((player) => (
-							<Avatar key={player.user_name}>{player.user_name}</Avatar>
+						{sortedPlayers.slice(9, 12).map((player) => (
+							<Avatar key={player.name}>{player.name}</Avatar>
 						))}
 					</Flex>
 				</GridItem>
@@ -89,16 +93,16 @@ const Game = () => {
 						alignItems='center'
 						justifyContent='space-evenly'
 					>
-						{players.slice(3, 6).map((player) => (
-							<Avatar key={player.user_name}>{player.user_name}</Avatar>
+						{sortedPlayers.slice(3, 6).map((player) => (
+							<Avatar key={player.name}>{player.name}</Avatar>
 						))}
 					</Flex>
 				</GridItem>
 				<GridItem rowSpan={1} colSpan={1} />
 				<GridItem rowSpan={1} colSpan={3} bg='black'>
 					<Flex justify='center' direction='row' justifyContent='space-evenly'>
-						{players.slice(0, 3).map((player) => (
-							<Avatar key={player.user_name}>{player.user_name}</Avatar>
+						{sortedPlayers.slice(0, 3).map((player) => (
+							<Avatar key={player.name}>{player.name}</Avatar>
 						))}
 					</Flex>
 				</GridItem>
