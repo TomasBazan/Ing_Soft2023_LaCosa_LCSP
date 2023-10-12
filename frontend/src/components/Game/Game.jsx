@@ -36,9 +36,7 @@ const Game = () => {
 	}, [dispatch, myPlayer.id]);
 
 	const players = game.players;
-	console.log('All the players: ', players);
 
-	console.log('after players', players);
 	return (
 		<Center h='100%' w='100%'>
 			<Grid
@@ -54,7 +52,7 @@ const Game = () => {
 				<GridItem rowSpan={1} colSpan={3} bg='blue'>
 					<Flex justify='center' justifyContent='space-evenly' direction='row'>
 						{players.slice(6, 9).map((player) => (
-							<Avatar key={player.name}>{player.name}</Avatar>
+							<Avatar key={player.user_name}>{player.user_name}</Avatar>
 						))}
 					</Flex>
 				</GridItem>
@@ -68,7 +66,7 @@ const Game = () => {
 						justifyContent='space-evenly'
 					>
 						{players.slice(9, 12).map((player) => (
-							<Avatar key={player.name}>{player.name}</Avatar>
+							<Avatar key={player.user_name}>{player.user_name}</Avatar>
 						))}
 					</Flex>
 				</GridItem>
@@ -92,7 +90,7 @@ const Game = () => {
 						justifyContent='space-evenly'
 					>
 						{players.slice(3, 6).map((player) => (
-							<Avatar key={player.name}>{player.name}</Avatar>
+							<Avatar key={player.user_name}>{player.user_name}</Avatar>
 						))}
 					</Flex>
 				</GridItem>
@@ -100,7 +98,7 @@ const Game = () => {
 				<GridItem rowSpan={1} colSpan={3} bg='black'>
 					<Flex justify='center' direction='row' justifyContent='space-evenly'>
 						{players.slice(0, 3).map((player) => (
-							<Avatar key={player.name}>{player.name}</Avatar>
+							<Avatar key={player.user_name}>{player.user_name}</Avatar>
 						))}
 					</Flex>
 				</GridItem>
