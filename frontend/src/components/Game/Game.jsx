@@ -1,5 +1,4 @@
 import './Game.css';
-
 import Deck from '../Deck/Deck.jsx';
 import Hand from '../Hand/Hand.jsx';
 import PlayArea from '../PlayArea/PlayArea';
@@ -8,6 +7,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import getGameStatus from '../request/getGameStatus';
 import {useEffect} from 'react';
 import {
+	setCurrentPlayerInGame,
 	setPlayerInGame,
 	setPositionInGame,
 	setRolInGame,
@@ -17,6 +17,7 @@ const Game = () => {
 	const game = useSelector((state) => state.game);
 	const myPlayer = useSelector((state) => state.player);
 	const dispatch = useDispatch();
+
 	useEffect(() => {
 		async function getDataOfGame(id) {
 			try {
@@ -24,6 +25,7 @@ const Game = () => {
 				dispatch(setPlayerInGame(gameStatus.players));
 				dispatch(setPositionInGame(gameStatus.position));
 				dispatch(setRolInGame(gameStatus.rol));
+				dispatch(setCurrentPlayerInGame(gameStatus.currentPlayerId));
 			} catch (error) {
 				if (!error.ok) {
 					console.log('Error unexpected fetching data of the game');
@@ -35,12 +37,10 @@ const Game = () => {
 		getDataOfGame(myPlayer.id);
 	}, [dispatch, myPlayer.id]);
 
-	const players = game.players;
-	const alivePlayers = players.filter((player) => player.is_alive === true);
-	const sortedPlayers = [...alivePlayers].sort(
-		(a, b) => a.position - b.position,
-	);
+	const sortedPlayers = getPlayers(game.players);
 
+	const currentPlayerId = game.currentPlayer;
+	console.log('El id del que esta jugando es: ', currentPlayerId);
 	return (
 		<Center h='100%' w='100%'>
 			<Grid
@@ -56,7 +56,12 @@ const Game = () => {
 				<GridItem rowSpan={1} colSpan={3} bg='blue'>
 					<Flex justify='center' justifyContent='space-evenly' direction='row'>
 						{sortedPlayers.slice(6, 9).map((player) => (
-							<Avatar key={player.name}>{player.name}</Avatar>
+							<Avatar
+								key={player.id}
+								bg={currentPlayerId === player.id ? 'green' : 'gray'}
+							>
+								{player.name}
+							</Avatar>
 						))}
 					</Flex>
 				</GridItem>
@@ -70,7 +75,12 @@ const Game = () => {
 						justifyContent='space-evenly'
 					>
 						{sortedPlayers.slice(9, 12).map((player) => (
-							<Avatar key={player.name}>{player.name}</Avatar>
+							<Avatar
+								key={player.id}
+								bg={currentPlayerId === player.id ? 'green' : 'gray'}
+							>
+								{player.name}
+							</Avatar>
 						))}
 					</Flex>
 				</GridItem>
@@ -94,7 +104,12 @@ const Game = () => {
 						justifyContent='space-evenly'
 					>
 						{sortedPlayers.slice(3, 6).map((player) => (
-							<Avatar key={player.name}>{player.name}</Avatar>
+							<Avatar
+								key={player.id}
+								bg={currentPlayerId === player.id ? 'green' : 'gray'}
+							>
+								{player.name}
+							</Avatar>
 						))}
 					</Flex>
 				</GridItem>
@@ -102,7 +117,12 @@ const Game = () => {
 				<GridItem rowSpan={1} colSpan={3} bg='black'>
 					<Flex justify='center' direction='row' justifyContent='space-evenly'>
 						{sortedPlayers.slice(0, 3).map((player) => (
-							<Avatar key={player.name}>{player.name}</Avatar>
+							<Avatar
+								key={player.id}
+								bg={currentPlayerId === player.id ? 'green' : 'gray'}
+							>
+								{player.name}
+							</Avatar>
 						))}
 					</Flex>
 				</GridItem>
@@ -118,3 +138,11 @@ const Game = () => {
 	);
 };
 export default Game;
+
+function getPlayers(players) {
+	const alivePlayers = players.filter((player) => player.is_alive === true);
+	const sortedPlayers = [...alivePlayers].sort(
+		(a, b) => a.position - b.position,
+	);
+	return sortedPlayers;
+}
