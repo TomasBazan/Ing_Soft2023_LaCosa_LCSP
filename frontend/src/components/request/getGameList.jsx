@@ -14,7 +14,7 @@ const getGameList = () => {
 		});
 	};
 
-	//const bodyRequest = {};
+	// const bodyRequest = {};
 
 	const config = {
 		method: 'GET',
