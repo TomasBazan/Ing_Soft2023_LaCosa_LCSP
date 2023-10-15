@@ -35,6 +35,7 @@ Card.propTypes = {
 	className: PropTypes.string,
 	onClick: PropTypes.func,
 	info: PropTypes.shape({
+		id: PropTypes.string,
 		token: PropTypes.string,
 		type: PropTypes.number,
 	}),
