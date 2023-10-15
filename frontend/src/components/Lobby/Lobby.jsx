@@ -58,7 +58,7 @@ const Lobby = () => {
 		};
 
 		buscarJugadores();
-	}, [dispatch]); // Empty dependency array to ensure it runs only once
+	}, [dispatch, gameStatus, userId]); // Empty dependency array to ensure it runs only once
 
 	console.log('the gamestatus', gameStatus);
 

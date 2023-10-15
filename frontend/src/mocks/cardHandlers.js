@@ -1,4 +1,4 @@
-import { rest } from 'msw';
+import {rest} from 'msw';
 
 export const cardHandlers = [
 	rest.get('https://localhost:8000/hand', (req, res, ctx) => {

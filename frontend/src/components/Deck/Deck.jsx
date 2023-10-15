@@ -40,7 +40,6 @@ const Deck = () => {
 			setClicked(true);
 		}
 	};
-
 	return (
 		<div className='deck'>
 			<Card onClick={handleClick} token={imageSrc} />

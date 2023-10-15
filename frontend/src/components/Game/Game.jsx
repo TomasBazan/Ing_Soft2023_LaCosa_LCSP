@@ -1,4 +1,3 @@
-import './Game.css';
 import Deck from '../Deck/Deck.jsx';
 import Hand from '../Hand/Hand.jsx';
 import PlayArea from '../PlayArea/PlayArea';
@@ -36,11 +35,10 @@ const Game = () => {
 		}
 		getDataOfGame(myPlayer.id);
 	}, [dispatch, myPlayer.id]);
-
+	// console.log('Game - input players: ', game.players);
 	const sortedPlayers = getPlayers(game.players);
 
 	const currentPlayerId = game.currentPlayer;
-	console.log('El id del que esta jugando es: ', currentPlayerId);
 	return (
 		<Center h='100%' w='100%'>
 			<Grid
@@ -87,12 +85,16 @@ const Game = () => {
 				<GridItem rowSpan={3} colSpan={3} bg='red' gap={10}>
 					<Flex gap='12px' direction='row' justify='center'>
 						<Box w='200px' border='2px' color='black'>
+							Deck
 							<Deck />
 						</Box>
 						<Box w='200px' border='2px' color='black'>
+							Play
 							<PlayArea />
 						</Box>
-						<Box w='200px' border='2px' color='black'></Box>
+						<Box w='200px' border='2px' color='black'>
+							Discard
+						</Box>
 					</Flex>
 				</GridItem>
 				<GridItem rowSpan={3} colSpan={1} bg='violet'>
@@ -105,6 +107,7 @@ const Game = () => {
 					>
 						{sortedPlayers.slice(3, 6).map((player) => (
 							<Avatar
+								data-testid='game-component'
 								key={player.id}
 								bg={currentPlayerId === player.id ? 'green' : 'gray'}
 							>
