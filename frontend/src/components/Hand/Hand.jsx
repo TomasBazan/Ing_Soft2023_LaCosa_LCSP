@@ -28,7 +28,7 @@ const Hand = () => {
 		// fetch  player's hand
 		const fetchHand = async () => {
 			const res = await getHand(userId);
-			dispatch(setHand(res.cardToken));
+			dispatch(setHand(res.cards));
 		};
 		fetchHand();
 	}, [dispatch]);
@@ -37,6 +37,8 @@ const Hand = () => {
 		When cards are clicked once, they get selected. If clicked again, they are played.
 		Playing a card consists of removing it from the player's hand and adding it to the play area.
 		Play area gets cleaned after 1 second.
+
+		TODO: error handling. Check if player is allowed to play a card
 	*/
 	const handleClick = async (clickedCard) => {
 		if (selectedCard === clickedCard) {
@@ -61,7 +63,8 @@ const Hand = () => {
 					className={`card ${selectedCard === card ? 'selected' : ''}`}
 					key={uuidv4()}
 					onClick={() => handleClick(card)}
-					token={card}
+					info={card}
+					front={true}
 				/>
 			))}
 		</div>

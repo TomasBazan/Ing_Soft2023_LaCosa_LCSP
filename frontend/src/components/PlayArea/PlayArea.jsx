@@ -8,7 +8,9 @@ const PlayArea = () => {
 
 	// display card in play area. If card is empty, display nothing
 	return (
-		<div className='play-area'>{card !== '' && <Card token={card} />}</div>
+		<div className='play-area'>
+			{card !== '' && <Card info={card} front={true} />}
+		</div>
 	);
 };
 
