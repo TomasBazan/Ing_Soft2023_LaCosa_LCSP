@@ -11,7 +11,6 @@ import {
 	addToPlayArea,
 	cleanPlayArea,
 } from '../../appActions';
-import {v4 as uuidv4} from 'uuid';
 
 // represents a player's hand
 const Hand = () => {
@@ -61,7 +60,7 @@ const Hand = () => {
 			{cards.map((card) => (
 				<Card
 					className={`card ${selectedCard === card ? 'selected' : ''}`}
-					key={uuidv4()}
+					key={card.id}
 					onClick={() => handleClick(card)}
 					info={card}
 					front={true}

@@ -19,7 +19,7 @@ const handSlice = createSlice({
 		},
 		removeFromHand: (state, action) => {
 			// Remove the card from the array of cards
-			state.cards = state.cards.filter((card) => card !== action.payload);
+			state.cards = state.cards.filter((card) => card.id !== action.payload.id);
 		},
 	},
 });
