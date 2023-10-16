@@ -85,7 +85,7 @@ const Lobby = () => {
 
 		// Clear the interval when the component unmounts to avoid memory leaks.
 		return () => clearInterval(intervalId);
-		//eslint-disable-next-line react-hooks/exhaustive-deps
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [dispatch]);
 
 	console.log('the gamestatus', gameStatus);
