@@ -2,7 +2,6 @@
 // import reactLogo from './assets/react.svg';
 // import viteLogo from '../../../../../../../vite.svg';
 // import {useSelector} from 'react-redux';
-import './App.css';
 import UserForm from './components/UserForm/UserForm.jsx';
 import {BrowserRouter, Routes, Route, Link} from 'react-router-dom';
 import CreateGameForm from './components/CreateGameForm/CreateGameForm.jsx';
