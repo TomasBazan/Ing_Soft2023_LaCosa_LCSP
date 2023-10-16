@@ -58,14 +58,15 @@ jest.mock('../request/sendPlayerName', () => {
 });
 
 test('should register', async () => {
+	const user = userEvent.setup();
 	const screen = renderWithProviders(<UserForm />);
 	const usernameInput = screen.getByLabelText('User Name');
 
 	expect(usernameInput).toBeInTheDocument();
 	// Focus on the input field and type the username
 
-	userEvent.click(usernameInput);
-	userEvent.type(usernameInput, 'username');
+	user.click(usernameInput);
+	user.type(usernameInput, 'username');
 
 	// Use await waitFor to handle asynchronous updates
 	await waitFor(() => {
@@ -75,7 +76,7 @@ test('should register', async () => {
 	const submitButton = screen.getByRole('button', {name: /submit/i});
 	expect(submitButton).toBeInTheDocument();
 
-	userEvent.click(submitButton);
+	user.click(submitButton);
 	// Wait for the success message
 
 	await waitFor(() =>
@@ -89,14 +90,16 @@ test('should register', async () => {
 });
 
 test('shouldnt register', async () => {
+	const user = userEvent.setup();
+
 	const screen = renderWithProviders(<UserForm />);
 	const usernameInput = screen.getByLabelText('User Name');
 
 	expect(usernameInput).toBeInTheDocument();
 	// Focus on the input field and type the username
 
-	userEvent.click(usernameInput);
-	userEvent.type(usernameInput, 'username1');
+	user.click(usernameInput);
+	user.type(usernameInput, 'username1');
 
 	// Use await waitFor to handle asynchronous updates
 	await waitFor(() => {
@@ -107,7 +110,7 @@ test('shouldnt register', async () => {
 	expect(submitButton).toBeInTheDocument();
 
 	try {
-		userEvent.click(submitButton);
+		user.click(submitButton);
 	} catch (error) {
 		// console.log('estoy entrando en el catch');
 		/// /console.log(screen.debug());
