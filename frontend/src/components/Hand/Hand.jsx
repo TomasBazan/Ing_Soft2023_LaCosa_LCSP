@@ -26,9 +26,13 @@ const Hand = () => {
 	// when component mounts
 	useEffect(() => {
 		// fetch  player's hand
-		const fetchHand = async () => {
-			const res = await getHand(userId);
-			dispatch(setHand(res.cardToken));
+		const fetchHand = async (id) => {
+			try {
+				const res = await getHand(id);
+				await dispatch(setHand(res.cardToken));
+			} catch (error) {
+				console.log('Error in getHand', error);
+			}
 		};
 		fetchHand();
 	}, [dispatch]);
@@ -54,14 +58,16 @@ const Hand = () => {
 		}
 	};
 	// render cards in hand side by side
+
 	return (
-		<div className='hand'>
-			{cards.map((card) => (
+		<div className='hand' data-testid='hand'>
+			{cards?.map((card) => (
 				<Card
 					className={`card ${selectedCard === card ? 'selected' : ''}`}
 					key={uuidv4()}
 					onClick={() => handleClick(card)}
 					token={card}
+					test-id='handCard'
 				/>
 			))}
 		</div>
