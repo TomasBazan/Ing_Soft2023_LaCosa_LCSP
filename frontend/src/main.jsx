@@ -6,7 +6,6 @@ import store from './store/store.js';
 
 import {ChakraProvider, extendTheme} from '@chakra-ui/react';
 
-
 import {worker} from './mocks/worker.js';
 worker.start();
 
@@ -22,7 +21,6 @@ const theme = extendTheme({
 
 ReactDOM.createRoot(document.getElementById('root')).render(
 	<React.StrictMode>
-
 		<Provider store={store}>
 			<ChakraProvider theme={theme}>
 				<App />
