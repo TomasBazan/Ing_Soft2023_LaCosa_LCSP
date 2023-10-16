@@ -8,6 +8,7 @@ import gameReducer from '../gameSlice';
 import handReducer from '../handSlice';
 import lobbyReducer from '../lobbySlice';
 import playerReducer from '../../playerSlice';
+import playAreaReducer from '../playAreaSlice';
 import {BrowserRouter} from 'react-router-dom';
 import PropTypes from 'prop-types';
 
@@ -23,6 +24,7 @@ export function renderWithProviders(
 				hand: handReducer,
 				lobby: lobbyReducer,
 				game: gameReducer,
+				playArea: playAreaReducer,
 			},
 			preloadedState,
 			// devTools: true,
