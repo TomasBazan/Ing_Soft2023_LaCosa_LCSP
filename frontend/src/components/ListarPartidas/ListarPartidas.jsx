@@ -32,7 +32,7 @@ const ListarPartidas = () => {
 		};
 		buscarPartidas();
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
+	}, [partidas]);
 
 	const handleUnirse = async (gameId) => {
 		console.log('el id de la partida es', gameId);
@@ -54,8 +54,9 @@ const ListarPartidas = () => {
 			// alert(error.detail);
 		}
 	};
+
 	return (
-		<Center h='90vh' w='90vw' bg='green.200'>
+		<Center>
 			<VStack spacing={4}>
 				{partidas.map((partida, index) => (
 					<Box key={index} borderWidth='10px' p={10} borderRadius='md'>
