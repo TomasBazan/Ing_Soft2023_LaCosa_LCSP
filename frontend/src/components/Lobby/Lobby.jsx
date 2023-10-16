@@ -9,7 +9,7 @@ import getLobbyStatus from '../request/getLobbyStatus';
 import {useDispatch, useSelector} from 'react-redux';
 import {setCanStart, setLobby} from '../../appActions';
 import {useEffect} from 'react';
-import {Link} from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 
 // mock respuestas por ahora 		{user_name: 'toomas', id: 5, is_host: 0},
 
@@ -25,8 +25,11 @@ import {Link} from 'react-router-dom';
 }; */
 
 const Lobby = () => {
+	const navigate = useNavigate();
+	const gameId = useSelector((state) => state.player.idGame);
 	const onClick = async () => {
 		console.log('me clickearon uwu');
+		navigate(`/Games/${gameId}/play`);
 	};
 
 	const dispatch = useDispatch();
@@ -74,11 +77,7 @@ const Lobby = () => {
 					</div>
 				))}
 			</OrderedList>
-			{gameStatus.canStart ? (
-				<Link to='/Games/Partida-inicial/play'>
-					<Button onClick={onClick}>Begin</Button>
-				</Link>
-			) : null}
+			{gameStatus.canStart ? <Button onClick={onClick}>Begin</Button> : null}
 		</VStack>
 	);
 };

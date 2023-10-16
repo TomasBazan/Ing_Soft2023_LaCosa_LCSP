@@ -23,8 +23,8 @@ function App() {
 				<Route path='/CreateGame' element={<CreateGameForm />} />
 				<Route path='/Games' element={<ListarPartidas />} />
 				<Route path='/Games/:gameId' element={<Lobby />} />
-				<Route path='/Games/Partida-Inicial/play' element={<Game />} />
-				<Route path='/Games/Partida-Inicial/finish' element={<FinishGame />} />
+				<Route path='/Games/:gameId/play' element={<Game />} />
+				<Route path='/Games/:gameId/finish' element={<FinishGame />} />
 				{/* 
 				{
           path: "/matches/:matchId",

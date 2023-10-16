@@ -1,9 +1,10 @@
 import joinGame from '../request/joinGame';
-import {useSelector} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
 import getGameList from '../request/getGameList';
 import {useState, useEffect} from 'react';
 import {VStack, Button, Box, Text, Center} from '@chakra-ui/react';
 import {useNavigate} from 'react-router-dom';
+import {setPlayerIdGame} from '../../appActions';
 
 /* const partidas = [
 	{nombre: 'Partida-Inicial'},
@@ -12,7 +13,7 @@ import {useNavigate} from 'react-router-dom';
 
 const ListarPartidas = () => {
 	const navigate = useNavigate();
-
+	const dispatch = useDispatch();
 	const userId = useSelector((state) => state.player.id);
 	const [partidas, setPartidas] = useState([]); // Initialize partidas as an empty array
 
@@ -46,6 +47,7 @@ const ListarPartidas = () => {
 			const resp = await joinGame(bodyRequest);
 			alert(resp.detail);
 			console.log('la respuesta es', resp);
+			dispatch(setPlayerIdGame(gameId));
 			navigate(`/Games/${gameId}`);
 		} catch (error) {
 			console.log('el error es', error);
