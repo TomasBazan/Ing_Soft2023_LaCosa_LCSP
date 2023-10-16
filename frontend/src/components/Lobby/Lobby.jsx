@@ -58,7 +58,8 @@ const Lobby = () => {
 		};
 
 		buscarJugadores();
-	}, [dispatch, gameStatus, userId]); // Empty dependency array to ensure it runs only once
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [dispatch]); // Empty dependency array to ensure it runs only once
 
 	console.log('the gamestatus', gameStatus);
 
