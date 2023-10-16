@@ -59,15 +59,15 @@ const Hand = () => {
 	};
 	// render cards in hand side by side
 
-	console.log('Las Cards: ', cards);
 	return (
-		<div className='hand'>
-			{cards.map((card) => (
+		<div className='hand' data-testid='hand'>
+			{cards?.map((card) => (
 				<Card
 					className={`card ${selectedCard === card ? 'selected' : ''}`}
 					key={uuidv4()}
 					onClick={() => handleClick(card)}
 					token={card}
+					test-id='handCard'
 				/>
 			))}
 		</div>

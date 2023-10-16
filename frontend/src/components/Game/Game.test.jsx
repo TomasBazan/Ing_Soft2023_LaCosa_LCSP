@@ -3,7 +3,7 @@ import React from 'react';
 import Game from './Game';
 import {waitFor, screen} from '@testing-library/react';
 import {renderWithProviders} from '../../services/providerForTest/utils-for-tests';
-import {jest, test} from '@jest/globals';
+import {jest} from '@jest/globals';
 import userEvent from '@testing-library/user-event';
 import {ChakraProvider} from '@chakra-ui/react';
 
@@ -12,8 +12,7 @@ jest.mock('../request/getGameStatus', () => {
 		__esModule: true,
 		default: async ({idPlayer}) => {
 			idPlayer = 1;
-			console.log('estoy entrando en el mock getGameStatus');
-			console.log(idPlayer);
+			console.log('getGameStatus');
 			return {
 				status: 200,
 				ok: true,
@@ -21,37 +20,31 @@ jest.mock('../request/getGameStatus', () => {
 				detail: 'Game status listed correctly',
 				my_position: 2,
 				my_rol: 1,
-				current_player: 2,
+				current_player: 1,
 				players: [
 					{name: 'Tomas', id: 1, position: 0, is_alive: true},
 					{name: 'juan', id: 2, position: 1, is_alive: true},
-					{name: 'pedro', id: 3, position: 2, is_alive: true},
-					{name: 'pepe', id: 4, position: 3, is_alive: true},
+					{name: 'pedro', id: 3, position: 2, is_alive: false},
+					{name: 'pepe', id: 4, position: 3, is_alive: false},
 					{name: 'mili', id: 5, position: 4, is_alive: true},
-					{name: 'lara', id: 6, position: 5, is_alive: true},
+					{name: 'lara', id: 6, position: 5, is_alive: false},
 					{name: 'lauti', id: 7, position: 6, is_alive: true},
-					{name: 'nico', id: 8, position: 7, is_alive: true},
-					{name: 'diego', id: 9, position: 8, is_alive: true},
-					{name: 'laura', id: 10, position: 9, is_alive: true},
-					{name: 'santi', id: 11, position: 10, is_alive: true},
-					{name: 'chun', id: 12, position: 11, is_alive: false},
 				],
 			};
 		},
 	};
 });
 
-jest.mock('../request/getHand', () => {
+jest.mock('../request/getCard', () => {
 	return {
 		__esModule: true,
 		default: async (idPlayer) => {
 			idPlayer = 1;
-			console.log('estoy entrando en el mock getCard');
-			console.log(idPlayer);
+			console.log('getCard');
 			return {
 				status: 200,
 				ok: true,
-				pickedCards: ['img37.jpg'],
+				pickedCards: ['img31.jpg'],
 				nextCardType: 0,
 				detail: 'Card picked correctly',
 			};
@@ -63,8 +56,7 @@ jest.mock('../request/getHand', () => {
 		__esModule: true,
 		default: async (idPlayer) => {
 			idPlayer = 1;
-			console.log('estoy entrando en el mock getHand');
-			console.log(idPlayer);
+			console.log('getHand');
 			return {
 				status: 200,
 				ok: true,
@@ -84,7 +76,7 @@ jest.mock('../request/playCard', () => {
 				targetId: 2,
 				cardToken: 'img37.jpg',
 			};
-			console.log('estoy entrando en el mock getHand');
+			console.log('getHand');
 
 			return {
 				status: 200,
@@ -115,8 +107,8 @@ jest.mock('../request/playCard', () => {
 	};
 });
 describe('Game Layout', () => {
-	test('Should render The Game Layout and pass', async () => {
-		userEvent.setup();
+	it('Should render The Game Layout and pass', async () => {
+		/* const user =  */ userEvent.setup();
 
 		renderWithProviders(
 			<ChakraProvider>
@@ -124,9 +116,36 @@ describe('Game Layout', () => {
 			</ChakraProvider>,
 		);
 
-		await waitFor(() => {
-			const playerName = screen.getByText(/Deck/i);
-			expect(playerName).toBeInTheDocument();
+		await waitFor(async () => {
+			// This should be in the screen always
+			expect(screen.getByText(/Deck/i)).toBeInTheDocument();
+			expect(screen.getByText(/Play/i)).toBeInTheDocument();
+			expect(screen.getByText(/Discard/i)).toBeInTheDocument();
+			expect(screen.getByTestId('hand')).toBeInTheDocument();
+			// This players should be in the screen
+			expect(screen.getByText(/Tomas/i)).toBeInTheDocument();
+			expect(screen.getByText(/juan/i)).toBeInTheDocument();
+			expect(screen.getByText(/mili/i)).toBeInTheDocument();
+			// This should not be in the screen
+			expect(screen.queryByText(/pedro/i)).not.toBeInTheDocument();
+			expect(screen.queryByText(/pepe/i)).not.toBeInTheDocument();
+			// user touch the hand
+			// const cards = screen.getAllByLabelText('handCard');
+			// expect(cards).toHaveLength(4);
 		});
 	});
+	/* 		it('Test actions that can perform the player', async () => {
+		userEvent.setup();
+		const pantalla = renderWithProviders(
+			<ChakraProvider>
+				<Game />
+			</ChakraProvider>,
+		);
+		await waitFor(() => {
+			user.click(screen.getByRole('button', {name: /img78.jpg/i}));
+			
+			console.log(pantalla.debug());
+
+			
+		} */
 });

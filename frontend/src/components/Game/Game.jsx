@@ -1,7 +1,8 @@
 import Deck from '../Deck/Deck.jsx';
 import Hand from '../Hand/Hand.jsx';
 import PlayArea from '../PlayArea/PlayArea';
-import {Grid, Center, Box, GridItem, Flex, Avatar} from '@chakra-ui/react';
+import Positions from './Positions.jsx';
+import {Grid, Center, Box, GridItem, Flex} from '@chakra-ui/react';
 import {useDispatch, useSelector} from 'react-redux';
 import getGameStatus from '../request/getGameStatus';
 import {useEffect} from 'react';
@@ -13,7 +14,6 @@ import {
 } from '../../appActions';
 
 const Game = () => {
-	const game = useSelector((state) => state.game);
 	const myPlayer = useSelector((state) => state.player);
 	const dispatch = useDispatch();
 
@@ -35,10 +35,7 @@ const Game = () => {
 		}
 		getDataOfGame(myPlayer.id);
 	}, [dispatch, myPlayer.id]);
-	// console.log('Game - input players: ', game.players);
-	const sortedPlayers = getPlayers(game.players);
 
-	const currentPlayerId = game.currentPlayer;
 	return (
 		<Center h='100%' w='100%'>
 			<Grid
@@ -51,38 +48,21 @@ const Game = () => {
 				gap={4}
 			>
 				<GridItem rowSpan={1} colSpan={1} />
-				<GridItem rowSpan={1} colSpan={3} bg='blue'>
-					<Flex justify='center' justifyContent='space-evenly' direction='row'>
-						{sortedPlayers.slice(6, 9).map((player) => (
-							<Avatar
-								key={player.id}
-								bg={currentPlayerId === player.id ? 'green' : 'gray'}
-							>
-								{player.name}
-							</Avatar>
-						))}
-					</Flex>
+				<GridItem rowSpan={1} colSpan={3} paddingTop='40px'>
+					<Positions relativePositionToTable={2} />
 				</GridItem>
 				<GridItem rowSpan={1} colSpan={1} />
-				<GridItem rowSpan={3} colSpan={1} bg='green'>
-					<Flex
-						height='100%'
-						direction='column'
-						justify='center'
-						alignItems='center'
-						justifyContent='space-evenly'
-					>
-						{sortedPlayers.slice(9, 12).map((player) => (
-							<Avatar
-								key={player.id}
-								bg={currentPlayerId === player.id ? 'green' : 'gray'}
-							>
-								{player.name}
-							</Avatar>
-						))}
-					</Flex>
+				<GridItem rowSpan={3} colSpan={1} paddingLeft='160px'>
+					<Positions relativePositionToTable={3} />
 				</GridItem>
-				<GridItem rowSpan={3} colSpan={3} bg='red' gap={10}>
+				<GridItem
+					boxShadow='2xl'
+					rowSpan={3}
+					colSpan={3}
+					bgImage='/src/assets/table_board.png'
+					gap={5}
+					borderRadius='full'
+				>
 					<Flex gap='12px' direction='row' justify='center'>
 						<Box w='200px' border='2px' color='black'>
 							Deck
@@ -97,39 +77,14 @@ const Game = () => {
 						</Box>
 					</Flex>
 				</GridItem>
-				<GridItem rowSpan={3} colSpan={1} bg='violet'>
-					<Flex
-						height='100%'
-						direction='column'
-						justify='center'
-						alignItems='center'
-						justifyContent='space-evenly'
-					>
-						{sortedPlayers.slice(3, 6).map((player) => (
-							<Avatar
-								data-testid='game-component'
-								key={player.id}
-								bg={currentPlayerId === player.id ? 'green' : 'gray'}
-							>
-								{player.name}
-							</Avatar>
-						))}
-					</Flex>
+				<GridItem rowSpan={3} colSpan={1} paddingRight='160px'>
+					<Positions relativePositionToTable={1} />
 				</GridItem>
 				<GridItem rowSpan={1} colSpan={1} />
-				<GridItem rowSpan={1} colSpan={3} bg='black'>
-					<Flex justify='center' direction='row' justifyContent='space-evenly'>
-						{sortedPlayers.slice(0, 3).map((player) => (
-							<Avatar
-								key={player.id}
-								bg={currentPlayerId === player.id ? 'green' : 'gray'}
-							>
-								{player.name}
-							</Avatar>
-						))}
-					</Flex>
+				<GridItem rowSpan={1} colSpan={3} paddingBottom='60px'>
+					<Positions relativePositionToTable={0} />
 				</GridItem>
-				<GridItem rowSpan={2} colSpan={5} bg='yellow'>
+				<GridItem rowSpan={2} colSpan={5}>
 					<Flex justify='center' direction='row'>
 						<Box maxW='60%'>
 							<Hand />
@@ -141,11 +96,3 @@ const Game = () => {
 	);
 };
 export default Game;
-
-function getPlayers(players) {
-	const alivePlayers = players.filter((player) => player.is_alive === true);
-	const sortedPlayers = [...alivePlayers].sort(
-		(a, b) => a.position - b.position,
-	);
-	return sortedPlayers;
-}

@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 
 const Card = ({className, onClick, token}) => {
-	console.log('En card el token es: ', token);
 	return (
 		<button className={className}>
 			<img
