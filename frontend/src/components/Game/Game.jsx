@@ -1,6 +1,7 @@
 import Deck from '../Deck/Deck.jsx';
 import Hand from '../Hand/Hand.jsx';
 import PlayArea from '../PlayArea/PlayArea';
+import DiscardPile from '../DiscardPile/DiscardPile';
 import Positions from './Positions.jsx';
 import {Grid, Center, Box, GridItem, Flex} from '@chakra-ui/react';
 import {useDispatch, useSelector} from 'react-redux';
@@ -74,6 +75,7 @@ const Game = () => {
 						</Box>
 						<Box w='200px' border='2px' color='black'>
 							Discard
+							<DiscardPile />
 						</Box>
 					</Flex>
 				</GridItem>
