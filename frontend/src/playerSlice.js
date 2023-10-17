@@ -5,6 +5,7 @@ const initialState = {
 	name: '',
 	id: 0,
 	loged: false,
+	idGame: 0,
 };
 
 // Cambios de estado para player
@@ -21,8 +22,11 @@ const playerSlice = createSlice({
 		setLogedIn: (state, action) => {
 			state.loged = action.payload;
 		},
+		setIdGame: (state, action) => {
+			state.idGame = action.payload;
+		},
 	},
 });
 
-export const {setName, setId, setLogedIn} = playerSlice.actions;
+export const {setName, setId, setLogedIn, setIdGame} = playerSlice.actions;
 export default playerSlice.reducer;
