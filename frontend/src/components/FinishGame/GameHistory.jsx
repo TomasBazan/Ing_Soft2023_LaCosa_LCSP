@@ -1,51 +1,89 @@
 // eslint-disable-next-line no-unused-vars
 import React from 'react';
 import {Card, Heading, CardBody, Box, Text} from '@chakra-ui/react';
-// import {useSelector} from 'react-redux';
-// List of 12 players
-const longListOfPlayers = [
-	{name: 'player1', id: 1, isAlive: true},
-	{name: 'player2', id: 2, isAlive: false},
-	{name: 'player3', id: 3, isAlive: false},
-	{name: 'player4', id: 4, isAlive: false},
-	{name: 'player5', id: 5, isAlive: false},
-	{name: 'player6', id: 6, isAlive: false},
-	{name: 'player7', id: 7, isAlive: false},
-	{name: 'player8', id: 8, isAlive: false},
-	{name: 'player9', id: 9, isAlive: false},
-	{name: 'player10', id: 10, isAlive: false},
-	{name: 'player11', id: 11, isAlive: false},
-	{name: 'player12', id: 12, isAlive: false},
-];
+import PropTypes from 'prop-types';
 
-export const GameHistory = () => {
-	// const state = useSelector((state) => state);
+export const GameHistory = ({results}) => {
+	// Check if the players array inside results is empty
+	if (results.players.length === 0) {
+		return (
+			<Card display='flex'>
+				<Heading as='h1' noOfLines={1}>
+					Game Over
+				</Heading>
+				<Heading as='h2' noOfLines={1}>
+					Results
+				</Heading>
+				<CardBody>
+					<Box>
+						<Heading size='xs'>Invalid Results</Heading>
+						<Text>There is no data to show</Text>
+					</Box>
+				</CardBody>
+			</Card>
+		);
+	}
+	// revisar la funcionalidad que checkea que todos estan vivos o muertos
+	const allStatusEndGame = results.players.map((player) => player.isAlive);
+	const inValidResult = checkAllSameStatus(allStatusEndGame);
+	if (!inValidResult) {
+		return (
+			<Card display='flex'>
+				<Heading as='h1' noOfLines={1}>
+					Game Over
+				</Heading>
+				<Heading as='h2' noOfLines={1}>
+					Results
+				</Heading>
+				<CardBody>
+					{results.players.map((player) => {
+						return player.isAlive ? (
+							<Box key={player.id}>
+								<Heading size='xs'>Player {player.name}</Heading>
+								<Text>Won the game.</Text>
+							</Box>
+						) : (
+							<Box key={player.id}>
+								<Heading size='xs'>Player {player.name}</Heading>
+								<Text>Failed to his team.</Text>
+							</Box>
+						);
+					})}
+				</CardBody>
+			</Card>
+		);
+	} else {
+		return (
+			<Card display='flex'>
+				<Heading as='h1' noOfLines={1}>
+					Game Over
+				</Heading>
+				<CardBody>
+					<Box>
+						<Heading size='xs'>Invalid Results</Heading>
+						<Text>There is no data to show</Text>
+					</Box>
+				</CardBody>
+			</Card>
+		);
+	}
 
-	return (
-		<Card display='flex'>
-			<Heading as='h1' noOfLines={1}>
-				Game Over
-			</Heading>
-			<Heading as='h2' noOfLines={1}>
-				Results
-			</Heading>
-			<CardBody>
-				{longListOfPlayers.map((player) => {
-					// should be changed to state.game.players
-					return player.isAlive ? (
-						<Box key={player.id}>
-							<Heading size='xs'>Player: {player.name}</Heading>
-							<Text>Won the game.</Text>
-						</Box>
-					) : (
-						<Box key={player.id}>
-							<Heading size='xs'>{player.name}</Heading>
-							<Text>Failed to his team.</Text>
-						</Box>
-					);
-				})}
-			</CardBody>
-		</Card>
-	);
+	function checkAllSameStatus(array) {
+		return array.every((value) => value === array[0]);
+	}
 };
-export default GameHistory;
+GameHistory.propTypes = {
+	results: PropTypes.shape({
+		myPlayer: PropTypes.shape({
+			name: PropTypes.string.isRequired,
+			id: PropTypes.number.isRequired,
+		}),
+		players: PropTypes.arrayOf(
+			PropTypes.shape({
+				name: PropTypes.string.isRequired,
+				id: PropTypes.number.isRequired,
+				isAlive: PropTypes.bool.isRequired,
+			}),
+		),
+	}),
+};

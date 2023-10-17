@@ -13,7 +13,6 @@ const lobbySlice = createSlice({
 			state.players = action.payload;
 		},
 		appendToLobby: (state, action) => {
-			// Append the new card to the existing array of cards
 			state.players = [...state.players, ...action.payload];
 		},
 		setCanStart: (state, action) => {

@@ -1,7 +1,8 @@
 const SERVER_URL = 'http://localhost:8000/game/start';
 
 // Should be called with an object with the idPartida and idUsuario
-const startGame = async ({values}) => {
+const startGame = async ({idPlayer}) => {
+	console.log('el id es', idPlayer);
 	const parseJSONResponse = (response) => {
 		return new Promise((resolve) =>
 			response.json().then((json) => {
@@ -13,12 +14,15 @@ const startGame = async ({values}) => {
 			}),
 		);
 	};
+	const bodyToSend = {
+		id_player: idPlayer,
+	};
 	const config = {
 		method: 'PUT',
-		header: {
+		headers: {
 			'Content-Type': 'application/json',
 		},
-		body: JSON.stringify(values),
+		body: JSON.stringify(bodyToSend),
 	};
 	return new Promise((resolve, reject) => {
 		fetch(SERVER_URL, config)

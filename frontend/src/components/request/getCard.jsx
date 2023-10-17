@@ -1,21 +1,37 @@
+import {v4 as uuidv4} from 'uuid';
+
 const SERVER_URL = 'https://localhost:8000/hand';
 
 const getCard = async (idPlayer) => {
 	const parseJSONResponse = (response) => {
 		return new Promise((resolve) => {
-			response.json().then((json) =>
-				resolve({
-					status: response.status,
-					ok: response.ok,
-					json,
-				}),
-			);
+			response.json().then((json) => {
+				if (response.ok) {
+					resolve({
+						status: response.status,
+						ok: response.ok,
+						pickedCards: json.data.picked_cards.map((card) => ({
+							id: uuidv4(),
+							token: card[0],
+							type: card[1],
+						})),
+						nextCardType: json.data.next_card_type,
+						detail: json.detail,
+					});
+				} else {
+					resolve({
+						status: response.status,
+						ok: response.ok,
+						detail: json.detail,
+					});
+				}
+			});
 		});
 	};
 
 	const config = {
 		method: 'PUT',
-		header: {
+		headers: {
 			'Content-Type': 'application/json',
 		},
 		body: JSON.stringify(idPlayer),

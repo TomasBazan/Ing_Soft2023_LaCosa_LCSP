@@ -5,6 +5,15 @@ import {setPlayerId, setPlayerName, setPlayerLogedIn} from '../../appActions';
 import React, {useState} from 'react';
 import {Link} from 'react-router-dom';
 import sendPlayerName from '../request/sendPlayerName';
+import {
+	Center,
+	Box,
+	FormControl,
+	Text,
+	Input,
+	Button,
+	HStack,
+} from '@chakra-ui/react';
 // import SendPlayerName from '../request/sendPlayerName.mock';
 
 // UserForm is our functional component
@@ -49,48 +58,57 @@ const UserForm = () => {
 		validate,
 	});
 	return (
-		<div>
-			{alertMessage && (
-				<div
-					className={`alert ${
-						alertMessage.includes('Success') ? 'success' : 'error'
-					}`}
-				>
-					{alertMessage}
+		<Center height='100vh'>
+			<Box width='25%' textAlign='center' p={5}>
+				<div>
+					{alertMessage && (
+						<div
+							className={`alert ${
+								alertMessage.includes('Success') ? 'success' : 'error'
+							}`}
+						>
+							{alertMessage}
+						</div>
+					)}
+					<form onSubmit={formik.handleSubmit}>
+						{!firstPlayer.loged ? (
+							<FormControl>
+								<Text fontSize='3xl' fontWeight='bold'>
+									Elige tu nickname
+								</Text>
+								<Input
+									type='text'
+									id='username'
+									name='username'
+									onChange={formik.handleChange}
+									onBlur={formik.handleBlur}
+									value={formik.values.username}
+								/>
+								{formik.errors.username ? (
+									<div className='error'>{formik.errors.username}</div>
+								) : null}
+								<Button
+									colorScheme='gray'
+									type='submit'
+									onClick={formik.handleSubmit}
+								>
+									Submit
+								</Button>
+							</FormControl>
+						) : (
+							<HStack spacing={4}>
+								<Link to='Games/'>
+									<Button>Unirse a partida</Button>
+								</Link>
+								<Link to='/CreateGame'>
+									<Button>Crear nueva partida</Button>
+								</Link>
+							</HStack>
+						)}
+					</form>
 				</div>
-			)}
-			<form onSubmit={formik.handleSubmit}>
-				{!firstPlayer.loged ? (
-					<div className='form/control'>
-						<h1>Choose a nickname</h1>
-						<label htmlFor='username'>User Name</label>
-						<input
-							type='text'
-							id='username'
-							name='username'
-							onChange={formik.handleChange}
-							onBlur={formik.handleBlur}
-							value={formik.values.username}
-						/>
-						{formik.errors.username ? (
-							<div className='error'> {formik.errors.username}</div>
-						) : null}
-						<button type='submit' onClick={formik.handleSubmit}>
-							Submit
-						</button>
-					</div>
-				) : (
-					<div>
-						<Link to='Games/'>
-							<button>Unirse a partida</button>
-						</Link>
-						<Link to='/CreateGame'>
-							<button>Crear nueva partida</button>
-						</Link>
-					</div>
-				)}
-			</form>
-		</div>
+			</Box>
+		</Center>
 	);
 };
 export default UserForm; // Export UserForm as the default export
