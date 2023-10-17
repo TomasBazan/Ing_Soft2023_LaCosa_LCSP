@@ -57,76 +57,78 @@ jest.mock('../request/sendPlayerName', () => {
 	};
 });
 
-test('should register', async () => {
-	const user = userEvent.setup();
-	const screen = renderWithProviders(<UserForm />);
-	const usernameInput = screen.getByLabelText('User Name');
+describe('Create Form', () => {
+	test('should register', async () => {
+		const user = userEvent.setup();
+		const screen = renderWithProviders(<UserForm />);
+		const usernameInput = screen.getByLabelText('User Name');
 
-	expect(usernameInput).toBeInTheDocument();
-	// Focus on the input field and type the username
+		expect(usernameInput).toBeInTheDocument();
+		// Focus on the input field and type the username
 
-	user.click(usernameInput);
-	user.type(usernameInput, 'username');
+		user.click(usernameInput);
+		user.type(usernameInput, 'username');
 
-	// Use await waitFor to handle asynchronous updates
-	await waitFor(() => {
-		expect(usernameInput).toHaveValue('username');
-	});
-	// Click the submit button
-	const submitButton = screen.getByRole('button', {name: /submit/i});
-	expect(submitButton).toBeInTheDocument();
+		// Use await waitFor to handle asynchronous updates
+		await waitFor(() => {
+			expect(usernameInput).toHaveValue('username');
+		});
+		// Click the submit button
+		const submitButton = screen.getByRole('button', {name: /submit/i});
+		expect(submitButton).toBeInTheDocument();
 
-	user.click(submitButton);
-	// Wait for the success message
-
-	await waitFor(() =>
-		screen.getByText(/ User username registered successfully/i),
-	);
-
-	// Assert that the success message is present
-	expect(
-		screen.getByText(/ User username registered successfully/i),
-	).toBeInTheDocument();
-});
-
-test('shouldnt register', async () => {
-	const user = userEvent.setup();
-
-	const screen = renderWithProviders(<UserForm />);
-	const usernameInput = screen.getByLabelText('User Name');
-
-	expect(usernameInput).toBeInTheDocument();
-	// Focus on the input field and type the username
-
-	user.click(usernameInput);
-	user.type(usernameInput, 'username1');
-
-	// Use await waitFor to handle asynchronous updates
-	await waitFor(() => {
-		expect(usernameInput).toHaveValue('username1');
-	});
-	// Click the submit button
-	const submitButton = screen.getByRole('button', {name: /submit/i});
-	expect(submitButton).toBeInTheDocument();
-
-	try {
 		user.click(submitButton);
-	} catch (error) {
-		// console.log('estoy entrando en el catch');
-		/// /console.log(screen.debug());
-		// console.log(error);
-	}
+		// Wait for the success message
 
-	await waitFor(() =>
-		screen.getByText(
-			/Object Player cannot be stored in the database. IntegrityError: 1062 Duplicate entry "username1" for key "player.name"/i,
-		),
-	);
+		await waitFor(() =>
+			screen.getByText(/ User username registered successfully/i),
+		);
 
-	// Assert that the success message is present
-	expect(
-		screen.getByText(
-			/Object Player cannot be stored in the database. IntegrityError: 1062 Duplicate entry "username1" for key "player.name"/i,
-		),
-	).toBeInTheDocument();
+		// Assert that the success message is present
+		expect(
+			screen.getByText(/ User username registered successfully/i),
+		).toBeInTheDocument();
+	});
+
+	test('shouldnt register', async () => {
+		const user = userEvent.setup();
+
+		const screen = renderWithProviders(<UserForm />);
+		const usernameInput = screen.getByLabelText('User Name');
+
+		expect(usernameInput).toBeInTheDocument();
+		// Focus on the input field and type the username
+
+		user.click(usernameInput);
+		user.type(usernameInput, 'username1');
+
+		// Use await waitFor to handle asynchronous updates
+		await waitFor(() => {
+			expect(usernameInput).toHaveValue('username1');
+		});
+		// Click the submit button
+		const submitButton = screen.getByRole('button', {name: /submit/i});
+		expect(submitButton).toBeInTheDocument();
+
+		try {
+			user.click(submitButton);
+		} catch (error) {
+			// console.log('estoy entrando en el catch');
+			/// /console.log(screen.debug());
+			// console.log(error);
+		}
+
+		await waitFor(() =>
+			screen.getByText(
+				/Object Player cannot be stored in the database. IntegrityError: 1062 Duplicate entry "username1" for key "player.name"/i,
+			),
+		);
+
+		// Assert that the success message is present
+		expect(
+			screen.getByText(
+				/Object Player cannot be stored in the database. IntegrityError: 1062 Duplicate entry "username1" for key "player.name"/i,
+			),
+		).toBeInTheDocument();
+	});
 });
