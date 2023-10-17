@@ -14,7 +14,7 @@ import {
 
 // represents a player's hand
 const Hand = () => {
-	const userId = 1;
+	const userId = useSelector((state) => state.game.currentPlayer);
 	const targetId = 2;
 
 	const [selectedCard, setSelectedCard] = useState(null);
@@ -29,7 +29,8 @@ const Hand = () => {
 			dispatch(setHand(res.cards));
 		};
 		fetchHand();
-	}, [dispatch]);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
 
 	/*
 		When cards are clicked once, they get selected. If clicked again, they are played.
