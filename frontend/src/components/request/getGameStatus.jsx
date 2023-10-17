@@ -11,7 +11,7 @@ const getGameStatus = async (idPlayer) => {
 						ok: response.ok,
 						players: json.data.players,
 						position: json.data.my_position,
-						rol: json.data.my_rol,
+						isFinish: json.data.game_status,
 						currentPlayerId: json.data.current_player,
 					});
 				} else {

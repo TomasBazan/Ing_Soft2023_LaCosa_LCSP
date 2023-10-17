@@ -18,5 +18,5 @@ export const setCanStart = createAction('lobby/setCanStart');
 // In game actions
 export const setPlayerInGame = createAction('game/setPlayers');
 export const setPositionInGame = createAction('game/setPosition');
-export const setRolInGame = createAction('game/setRol');
+export const setIsFinish = createAction('game/setIsFinish');
 export const setCurrentPlayerInGame = createAction('game/setCurrentPlayer');
