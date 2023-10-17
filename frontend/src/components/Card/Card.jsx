@@ -41,4 +41,8 @@ Card.propTypes = {
 	front: PropTypes.bool,
 };
 
+Card.defaultProps = {
+	className: 'card',
+};
+
 export default Card;
