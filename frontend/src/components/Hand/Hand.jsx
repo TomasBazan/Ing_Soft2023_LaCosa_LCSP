@@ -24,7 +24,6 @@ const Hand = () => {
 
 	// when component mounts
 	useEffect(() => {
-		// fetch  player's hand
 		const fetchHand = async () => {
 			const res = await getHand(userId);
 			dispatch(setHand(res.cards));
@@ -55,15 +54,17 @@ const Hand = () => {
 		}
 	};
 	// render cards in hand side by side
+
 	return (
-		<div className='hand'>
-			{cards.map((card) => (
+		<div className='hand' data-testid='hand'>
+			{cards?.map((card) => (
 				<Card
 					className={`card ${selectedCard === card ? 'selected' : ''}`}
 					key={card.id}
 					onClick={() => handleClick(card)}
 					info={card}
 					front={true}
+					test-id='handCard'
 				/>
 			))}
 		</div>

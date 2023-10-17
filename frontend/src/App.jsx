@@ -2,7 +2,6 @@
 // import reactLogo from './assets/react.svg';
 // import viteLogo from '../../../../../../../vite.svg';
 // import {useSelector} from 'react-redux';
-import './App.css';
 import UserForm from './components/UserForm/UserForm.jsx';
 import {BrowserRouter, Routes, Route, Link} from 'react-router-dom';
 import CreateGameForm from './components/CreateGameForm/CreateGameForm.jsx';
@@ -22,9 +21,14 @@ function App() {
 				<Route path='/' element={<UserForm />} />
 				<Route path='/CreateGame' element={<CreateGameForm />} />
 				<Route path='/Games' element={<ListarPartidas />} />
-				<Route path='/Games/Partida-Inicial' element={<Lobby />} />
+				<Route path='/Games/:gameId' element={<Lobby />} />
 				<Route path='/Games/Partida-Inicial/play' element={<Game />} />
 				<Route path='/Games/Partida-Inicial/finish' element={<FinishGame />} />
+				{/* 
+				{
+          path: "/matches/:matchId",
+          element: <LobbyContainer />,
+        }, */}
 			</Routes>
 		</BrowserRouter>
 	);

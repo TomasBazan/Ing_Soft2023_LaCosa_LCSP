@@ -1,6 +1,6 @@
-const SERVER_URL = 'http://localhost:8000/game/join';
+const SERVER_URL = 'http://localhost:8000/game/list';
 // Should get a object like {idGame, password, idUser}
-const joinGame = ({idGame, password = null, idUser}) => {
+const getGameList = () => {
 	const handleJSONParser = (response) => {
 		return new Promise((resolve) => {
 			response.json().then((json) => {
@@ -8,23 +8,19 @@ const joinGame = ({idGame, password = null, idUser}) => {
 					status: response.status_code,
 					ok: response.ok,
 					detail: json.detail,
+					games: json.data,
 				});
 			});
 		});
 	};
 
-	const bodyRequest = {
-		id_game: idGame,
-		password,
-		id_player: idUser,
-	};
+	// const bodyRequest = {};
 
 	const config = {
-		method: 'POST',
+		method: 'GET',
 		headers: {
 			'Content-Type': 'application/json',
 		},
-		body: JSON.stringify(bodyRequest),
 	};
 	return new Promise((resolve, reject) => {
 		console.log('config', config);
@@ -41,4 +37,4 @@ const joinGame = ({idGame, password = null, idUser}) => {
 			});
 	});
 };
-export default joinGame;
+export default getGameList;

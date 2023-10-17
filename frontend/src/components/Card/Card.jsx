@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types';
-import './Card.css';
 
 const backImageFromType = {
 	0: 'panic-reverse.jpg',	// panic
