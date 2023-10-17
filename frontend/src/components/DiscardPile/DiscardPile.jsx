@@ -1,7 +1,7 @@
-import { Box } from '@chakra-ui/react';
-import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { addToDiscardPile, removeFromHand } from '../../appActions';
+import {Box} from '@chakra-ui/react';
+import {useEffect, useState} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
+import {addToDiscardPile, removeFromHand} from '../../appActions';
 import Card from '../Card/Card.jsx';
 
 const DiscardPile = () => {

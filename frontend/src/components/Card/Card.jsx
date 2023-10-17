@@ -2,14 +2,13 @@ import './Card.css';
 import PropTypes from 'prop-types';
 
 const backImageFromType = {
-	0: 'panic-reverse.jpg',	// panic
-	1: 'reverse.jpg', 		// stay away
-	2: 'reverse.jpg',		// infected
-	3: 'reverse.jpg', 		// it
+	0: 'panic-reverse.jpg', // panic
+	1: 'reverse.jpg', // stay away
+	2: 'reverse.jpg', // infected
+	3: 'reverse.jpg', // it
 };
 
 const Card = ({className, onClick, info, front}) => {
-
 	// Determines the image source for a card based on its front/back status.
 	const cardImageSource = (front) => {
 		if (front) {
