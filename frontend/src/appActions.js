@@ -8,6 +8,8 @@ export const setPlayerLogedIn = createAction('player/setLogedIn');
 export const setHand = createAction('hand/setHand');
 export const appendToHand = createAction('hand/appendToHand');
 export const removeFromHand = createAction('hand/removeFromHand');
+export const selectCard = createAction('hand/selectCard');
+export const cleanSelectedCard = createAction('hand/cleanSelectedCard');
 // Play Area actions
 export const addToPlayArea = createAction('playArea/addToPlayArea');
 export const cleanPlayArea = createAction('playArea/cleanPlayArea');

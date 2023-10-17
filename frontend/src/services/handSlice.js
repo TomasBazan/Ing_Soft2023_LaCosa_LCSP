@@ -3,6 +3,7 @@ import {createSlice} from '@reduxjs/toolkit';
 // Estado inicial para player
 const initialState = {
 	cards: [],
+	selectedCard: '',
 };
 
 // Cambios de estado para player
@@ -20,6 +21,13 @@ const handSlice = createSlice({
 		removeFromHand: (state, action) => {
 			// Remove the card from the array of cards
 			state.cards = state.cards.filter((card) => card.id !== action.payload.id);
+			state.selectedCard = '';
+		},
+		selectCard: (state, action) => {
+			state.selectedCard = action.payload;
+		},
+		cleanSelectedCard: (state) => {
+			state.selectedCard = '';
 		},
 	},
 });
