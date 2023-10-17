@@ -11,6 +11,9 @@ export const removeFromHand = createAction('hand/removeFromHand');
 // Play Area actions
 export const addToPlayArea = createAction('playArea/addToPlayArea');
 export const cleanPlayArea = createAction('playArea/cleanPlayArea');
+// Discard Pile actions
+export const addToDiscardPile = createAction('discardPile/addToDiscardPile');
+export const cleanDiscardPile = createAction('discardPile/cleanDiscardPile');
 // Loby actions
 export const setLobby = createAction('lobby/setLobby');
 export const appendToLobby = createAction('lobby/appendToLobby');
