@@ -2,10 +2,9 @@ import joinGame from '../request/joinGame';
 import {useSelector, useDispatch} from 'react-redux';
 import getGameList from '../request/getGameList';
 import {useState, useEffect} from 'react';
-import {VStack, Button, Box, Text, Center} from '@chakra-ui/react';
 import {useNavigate} from 'react-router-dom';
 import {setPlayerIdGame} from '../../appActions';
-
+import {Center, VStack, Box, Text, Button} from '@chakra-ui/react';
 /* const partidas = [
 	{nombre: 'Partida-Inicial'},
 	// Otras partidas...
@@ -59,20 +58,33 @@ const ListarPartidas = () => {
 		<Center>
 			<VStack spacing={4}>
 				{partidas.map((partida, index) => (
-					<Box key={index} borderWidth='10px' p={10} borderRadius='md'>
-						<Text fontWeight='bold'>{partida.name}</Text>
-						<Text>
-							Players: {partida.player_quantity}/{partida.max_players}
-						</Text>
-						{partida.player_quantity < partida.max_players && (
-							<Button
-								colorScheme='teal'
-								size='sm'
-								onClick={() => handleUnirse(partida.game_id)}
-							>
-								Unirse
-							</Button>
-						)}
+					<Box
+						key={index}
+						borderWidth='10px'
+						p={10}
+						borderRadius='md'
+						display='flex'
+						justifyContent='space-between' // Align items horizontally
+						alignItems='center' // Center items vertically
+						width='110%' // Adjust the width as needed
+					>
+						<div>
+							<Text fontWeight='bold'>{partida.name}</Text>
+							<Text>
+								Players: {partida.player_quantity}/{partida.max_players}
+							</Text>
+						</div>
+						<div>
+							{partida.player_quantity < partida.max_players && (
+								<Button
+									colorScheme='teal'
+									size='sm'
+									onClick={() => handleUnirse(partida.game_id)}
+								>
+									Unirse
+								</Button>
+							)}
+						</div>
 					</Box>
 				))}
 			</VStack>

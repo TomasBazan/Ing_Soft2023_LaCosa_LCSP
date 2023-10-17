@@ -2,11 +2,11 @@
 import React, {useState} from 'react';
 import {useFormik} from 'formik';
 import {useSelector, useDispatch} from 'react-redux';
-import {Flex, Button} from '@chakra-ui/react';
 import {createGame} from '../request/createGame';
 import {useNavigate} from 'react-router-dom';
 import {setPlayerIdGame} from '../../appActions';
 // import gameSlice from "../../services/gameSlice";
+import {Flex, Button, Text, FormControl, Input} from '@chakra-ui/react';
 const CreateGameForm = () => {
 	const userId = useSelector((state) => state.player.id);
 	const [alertMessage, setAlertMessage] = useState(''); // State for alert message
@@ -70,24 +70,27 @@ const CreateGameForm = () => {
 				)}
 				<form onSubmit={formik.handleSubmit}>
 					<div className='form/control'>
-						<h1>Crear una partida nueva</h1>
-						<label htmlFor='GameName'>Choose a name for the game</label>
-						<input
-							type='text'
-							id='GameName'
-							name='GameName'
-							onChange={formik.handleChange}
-							onBlur={formik.handleBlur}
-							value={formik.values.GameName}
-						/>
-						{formik.errors.GameName ? (
-							<div className='error'> {formik.errors.GameName}</div>
-						) : null}
+						<Text fontSize='2xl' fontWeight='bold' textAlign='center'>
+							Elige el nombre de la partida
+						</Text>
+						<FormControl>
+							<Input
+								type='text'
+								id='GameName'
+								name='GameName'
+								onChange={formik.handleChange}
+								onBlur={formik.handleBlur}
+								value={formik.values.GameName}
+							/>
+							{formik.errors.GameName ? (
+								<div className='error'> {formik.errors.GameName}</div>
+							) : null}
+						</FormControl>
 					</div>
 				</form>
 				<Button
 					px={4}
-					fontSize={'sm'}
+					fontSize={'lg'}
 					rounded={'full'}
 					bg={'blue.400'}
 					color={'white'}

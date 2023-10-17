@@ -1,16 +1,10 @@
-import {
-	VStack,
-	Button,
-	OrderedList,
-	ListItem,
-	// ChakraProvider,
-} from '@chakra-ui/react';
 import getLobbyStatus from '../request/getLobbyStatus';
 import {useDispatch, useSelector} from 'react-redux';
 import {setCanStart, setLobby} from '../../appActions';
 import {useEffect, useState} from 'react';
 import {useNavigate} from 'react-router-dom';
 import startGame from '../request/startGame';
+import {VStack, OrderedList, ListItem, Text, Button} from '@chakra-ui/react';
 
 // mock respuestas por ahora 		{user_name: 'toomas', id: 5, is_host: 0},
 
@@ -90,14 +84,13 @@ const Lobby = () => {
 
 	console.log('the gamestatus', gameStatus);
 	return (
-		<VStack spacing={4}>
-			<h2>Players:</h2>
-
+		<VStack spacing={4} align='center' m='4'>
+			<Text fontSize='xl' fontWeight='bold'>
+				Players:
+			</Text>
 			<OrderedList>
 				{playersSort.map((player) => (
-					<div key={player.id}>
-						<ListItem>{player.name}</ListItem>
-					</div>
+					<ListItem key={player.id}>{player.name}</ListItem>
 				))}
 			</OrderedList>
 			{gameStatus.canStart && isHost ? (
