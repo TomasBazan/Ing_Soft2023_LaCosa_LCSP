@@ -9,7 +9,6 @@ const discardPileSlice = createSlice({
 	initialState,
 	reducers: {
 		addToDiscardPile: (state, action) => {
-			console.log('Dicarded card: ', action.payload);
 			state.discardedCard = action.payload;
 		},
 		cleanDiscardPile: (state) => {

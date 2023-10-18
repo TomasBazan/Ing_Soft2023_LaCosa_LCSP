@@ -23,7 +23,7 @@ const PlayArea = () => {
 	const handleClick = async () => {
 		console.log('Click on play area');
 
-		if (selectedCard !== '') {
+		if (selectedCard) {
 			// if card was played on the play area, then no target is selected
 			// eslint-disable-next-line no-unused-vars
 			const res = await playCard({selectedCard, userId, targetId: null});
