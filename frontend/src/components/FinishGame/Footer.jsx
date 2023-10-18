@@ -8,7 +8,6 @@ export const GoHome = () => {
 			<Link to='/'>
 				<Button colorScheme='blackAlpha'>Play Again</Button>
 			</Link>
-			{/* Should have the Button to go to the home page */}
 		</CardFooter>
 	);
 };
