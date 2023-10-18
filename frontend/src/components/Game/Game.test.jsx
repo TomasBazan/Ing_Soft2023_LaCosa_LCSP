@@ -44,7 +44,13 @@ jest.mock('../request/getCard', () => {
 			return {
 				status: 200,
 				ok: true,
-				pickedCards: ['img31.jpg'],
+				pickedCards: [
+					{
+						id: 0,
+						token: 'img31.jpg',
+						type: 1,
+					},
+				],
 				nextCardType: 0,
 				detail: 'Card picked correctly',
 			};
@@ -62,12 +68,55 @@ jest.mock('../request/getHand', () => {
 				ok: true,
 
 				detail: 'Card listed correctly',
-				card_token: ['img37.jpg', 'img40.jpg', 'img72.jpg', 'img78.jpg'],
+				cards: [
+					{
+						id: 0,
+						token: 'img37.jpg',
+						type: 1,
+					},
+					{
+						id: 1,
+						token: 'img40.jpg',
+						type: 1,
+					},
+					{
+						id: 2,
+						token: 'img72.jpg',
+						type: 1,
+					},
+					{
+						id: 3,
+						token: 'img78.jpg',
+						type: 1,
+					},
+				],
 			};
 		},
 	};
 });
 jest.mock('../request/playCard', () => {
+	const cardMock = [
+		{
+			id: 0,
+			token: 'img37.jpg',
+			type: 1,
+		},
+		{
+			id: 1,
+			token: 'img40.jpg',
+			type: 1,
+		},
+		{
+			id: 2,
+			token: 'img72.jpg',
+			type: 1,
+		},
+		{
+			id: 3,
+			token: 'img78.jpg',
+			type: 1,
+		},
+	];
 	return {
 		__esModule: true,
 		default: async (values) => {
@@ -90,7 +139,7 @@ jest.mock('../request/playCard', () => {
 					created_at: '2023-09-30T21:56:36',
 					game: null,
 					is_alive: true,
-					cards: ['img37.jpg', 'img40.jpg', 'img72.jpg', 'img78.jpg'],
+					cards: cardMock,
 				},
 				targetUser: {
 					id: 2,
@@ -98,9 +147,10 @@ jest.mock('../request/playCard', () => {
 					created_at: '2023-09-30T21:56:36',
 					game: null,
 					is_alive: true,
-					cards: ['img37.jpg', 'img40.jpg', 'img72.jpg', 'img78.jpg'],
+					cards: cardMock,
 				},
 				detail: 'Card played correctly',
+				// este card_token creo que no va
 				card_token: ['img32.jpg', 'img46.jpg', 'img52.jpg', 'img72.jpg'],
 			};
 		},
