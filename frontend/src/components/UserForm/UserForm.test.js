@@ -4,19 +4,9 @@ import {screen, waitFor} from '@testing-library/react';
 // We're using our own custom render function and not RTL's render.
 import {renderWithProviders} from '../../services/providerForTest/utils-for-tests';
 import UserForm from './UserForm';
-// eslint-disable-next-line no-unused-vars
-import {getByLabelText} from '@testing-library/dom';
+import {BrowserRouter} from 'react-router-dom';
 
 import userEvent from '@testing-library/user-event';
-
-test('correct renderig of User form', () => {
-	renderWithProviders(<UserForm />);
-	const submitText = screen.getByText('Submit');
-	expect(submitText).toBeInTheDocument();
-
-	const userNameText = screen.getByText('User Name');
-	expect(userNameText).toBeInTheDocument();
-});
 
 jest.mock('../request/sendPlayerName', () => {
 	return {
@@ -57,11 +47,30 @@ jest.mock('../request/sendPlayerName', () => {
 	};
 });
 
-describe('Create Form', () => {
+describe('User Register Form', () => {
+	test('correct renderig of User form', () => {
+		renderWithProviders(
+			<BrowserRouter>
+				<UserForm />
+			</BrowserRouter>,
+		);
+		const submitText = screen.getByText('Submit');
+		expect(submitText).toBeInTheDocument();
+
+		const userNameText = screen.getByText('Elige tu nickname');
+		expect(userNameText).toBeInTheDocument();
+	});
+
 	test('should register', async () => {
 		const user = userEvent.setup();
-		const screen = renderWithProviders(<UserForm />);
-		const usernameInput = screen.getByLabelText('User Name');
+		const screen = renderWithProviders(
+			<BrowserRouter>
+				<UserForm />
+			</BrowserRouter>,
+		);
+		const usernameInput = screen.getByRole('textbox', {
+			id: 'username',
+		});
 
 		expect(usernameInput).toBeInTheDocument();
 		// Focus on the input field and type the username
@@ -93,8 +102,14 @@ describe('Create Form', () => {
 	test('shouldnt register', async () => {
 		const user = userEvent.setup();
 
-		const screen = renderWithProviders(<UserForm />);
-		const usernameInput = screen.getByLabelText('User Name');
+		const screen = renderWithProviders(
+			<BrowserRouter>
+				<UserForm />
+			</BrowserRouter>,
+		);
+		const usernameInput = screen.getByRole('textbox', {
+			id: 'username',
+		});
 
 		expect(usernameInput).toBeInTheDocument();
 		// Focus on the input field and type the username
