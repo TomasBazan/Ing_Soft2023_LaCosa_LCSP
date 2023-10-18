@@ -1,4 +1,4 @@
-import './Hand.css';
+import {HStack, Box} from '@chakra-ui/react'; // Import HStack
 import Card from '../../components/Card/Card.jsx';
 import getHand from '../request/getHand';
 import {useEffect} from 'react';
@@ -37,18 +37,24 @@ const Hand = () => {
 	// render cards in hand side by side
 
 	return (
-		<div className='hand' data-testid='hand'>
+		<HStack data-testid='hand' justify='center' maxH='full' minH='full'>
 			{cards?.map((card) => (
-				<Card
-					className={`card ${selectedCard === card ? 'selected' : ''}`}
+				<Box
 					key={card.id}
-					onClick={() => handleClick(card)}
-					info={card}
-					front={true}
-					test-id='handCard'
-				/>
+					width='170px' // Set the width to control the card size
+					height='200px' // Set the height to control the card size
+				>
+					<Card
+						className={`card ${selectedCard === card ? 'selected' : ''}`}
+						key={card.id}
+						onClick={() => handleClick(card)}
+						info={card}
+						front={true}
+						test-id='handCard'
+					/>
+				</Box>
 			))}
-		</div>
+		</HStack>
 	);
 };
 
