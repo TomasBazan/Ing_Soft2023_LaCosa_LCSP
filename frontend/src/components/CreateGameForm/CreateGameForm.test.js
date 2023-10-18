@@ -17,10 +17,10 @@ jest.mock('../request/createGame.jsx', () => {
 	return {
 		__esModule: true,
 		default: async ({game}) => {
-			//console.log(game);
+			// console.log(game);
 
 			if (game.name === 'valid') {
-				//console.log('estoy entrando por succes en el mock');
+				// console.log('estoy entrando por succes en el mock');
 				return {
 					status: 200,
 					ok: true,
@@ -29,11 +29,11 @@ jest.mock('../request/createGame.jsx', () => {
 				};
 			} else if (game.name === 'invalid') {
 				// Simulate an error by rejecting the promise
-				//console.log('estoy entrando por reject en el mock');
+				// console.log('estoy entrando por reject en el mock');
 				throw error;
 			} else {
 				// Handle other cases as needed
-				//console.log('estoy entrando por oytros en el mock');
+				// console.log('estoy entrando por oytros en el mock');
 				throw error;
 			}
 		},
