@@ -11,6 +11,10 @@
 	transform: scale(1.05);
 }
 
+.card.highlighted {
+	border: 7px solid #c5e910;
+}
+
 .card-image {
 	max-width: 100%;
 	border-radius: 25px;

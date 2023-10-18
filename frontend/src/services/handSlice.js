@@ -3,6 +3,7 @@ import {createSlice} from '@reduxjs/toolkit';
 // Estado inicial para player
 const initialState = {
 	cards: [],
+	selectedCard: '',
 };
 
 // Cambios de estado para player
@@ -17,14 +18,27 @@ const handSlice = createSlice({
 			// Append the new card to the existing array of cards
 			state.cards = [...state.cards, ...action.payload];
 		},
+		// Remove card from hand and clean selected card
 		removeFromHand: (state, action) => {
-			// Remove the card from the array of cards
 			state.cards = state.cards.filter((card) => card.id !== action.payload.id);
+			state.selectedCard = '';
+		},
+		selectCard: (state, action) => {
+			state.selectedCard = action.payload;
+		},
+		cleanSelectedCard: (state) => {
+			state.selectedCard = '';
 		},
 	},
 });
 
 // Action creators are generated for each case reducer funcion
-export const {setHand, appendToHand, removeFromHand} = handSlice.actions;
+export const {
+	setHand,
+	appendToHand,
+	removeFromHand,
+	selectCard,
+	cleanSelectedCard,
+} = handSlice.actions;
 // return de reducer for game
 export default handSlice.reducer;

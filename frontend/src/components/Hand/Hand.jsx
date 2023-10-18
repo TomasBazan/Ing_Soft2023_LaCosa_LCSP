@@ -1,25 +1,15 @@
 import './Hand.css';
 import Card from '../../components/Card/Card.jsx';
 import getHand from '../request/getHand';
-import playCard from '../request/playCard';
-
-import {useEffect, useState} from 'react';
+import {useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {
-	setHand,
-	removeFromHand,
-	addToPlayArea,
-	cleanPlayArea,
-} from '../../appActions';
+import {setHand, selectCard, cleanSelectedCard} from '../../appActions';
 
 // represents a player's hand
 const Hand = () => {
-	const userId = 1;
-	const targetId = 2;
-
-	const [selectedCard, setSelectedCard] = useState(null);
-	// select cards state
+	const userId = useSelector((state) => state.game.currentPlayer);
 	const cards = useSelector((state) => state.hand.cards);
+	const selectedCard = useSelector((state) => state.hand.selectedCard);
 	const dispatch = useDispatch();
 
 	// when component mounts
@@ -29,30 +19,21 @@ const Hand = () => {
 			dispatch(setHand(res.cards));
 		};
 		fetchHand();
-	}, [dispatch]);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
 
 	/*
-		When cards are clicked once, they get selected. If clicked again, they are played.
-		Playing a card consists of removing it from the player's hand and adding it to the play area.
-		Play area gets cleaned after 1 second.
-
-		TODO: error handling. Check if player is allowed to play a card
+		Select a card if clicked for the first time.
+		Unselect if clicked twice.
 	*/
 	const handleClick = async (clickedCard) => {
-		if (selectedCard === clickedCard) {
-			const cardToken = String(clickedCard);
-			// eslint-disable-next-line no-unused-vars
-			const res = await playCard({cardToken, userId, targetId});
-
-			// resolver efectos de la jugada sobre la partida
-
-			dispatch(removeFromHand(clickedCard));
-			dispatch(addToPlayArea(clickedCard));
-			setTimeout(() => dispatch(cleanPlayArea()), 1000);
+		if (selectedCard !== clickedCard) {
+			dispatch(selectCard(clickedCard));
 		} else {
-			setSelectedCard(clickedCard);
+			dispatch(cleanSelectedCard());
 		}
 	};
+
 	// render cards in hand side by side
 
 	return (
