@@ -2,7 +2,7 @@
 import React, {useState} from 'react';
 import {useFormik} from 'formik';
 import {useSelector, useDispatch} from 'react-redux';
-import {createGame} from '../request/createGame';
+import createGame from '../request/createGame';
 import {useNavigate} from 'react-router-dom';
 import {setPlayerIdGame} from '../../appActions';
 // import gameSlice from "../../services/gameSlice";
@@ -15,7 +15,7 @@ const CreateGameForm = () => {
 	const dispatch = useDispatch();
 	const onSubmit = async (values) => {
 		// en este sprint min_players: 4, max_players: 12, esta harcodeado pero en proximos lo agregamos
-		console.log('onSubmit called'); // Add this line
+		//console.log('onSubmit called'); // Add this line
 		const Game = {
 			id_player: userId,
 			name: values.GameName,
@@ -23,23 +23,24 @@ const CreateGameForm = () => {
 			min_players: 4,
 			max_players: 12,
 		};
-		console.log('Game to be created: ', Game);
+		//console.log('Game to be created: ', Game);
 		try {
 			const resp = await createGame({game: Game});
-			console.log('The response of the call is: ', resp);
+			//console.log('The response of the call is: ', resp);
 			// alert('Partida creada correctamente. Detail: ' + resp.detail);
 			setAlertMessage('Success: ' + resp.detail); // Set success message
 			dispatch(setPlayerIdGame(resp.gameId));
 			navigate(`/Games/${resp.gameId}`);
+			//console.log(	"it will display if navigate doesn't work, is mocked correctly",);
 		} catch (error) {
-			console.log('Error al crear la partida');
-			console.log(error.detail);
+			//console.log('Error al crear la partida');
+			//console.log(error);
 			if (!error.ok) {
 				// alert('Detail: ' + error.detail);
-				setAlertMessage(error.detail); // Set error message
+				setAlertMessage('Error ' + error.detail); // Set error message
 			}
 		}
-		console.log('After the try-catch statement');
+		//console.log('After the try-catch statement');
 	};
 
 	const validate = (values) => {
