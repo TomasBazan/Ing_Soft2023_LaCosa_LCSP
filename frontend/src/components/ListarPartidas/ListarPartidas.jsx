@@ -1,27 +1,18 @@
 import joinGame from '../request/joinGame';
-import {useSelector, useDispatch} from 'react-redux';
 import getGameList from '../request/getGameList';
 import {useState, useEffect} from 'react';
 import {useNavigate} from 'react-router-dom';
-import {setPlayerIdGame} from '../../appActions';
 import {Center, VStack, Box, Text, Button} from '@chakra-ui/react';
-/* const partidas = [
-	{nombre: 'Partida-Inicial'},
-	// Otras partidas...
-]; */
 
 const ListarPartidas = () => {
 	const navigate = useNavigate();
-	const dispatch = useDispatch();
-	const userId = useSelector((state) => state.player.id);
+	const userId = JSON.parse(sessionStorage.getItem('player')).id;
 	const [partidas, setPartidas] = useState([]); // Initialize partidas as an empty array
 
 	useEffect(() => {
 		const buscarPartidas = async () => {
 			try {
-				console.log('el id del usuario es', userId);
 				const resp = await getGameList();
-				console.log('la respuesta es en try :', resp);
 				setPartidas(resp.games);
 			} catch (error) {
 				console.log('la respuesta es en catch :', error);
@@ -35,7 +26,6 @@ const ListarPartidas = () => {
 
 	const handleUnirse = async (gameId) => {
 		console.log('el id de la partida es', gameId);
-		console.log('me clickearon');
 		const bodyRequest = {
 			idGame: gameId,
 			password: null,
@@ -45,8 +35,8 @@ const ListarPartidas = () => {
 		try {
 			const resp = await joinGame(bodyRequest);
 			alert(resp.detail);
-			console.log('la respuesta es', resp);
-			dispatch(setPlayerIdGame(gameId));
+
+			sessionStorage.setItem('gameId', resp.gameId);
 			navigate(`/Games/${gameId}`);
 		} catch (error) {
 			console.log('el error es', error);
@@ -67,17 +57,25 @@ const ListarPartidas = () => {
 						justifyContent='space-between' // Align items horizontally
 						alignItems='center' // Center items vertically
 						width='110%' // Adjust the width as needed
+						opacity='0.9'
 					>
 						<div>
-							<Text fontWeight='bold'>{partida.name}</Text>
-							<Text>
+							<Text color='white' fontWeight='bold'>
+								{partida.name}
+							</Text>
+							<Text color='white'>
 								Players: {partida.player_quantity}/{partida.max_players}
 							</Text>
 						</div>
 						<div>
 							{partida.player_quantity < partida.max_players && (
 								<Button
-									colorScheme='teal'
+									colorScheme='transparent'
+									variant='outline'
+									color='white'
+									_hover={{
+										bg: 'green.600',
+									}}
 									size='sm'
 									onClick={() => handleUnirse(partida.game_id)}
 								>
