@@ -3,7 +3,7 @@ import Hand from '../Hand/Hand.jsx';
 import PlayArea from '../PlayArea/PlayArea';
 import DiscardPile from '../DiscardPile/DiscardPile';
 import Positions from './Positions.jsx';
-import {Grid, Center, Box, GridItem, Flex} from '@chakra-ui/react';
+import {Grid, Center, Box, GridItem, Flex, Button} from '@chakra-ui/react';
 import {useDispatch, useSelector} from 'react-redux';
 import getGameStatus from '../request/getGameStatus';
 import {useEffect} from 'react';
@@ -11,20 +11,21 @@ import {
 	setCurrentPlayerInGame,
 	setPlayerInGame,
 	setPositionInGame,
-	setRolInGame,
+	setIsFinish,
 } from '../../appActions';
-
+import {endTurn} from '../request/endTurn';
 const Game = () => {
 	const myPlayer = useSelector((state) => state.player);
 	const dispatch = useDispatch();
 
 	useEffect(() => {
+		getDataOfGame(myPlayer.id);
 		async function getDataOfGame(id) {
 			try {
 				const gameStatus = await getGameStatus(id);
 				dispatch(setPlayerInGame(gameStatus.players));
 				dispatch(setPositionInGame(gameStatus.position));
-				dispatch(setRolInGame(gameStatus.rol));
+				dispatch(setIsFinish(gameStatus.rol));
 				dispatch(setCurrentPlayerInGame(gameStatus.currentPlayerId));
 			} catch (error) {
 				if (!error.ok) {
@@ -34,9 +35,20 @@ const Game = () => {
 				}
 			}
 		}
-		getDataOfGame(myPlayer.id);
+		const intervalId = setInterval(() => {
+			getDataOfGame(myPlayer.id);
+		}, 1000); // Change the interval as needed
+		return () => clearInterval(intervalId);
 	}, [dispatch, myPlayer.id]);
-
+	async function finishTurn() {
+		try {
+			const response = await endTurn(myPlayer.idGame);
+			dispatch(setCurrentPlayerInGame(response.idPlayerTurn));
+		} catch (error) {
+			alert('Failed to finish turn, try again');
+			console.log(error);
+		}
+	}
 	return (
 		<Center h='100%' w='100%'>
 			<Grid
@@ -85,6 +97,25 @@ const Game = () => {
 				<GridItem rowSpan={1} colSpan={1} />
 				<GridItem rowSpan={1} colSpan={3} paddingBottom='60px'>
 					<Positions relativePositionToTable={0} />
+				</GridItem>
+				<GridItem
+					display='flex'
+					justifyContent='center'
+					alignItems='center'
+					rowSpan={1}
+					colSpan={1}
+				>
+					<Button
+						variant='solid'
+						bg='teal'
+						aria-label='Call Sage'
+						fontSize='20px'
+						onClick={() => {
+							finishTurn();
+						}}
+					>
+						Finish Turn
+					</Button>
 				</GridItem>
 				<GridItem rowSpan={2} colSpan={5}>
 					<Flex justify='center' direction='row'>

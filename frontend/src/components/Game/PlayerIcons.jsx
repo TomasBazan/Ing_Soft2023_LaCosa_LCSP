@@ -13,7 +13,7 @@ export const PlayerIcons = ({
 					<Avatar
 						key={player.id}
 						color='black'
-						bg={currentPlayerId === player.id ? 'green' : 'gray.300'}
+						bg={currentPlayerId === player.id ? 'green.300' : 'gray.300'}
 					>
 						{player.name}
 					</Avatar>

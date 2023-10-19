@@ -1,4 +1,4 @@
-const SERVER_URL = 'https://localhost:8000/game/next_turn';
+const SERVER_URL = 'http://localhost:8000/game/next_turn';
 
 export const endTurn = async (idGame) => {
 	const parseJSONResponse = (response) => {
