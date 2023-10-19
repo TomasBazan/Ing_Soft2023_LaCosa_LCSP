@@ -1,5 +1,5 @@
-import Deck from '../Deck/Deck.jsx';
-import Hand from '../Hand/Hand.jsx';
+import Deck from '../Deck/Deck';
+import Hand from '../Hand/Hand';
 import PlayArea from '../PlayArea/PlayArea';
 import DiscardPile from '../DiscardPile/DiscardPile';
 import Positions from './Positions.jsx';
@@ -11,7 +11,7 @@ import {
 	setCurrentPlayerInGame,
 	setPlayerInGame,
 	setPositionInGame,
-	setRolInGame,
+	setIsFinish,
 } from '../../appActions';
 
 const Game = () => {
@@ -24,7 +24,7 @@ const Game = () => {
 				const gameStatus = await getGameStatus(id);
 				dispatch(setPlayerInGame(gameStatus.players));
 				dispatch(setPositionInGame(gameStatus.position));
-				dispatch(setRolInGame(gameStatus.rol));
+				dispatch(setIsFinish(gameStatus.rol));
 				dispatch(setCurrentPlayerInGame(gameStatus.currentPlayerId));
 			} catch (error) {
 				if (!error.ok) {
@@ -86,7 +86,7 @@ const Game = () => {
 				<GridItem rowSpan={1} colSpan={3} paddingBottom='60px'>
 					<Positions relativePositionToTable={0} />
 				</GridItem>
-				<GridItem rowSpan={2} colSpan={5}>
+				<GridItem bg='white' rowSpan={2} colSpan={5}>
 					<Flex justify='center' direction='row'>
 						<Box maxW='60%'>
 							<Hand />
