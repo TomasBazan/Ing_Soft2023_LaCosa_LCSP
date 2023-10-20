@@ -1,6 +1,6 @@
 import {useFormik} from 'formik';
 // eslint-disable-next-line no-unused-vars
-import React from 'react';
+import React, {useState} from 'react';
 import {Link} from 'react-router-dom';
 import sendPlayerName from '../request/sendPlayerName';
 import {
@@ -17,6 +17,7 @@ import {
 const UserForm = () => {
 	const firstPlayer = sessionStorage.getItem('player');
 	const initialValues = {username: ''};
+	const [alertMessage, setAlertMessage] = useState('');
 
 	const onSubmit = async (values) => {
 		const actualPlayer = {name: values.username, id: 0};
@@ -24,13 +25,12 @@ const UserForm = () => {
 			const resp = await sendPlayerName({player: actualPlayer});
 			const updatedPlayer = {name: resp.name, id: resp.id, isLoged: true};
 			sessionStorage.setItem('player', JSON.stringify(updatedPlayer));
-			alert('Succes: ' + resp.detail);
+			setAlertMessage('Success: ' + resp.detail); // Set success message
 		} catch (error) {
 			console.error('Error: ' + error);
 			if (!error.ok) {
-				alert(error.detail);
+				setAlertMessage(error.detail);
 			}
-			formik.resetForm();
 		}
 		formik.resetForm();
 	};
@@ -77,6 +77,15 @@ const UserForm = () => {
 						bg='transparent'
 						rounded='lg'
 					>
+						{alertMessage && (
+							<div
+								className={`alert ${
+									alertMessage.includes('Success') ? 'success' : 'error'
+								}`}
+							>
+								{alertMessage}
+							</div>
+						)}
 						<form onSubmit={formik.handleSubmit}>
 							{!flag ? (
 								<FormControl>
