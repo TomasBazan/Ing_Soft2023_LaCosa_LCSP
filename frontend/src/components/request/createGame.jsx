@@ -1,6 +1,6 @@
 const SERVER_URL = 'http://localhost:8000/game';
 
-export const createGame = async ({game}) => {
+const createGame = async ({game}) => {
 	const parseJSONResponse = (response) => {
 		return new Promise((resolve) =>
 			response.json().then((json) => {
@@ -44,4 +44,4 @@ export const createGame = async ({game}) => {
 			});
 	});
 };
-// export default CreateGame;
+export default createGame;

@@ -17,7 +17,7 @@ import {
 const UserForm = () => {
 	const firstPlayer = sessionStorage.getItem('player');
 	const initialValues = {username: ''};
-	const [alertMessage, setAlertMessage] = useState('');
+	const [alertMessage, setAlertMessage] = useState(''); // State for alert message
 
 	const onSubmit = async (values) => {
 		const actualPlayer = {name: values.username, id: 0};
