@@ -27,8 +27,8 @@ const UserForm = () => {
 		// console.log('onSubmit called'); // Add this line
 
 		const actualPlayer = {name: values.username, id: 0};
-		const resp = await sendPlayerName({player: actualPlayer});
 		try {
+			const resp = await sendPlayerName({player: actualPlayer});
 			const updatedPlayer = {name: resp.name, id: resp.id};
 			dispatch(setPlayerId(updatedPlayer.id));
 			dispatch(setPlayerName(updatedPlayer.name));

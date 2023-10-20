@@ -28,12 +28,12 @@ jest.mock('../request/sendPlayerName', () => {
 			} else if (player.name === 'username1') {
 				// Simulate an error by rejecting the promise
 				// console.log('estoy entrando por reject en el mock');
-				return {
-					status: undefined,
+				const error = {
 					ok: false,
 					detail:
 						'Object Player cannot be stored in the database. IntegrityError: 1062 Duplicate entry "username1" for key "player.name"',
 				};
+				throw error;
 			} else {
 				// Handle other cases as needed
 				// console.log('estoy entrando por oytros en el mock');
