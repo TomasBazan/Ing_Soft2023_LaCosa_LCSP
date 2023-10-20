@@ -24,8 +24,12 @@ const CreateGameForm = () => {
 		try {
 			const resp = await createGame({game: Game});
 			setAlertMessage('Success: ' + resp.detail); // Set success message
-			sessionStorage.setItem('gameId', resp.gameId);
-			navigate(`/Games/${resp.gameId}`);
+			const game = {
+				id: resp.gameId,
+			};
+			console.log('The id of the game is: ', game);
+			sessionStorage.setItem('gameId', JSON.stringify(game));
+			navigate(`/Games/${game.id}`);
 		} catch (error) {
 			console.log('Error al crear la partida');
 			console.log(error.detail);

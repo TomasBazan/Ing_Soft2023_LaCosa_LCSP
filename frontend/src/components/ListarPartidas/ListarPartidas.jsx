@@ -21,7 +21,6 @@ const ListarPartidas = () => {
 			}
 		};
 		buscarPartidas();
-		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [partidas]);
 
 	const handleUnirse = async (gameId) => {
@@ -35,8 +34,10 @@ const ListarPartidas = () => {
 		try {
 			const resp = await joinGame(bodyRequest);
 			alert(resp.detail);
-
-			sessionStorage.setItem('gameId', resp.gameId);
+			const game = {
+				id: gameId,
+			};
+			sessionStorage.setItem('gameId', JSON.stringify(game));
 			navigate(`/Games/${gameId}`);
 		} catch (error) {
 			console.log('el error es', error);

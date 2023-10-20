@@ -28,7 +28,7 @@ export const endTurn = async (idGame) => {
 		headers: {
 			'Content-Type': 'application/json',
 		},
-		body: JSON.stringify(idGame),
+		body: JSON.stringify({game_id: idGame}),
 	};
 	return new Promise((resolve, reject) => {
 		fetch(SERVER_URL, config)

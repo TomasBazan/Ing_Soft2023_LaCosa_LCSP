@@ -12,7 +12,7 @@ const Lobby = () => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 
-	const gameId = sessionStorage.getItem('gameId');
+	const gameId = JSON.parse(sessionStorage.getItem('gameId')).id;
 	const userId = JSON.parse(sessionStorage.getItem('player')).id;
 	console.log('gameId: ', gameId);
 	console.log('userId: ', userId);
