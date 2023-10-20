@@ -1,4 +1,4 @@
-import {Avatar} from '@chakra-ui/react';
+import {Avatar, Text} from '@chakra-ui/react';
 import PropTypes from 'prop-types';
 
 export const PlayerIcons = ({
@@ -13,11 +13,12 @@ export const PlayerIcons = ({
 			<Avatar
 				size='lg'
 				key={player.id}
-				name={player.name}
 				color='white'
 				bg={currentPlayerId === player.id ? 'teal.500' : 'gray.900'}
 				border={myPlayerId === player.id ? '2px solid blue' : '0px'}
-			/>
+			>
+				<Text fontSize='xl'>{player.name}</Text>
+			</Avatar>
 		);
 	};
 
