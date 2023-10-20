@@ -25,7 +25,7 @@ import {endTurn} from '../request/endTurn';
 import {FinishGame} from '../../containers/FinishGame';
 const Game = () => {
 	const playerId = JSON.parse(sessionStorage.getItem('player')).id;
-	const idGame = sessionStorage.getItem('idGame');
+	const idGame = sessionStorage.getItem('gameId');
 	const dispatch = useDispatch();
 	const gameStatus = useSelector((state) => state.game.isFinish);
 
