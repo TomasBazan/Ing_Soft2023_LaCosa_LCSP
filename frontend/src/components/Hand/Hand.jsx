@@ -7,7 +7,7 @@ import {setHand, selectCard, cleanSelectedCard} from '../../appActions';
 
 // represents a player's hand
 const Hand = () => {
-	const userId = useSelector((state) => state.game.currentPlayer);
+	const userId = JSON.parse(sessionStorage.getItem('player')).id;
 	const cards = useSelector((state) => state.hand.cards);
 	const selectedCard = useSelector((state) => state.hand.selectedCard);
 	const dispatch = useDispatch();

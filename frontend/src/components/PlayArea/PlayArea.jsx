@@ -11,7 +11,7 @@ const PlayArea = () => {
 	const selectedCard = useSelector((state) => state.hand.selectedCard);
 	const [displayCard, setDisplayCard] = useState('');
 
-	const userId = useSelector((state) => state.game.userId);
+	const userId = JSON.parse(sessionStorage.getItem('player')).id;
 
 	/*
 		When clicking on the play area, the selected card is played (if there is one)

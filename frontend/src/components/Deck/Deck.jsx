@@ -2,12 +2,15 @@ import Card from '../Card/Card.jsx';
 import getCard from '../request/getCard';
 // eslint-disable-next-line no-unused-vars
 import React, {useState, useEffect} from 'react';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {appendToHand} from '../../services/handSlice';
 
 const Deck = () => {
 	// userId del jugador en turno, deberíamos obtenerlo del estado de la partida
-	const userId = 1;
+	// const userId = 1;
+	// TODO: @klartz revisar cambio de linea 10 por lines 11-12
+	const gameStatus = useSelector((state) => state.game);
+	const userId = gameStatus.currentPlayerId;
 
 	const [clicked, setClicked] = useState(false);
 	const [card, setCard] = useState(null);
