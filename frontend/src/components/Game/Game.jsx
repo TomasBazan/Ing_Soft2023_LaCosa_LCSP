@@ -3,8 +3,8 @@ import Hand from '../Hand/Hand';
 import PlayArea from '../PlayArea/PlayArea';
 import DiscardPile from '../DiscardPile/DiscardPile';
 import Positions from './Positions.jsx';
-import {Grid, Center, Box, GridItem, Flex} from '@chakra-ui/react';
-import {useDispatch, useSelector} from 'react-redux';
+import {Grid, Center, Box, Text, GridItem, Flex} from '@chakra-ui/react';
+import {useDispatch} from 'react-redux';
 import getGameStatus from '../request/getGameStatus';
 import {useEffect} from 'react';
 import {
@@ -15,16 +15,16 @@ import {
 } from '../../appActions';
 
 const Game = () => {
-	const myPlayer = useSelector((state) => state.player);
+	const playerId = JSON.parse(sessionStorage.getItem('player')).id;
 	const dispatch = useDispatch();
 
 	useEffect(() => {
-		async function getDataOfGame(id) {
+		async function getDataOfGame() {
 			try {
-				const gameStatus = await getGameStatus(id);
+				const gameStatus = await getGameStatus(playerId);
 				dispatch(setPlayerInGame(gameStatus.players));
 				dispatch(setPositionInGame(gameStatus.position));
-				dispatch(setIsFinish(gameStatus.rol));
+				dispatch(setIsFinish(gameStatus.isFinish));
 				dispatch(setCurrentPlayerInGame(gameStatus.currentPlayerId));
 			} catch (error) {
 				if (!error.ok) {
@@ -34,8 +34,8 @@ const Game = () => {
 				}
 			}
 		}
-		getDataOfGame(myPlayer.id);
-	}, [dispatch, myPlayer.id]);
+		getDataOfGame();
+	}, [dispatch, playerId]);
 
 	return (
 		<Center h='100%' w='100%'>
@@ -62,19 +62,25 @@ const Game = () => {
 					colSpan={3}
 					bgImage='/src/assets/table_board.png'
 					gap={5}
-					borderRadius='full'
+					borderRadius='lg'
 				>
 					<Flex gap='12px' direction='row' justify='center'>
-						<Box w='200px' border='2px' color='black'>
-							Deck
+						<Box w='200px' border='2px' color='gray.800' mt='5'>
+							<Text textAlign='center' color='white'>
+								DECK
+							</Text>
 							<Deck />
 						</Box>
-						<Box w='200px' border='2px' color='black'>
-							Play
+						<Box w='200px' border='2px' color='gray.800' mt='5'>
+							<Text textAlign='center' color='white'>
+								PLAY
+							</Text>
 							<PlayArea />
 						</Box>
-						<Box w='200px' border='2px' color='black'>
-							Discard
+						<Box w='200px' border='2px' color='gray.800' mt='5'>
+							<Text textAlign='center' color='white'>
+								DISCARD
+							</Text>
 							<DiscardPile />
 						</Box>
 					</Flex>
@@ -86,7 +92,7 @@ const Game = () => {
 				<GridItem rowSpan={1} colSpan={3} paddingBottom='60px'>
 					<Positions relativePositionToTable={0} />
 				</GridItem>
-				<GridItem bg='white' rowSpan={2} colSpan={5}>
+				<GridItem rowSpan={2} colSpan={5}>
 					<Flex justify='center' direction='row'>
 						<Box maxW='60%'>
 							<Hand />

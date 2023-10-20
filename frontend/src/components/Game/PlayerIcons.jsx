@@ -6,62 +6,28 @@ export const PlayerIcons = ({
 	players = [],
 	currentPlayerId = 0,
 }) => {
+	const myPlayerId = JSON.parse(sessionStorage.getItem('player')).id;
+
+	const renderPlayer = (player) => {
+		return (
+			<Avatar
+				size='lg'
+				key={player.id}
+				color='white'
+				bg={currentPlayerId === player.id ? 'teal.500' : 'gray.900'}
+				border={myPlayerId === player.id ? '2px solid blue' : '0px'}
+			/>
+		);
+	};
+
 	if (relativePositionToTable === 0) {
-		return (
-			<>
-				{players.slice(0, 3).map((player) => (
-					<Avatar
-						key={player.id}
-						color='black'
-						bg={currentPlayerId === player.id ? 'green' : 'gray.300'}
-					>
-						{player.name}
-					</Avatar>
-				))}
-			</>
-		);
+		return <>{players.slice(0, 3).map((player) => renderPlayer(player))}</>;
 	} else if (relativePositionToTable === 1) {
-		return (
-			<>
-				{players.slice(3, 6).map((player) => (
-					<Avatar
-						key={player.id}
-						color='black'
-						bg={currentPlayerId === player.id ? 'green' : 'gray.300'}
-					>
-						{player.name}
-					</Avatar>
-				))}
-			</>
-		);
+		return <>{players.slice(3, 6).map((player) => renderPlayer(player))}</>;
 	} else if (relativePositionToTable === 2) {
-		return (
-			<>
-				{players.slice(6, 9).map((player) => (
-					<Avatar
-						key={player.id}
-						color='black'
-						bg={currentPlayerId === player.id ? 'green' : 'gray.300'}
-					>
-						{player.name}
-					</Avatar>
-				))}
-			</>
-		);
+		return <>{players.slice(6, 9).map((player) => renderPlayer(player))}</>;
 	} else if (relativePositionToTable === 3) {
-		return (
-			<>
-				{players.slice(9, 12).map((player) => (
-					<Avatar
-						key={player.id}
-						color='black'
-						bg={currentPlayerId === player.id ? 'green' : 'gray.300'}
-					>
-						{player.name}
-					</Avatar>
-				))}
-			</>
-		);
+		return <>{players.slice(9, 12).map((player) => renderPlayer(player))}</>;
 	}
 	return null;
 };
@@ -78,4 +44,5 @@ PlayerIcons.propTypes = {
 	),
 	currentPlayerId: PropTypes.number,
 };
+
 export default PlayerIcons;
