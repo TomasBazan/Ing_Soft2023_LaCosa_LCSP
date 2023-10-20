@@ -13,7 +13,7 @@ const theme = extendTheme({
 	styles: {
 		global: {
 			body: {
-				bgGradient: 'linear(to-r, whatsapp.900,black,whatsapp.900)',
+				bgGradient: 'linear(to-r, whatsapp.800,black,whatsapp.800)',
 			},
 		},
 	},

@@ -13,6 +13,7 @@ export const PlayerIcons = ({
 			<Avatar
 				size='lg'
 				key={player.id}
+				name={player.name}
 				color='white'
 				bg={currentPlayerId === player.id ? 'teal.500' : 'gray.900'}
 				border={myPlayerId === player.id ? '2px solid blue' : '0px'}
