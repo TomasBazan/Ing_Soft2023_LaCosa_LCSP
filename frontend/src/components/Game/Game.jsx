@@ -3,7 +3,15 @@ import Hand from '../Hand/Hand';
 import PlayArea from '../PlayArea/PlayArea';
 import DiscardPile from '../DiscardPile/DiscardPile';
 import Positions from './Positions.jsx';
-import {Grid, Center, Box, Text, GridItem, Flex} from '@chakra-ui/react';
+import {
+	Grid,
+	Center,
+	Box,
+	Text,
+	GridItem,
+	Flex,
+	Button,
+} from '@chakra-ui/react';
 import {useDispatch} from 'react-redux';
 import getGameStatus from '../request/getGameStatus';
 import {useEffect} from 'react';
@@ -13,9 +21,11 @@ import {
 	setPositionInGame,
 	setIsFinish,
 } from '../../appActions';
+import {endTurn} from '../request/endTurn';
 
 const Game = () => {
 	const playerId = JSON.parse(sessionStorage.getItem('player')).id;
+	const idGame = sessionStorage.getItem('idGame');
 	const dispatch = useDispatch();
 
 	useEffect(() => {
@@ -34,8 +44,22 @@ const Game = () => {
 				}
 			}
 		}
-		getDataOfGame();
+
+		const intervalId = setInterval(() => {
+			getDataOfGame();
+		}, 1000);
+		return () => clearInterval(intervalId);
 	}, [dispatch, playerId]);
+
+	async function finishTurn() {
+		try {
+			const response = await endTurn(idGame);
+			dispatch(setCurrentPlayerInGame(response.idPlayerTurn));
+		} catch (error) {
+			alert('Failed to finish turn, try again');
+			console.log(error);
+		}
+	}
 
 	return (
 		<Center h='100%' w='100%'>
@@ -91,6 +115,25 @@ const Game = () => {
 				<GridItem rowSpan={1} colSpan={1} />
 				<GridItem rowSpan={1} colSpan={3} paddingBottom='60px'>
 					<Positions relativePositionToTable={0} />
+				</GridItem>
+				<GridItem
+					display='flex'
+					justifyContent='center'
+					alignItems='center'
+					rowSpan={1}
+					colSpan={1}
+				>
+					<Button
+						variant='solid'
+						bg='teal'
+						aria-label='Call Sage'
+						fontSize='20px'
+						onClick={() => {
+							finishTurn();
+						}}
+					>
+						Finish Turn
+					</Button>
 				</GridItem>
 				<GridItem rowSpan={2} colSpan={5}>
 					<Flex justify='center' direction='row'>
