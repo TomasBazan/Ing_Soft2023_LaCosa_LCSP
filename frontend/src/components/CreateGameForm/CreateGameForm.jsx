@@ -1,7 +1,7 @@
 // eslint-disable-next-line no-unused-vars
 import React, {useState} from 'react';
 import {useFormik} from 'formik';
-import {createGame} from '../request/createGame';
+import createGame from '../request/createGame';
 import {useNavigate} from 'react-router-dom';
 import {Flex, Button, Text, FormControl, Input, Box} from '@chakra-ui/react';
 
@@ -20,7 +20,6 @@ const CreateGameForm = () => {
 			min_players: 4,
 			max_players: 12,
 		};
-		console.log('Game to be created: ', Game);
 		try {
 			const resp = await createGame({game: Game});
 			setAlertMessage('Success: ' + resp.detail); // Set success message
@@ -31,11 +30,9 @@ const CreateGameForm = () => {
 			sessionStorage.setItem('gameId', JSON.stringify(game));
 			navigate(`/Games/${game.id}`);
 		} catch (error) {
-			console.log('Error al crear la partida');
-			console.log(error.detail);
 			if (!error.ok) {
 				// alert('Detail: ' + error.detail);
-				setAlertMessage(error.detail); // Set error message
+				setAlertMessage('Error ' + error.detail); // Set error message
 			}
 		}
 	};
