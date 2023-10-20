@@ -10,6 +10,7 @@ import userEvent from '@testing-library/user-event';
 
 jest.mock('../request/createGame.jsx', () => {
 	const error = {
+		status: 400,
 		ok: false,
 		detail: 'The game cannot be created',
 	};
@@ -17,10 +18,7 @@ jest.mock('../request/createGame.jsx', () => {
 	return {
 		__esModule: true,
 		default: async ({game}) => {
-			// console.log(game);
-
 			if (game.name === 'valid') {
-				// console.log('estoy entrando por succes en el mock');
 				return {
 					status: 200,
 					ok: true,
@@ -28,12 +26,8 @@ jest.mock('../request/createGame.jsx', () => {
 					gameId: 7,
 				};
 			} else if (game.name === 'invalid') {
-				// Simulate an error by rejecting the promise
-				// console.log('estoy entrando por reject en el mock');
 				throw error;
 			} else {
-				// Handle other cases as needed
-				// console.log('estoy entrando por oytros en el mock');
 				throw error;
 			}
 		},
@@ -115,7 +109,6 @@ describe('Create Form', () => {
 		await waitFor(() => {
 			expect(createGameInput).toHaveValue('invalid');
 		});
-		// //console.log(screen.debug());
 
 		const submitButton = screen.getByRole('button', {name: /Submit/i});
 		expect(submitButton).toBeInTheDocument();
@@ -139,7 +132,6 @@ describe('Create Form', () => {
 			},
 		);
 
-		// //console.log(screen.debug());
 		const createGameInput = screen.getByRole('textbox', {
 			id: 'GameName',
 		});
@@ -152,7 +144,6 @@ describe('Create Form', () => {
 		await waitFor(() => {
 			expect(createGameInput).toHaveValue('other');
 		});
-		// //console.log(screen.debug());
 
 		const submitButton = screen.getByRole('button', {name: /Submit/i});
 		expect(submitButton).toBeInTheDocument();

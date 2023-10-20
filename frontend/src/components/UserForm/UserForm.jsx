@@ -24,15 +24,12 @@ const UserForm = () => {
 	const [alertMessage, setAlertMessage] = useState(''); // State for alert message
 
 	const onSubmit = async (values) => {
-		// console.log('onSubmit called'); // Add this line
-
 		const actualPlayer = {name: values.username, id: 0};
 		try {
 			const resp = await sendPlayerName({player: actualPlayer});
 			const updatedPlayer = {name: resp.name, id: resp.id};
 			dispatch(setPlayerId(updatedPlayer.id));
 			dispatch(setPlayerName(updatedPlayer.name));
-			// console.log('Setting success message:', 'Success: ' + resp.detail);
 			setAlertMessage('Success: ' + resp.detail); // Set success message
 			dispatch(setPlayerLogedIn(true));
 		} catch (error) {

@@ -14,31 +14,25 @@ jest.mock('../request/sendPlayerName', () => {
 		default: async ({player}) => {
 			player.id = 21;
 
-			// console.log('estoy entrando en el mock');
-			// console.log(player);
 			if (player.name === 'username') {
-				// console.log('estoy entrando por succes en el mock');
 				return {
-					status: undefined,
+					status: 200,
 					ok: true,
 					id: 21,
 					name: 'username',
 					detail: 'User username registered successfully',
 				};
 			} else if (player.name === 'username1') {
-				// Simulate an error by rejecting the promise
-				// console.log('estoy entrando por reject en el mock');
 				const error = {
+					status: 400,
 					ok: false,
 					detail:
 						'Object Player cannot be stored in the database. IntegrityError: 1062 Duplicate entry "username1" for key "player.name"',
 				};
 				throw error;
 			} else {
-				// Handle other cases as needed
-				// console.log('estoy entrando por oytros en el mock');
 				return {
-					status: undefined,
+					status: 422,
 					ok: false,
 					detail: 'Some default error message',
 				};
@@ -125,13 +119,7 @@ describe('User Register Form', () => {
 		const submitButton = screen.getByRole('button', {name: /submit/i});
 		expect(submitButton).toBeInTheDocument();
 
-		try {
-			user.click(submitButton);
-		} catch (error) {
-			// console.log('estoy entrando en el catch');
-			/// /console.log(screen.debug());
-			// console.log(error);
-		}
+		user.click(submitButton);
 
 		await waitFor(() =>
 			screen.getByText(
