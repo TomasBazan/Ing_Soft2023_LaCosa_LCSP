@@ -8,7 +8,7 @@ import gameReducer from '../gameSlice';
 import handReducer from '../handSlice';
 import lobbyReducer from '../lobbySlice';
 import playerReducer from '../../playerSlice';
-import {BrowserRouter} from 'react-router-dom';
+import playAreaReducer from '../playAreaSlice';
 import PropTypes from 'prop-types';
 
 export function renderWithProviders(
@@ -23,10 +23,12 @@ export function renderWithProviders(
 				hand: handReducer,
 				lobby: lobbyReducer,
 				game: gameReducer,
+				playArea: playAreaReducer,
 			},
 			preloadedState,
 			// devTools: true,
 		}),
+		history,
 		...renderOptions
 	} = {},
 ) {
@@ -35,11 +37,7 @@ export function renderWithProviders(
 			children: PropTypes.element.isRequired,
 		};
 
-		return (
-			<BrowserRouter>
-				<Provider store={store}>{children}</Provider>
-			</BrowserRouter>
-		);
+		return <Provider store={store}>{children}</Provider>;
 	}
 
 	// Return an object with the store and all of RTL's query functions

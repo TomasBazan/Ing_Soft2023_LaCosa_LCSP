@@ -1,70 +1,60 @@
-import './Hand.css';
+import {HStack, Box} from '@chakra-ui/react'; // Import HStack
 import Card from '../../components/Card/Card.jsx';
 import getHand from '../request/getHand';
-import playCard from '../request/playCard';
-
-import {useEffect, useState} from 'react';
+import {useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {
-	setHand,
-	removeFromHand,
-	addToPlayArea,
-	cleanPlayArea,
-} from '../../appActions';
-import {v4 as uuidv4} from 'uuid';
+import {setHand, selectCard, cleanSelectedCard} from '../../appActions';
 
 // represents a player's hand
 const Hand = () => {
-	const userId = 1;
-	const targetId = 2;
-
-	const [selectedCard, setSelectedCard] = useState(null);
-	// select cards state
+	const userId = JSON.parse(sessionStorage.getItem('player')).id;
 	const cards = useSelector((state) => state.hand.cards);
+	const selectedCard = useSelector((state) => state.hand.selectedCard);
 	const dispatch = useDispatch();
 
 	// when component mounts
 	useEffect(() => {
-		// fetch  player's hand
 		const fetchHand = async () => {
 			const res = await getHand(userId);
-			dispatch(setHand(res.cardToken));
+			dispatch(setHand(res.cards));
 		};
 		fetchHand();
-	}, [dispatch]);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
 
 	/*
-		When cards are clicked once, they get selected. If clicked again, they are played.
-		Playing a card consists of removing it from the player's hand and adding it to the play area.
-		Play area gets cleaned after 1 second.
+		Select a card if clicked for the first time.
+		Unselect if clicked twice.
 	*/
 	const handleClick = async (clickedCard) => {
-		if (selectedCard === clickedCard) {
-			const cardToken = String(clickedCard);
-			// eslint-disable-next-line no-unused-vars
-			const res = await playCard({cardToken, userId, targetId});
-
-			// resolver efectos de la jugada sobre la partida
-
-			dispatch(removeFromHand(clickedCard));
-			dispatch(addToPlayArea(clickedCard));
-			setTimeout(() => dispatch(cleanPlayArea()), 1000);
+		if (selectedCard !== clickedCard) {
+			dispatch(selectCard(clickedCard));
 		} else {
-			setSelectedCard(clickedCard);
+			dispatch(cleanSelectedCard());
 		}
 	};
+
 	// render cards in hand side by side
+
 	return (
-		<div className='hand'>
-			{cards.map((card) => (
-				<Card
-					className={`card ${selectedCard === card ? 'selected' : ''}`}
-					key={uuidv4()}
-					onClick={() => handleClick(card)}
-					token={card}
-				/>
+		<HStack data-testid='hand' justify='center' maxH='full' minH='full'>
+			{cards?.map((card) => (
+				<Box
+					key={card.id}
+					width='170px' // Set the width to control the card size
+					height='200px' // Set the height to control the card size
+				>
+					<Card
+						className={`card ${selectedCard === card ? 'selected' : ''}`}
+						key={card.id}
+						onClick={() => handleClick(card)}
+						info={card}
+						front={true}
+						test-id='handCard'
+					/>
+				</Box>
 			))}
-		</div>
+		</HStack>
 	);
 };
 

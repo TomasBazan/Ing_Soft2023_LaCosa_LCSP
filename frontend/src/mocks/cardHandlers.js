@@ -1,4 +1,4 @@
-import { rest } from 'msw';
+import {rest} from 'msw';
 
 export const cardHandlers = [
 	rest.get('https://localhost:8000/hand', (req, res, ctx) => {
@@ -9,7 +9,12 @@ export const cardHandlers = [
 				status: 200,
 				message: '',
 				data: {
-					card_token: ['img37.jpg', 'img40.jpg', 'img72.jpg', 'img78.jpg'],
+					card_token: [
+						['img37.jpg', 1],
+						['img40.jpg', 1],
+						['img72.jpg', 1],
+						['img78.jpg', 1],
+					],
 				},
 			}),
 		);
@@ -22,7 +27,7 @@ export const cardHandlers = [
 			ctx.json({
 				status: 'int',
 				message: 'str',
-				data: {picked_cards: ['img37.jpg'], next_card_type: 0},
+				data: {picked_cards: [['img37.jpg', 1]], next_card_type: 0},
 			}),
 		);
 	}),

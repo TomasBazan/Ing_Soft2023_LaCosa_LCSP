@@ -1,11 +1,16 @@
+// eslint-disable-next-line no-unused-vars
+import React, {useState} from 'react';
 import {useFormik} from 'formik';
-import {useSelector} from 'react-redux';
-import {Flex, Button, Link} from '@chakra-ui/react';
-import {createGame} from '../request/createGame';
+import createGame from '../request/createGame';
+import {useNavigate} from 'react-router-dom';
+import {Flex, Button, Text, FormControl, Input, Box} from '@chakra-ui/react';
 
 const CreateGameForm = () => {
-	const userId = useSelector((state) => state.player.id);
+	const userId = JSON.parse(sessionStorage.getItem('player')).id;
+	const [alertMessage, setAlertMessage] = useState(''); // State for alert message
 	const initialValues = {GameName: ''};
+	const navigate = useNavigate();
+
 	const onSubmit = async (values) => {
 		// en este sprint min_players: 4, max_players: 12, esta harcodeado pero en proximos lo agregamos
 		const Game = {
@@ -15,23 +20,30 @@ const CreateGameForm = () => {
 			min_players: 4,
 			max_players: 12,
 		};
+		console.log('Game to be created: ', Game);
 		try {
 			const resp = await createGame({game: Game});
-			console.log('The response of the call is: ', resp);
-			alert('Partida creada correctamente. Detail: ' + resp.detail);
+			setAlertMessage('Success: ' + resp.detail); // Set success message
+			const game = {
+				id: resp.gameId,
+			};
+			console.log('The id of the game is: ', game);
+			sessionStorage.setItem('gameId', JSON.stringify(game));
+			navigate(`/Games/${game.id}`);
 		} catch (error) {
 			console.log('Error al crear la partida');
+			console.log(error.detail);
 			if (!error.ok) {
-				alert('Detail: ' + error.detail);
+				// alert('Detail: ' + error.detail);
+				setAlertMessage(error.detail); // Set error message
 			}
 		}
-		console.log('After the try-catch statement');
 	};
 
 	const validate = (values) => {
 		const errors = {};
 		if (!values.GameName) {
-			errors.username = 'this field is required';
+			errors.GameName = 'this field is required';
 		}
 		return errors;
 	};
@@ -44,48 +56,71 @@ const CreateGameForm = () => {
 
 	return (
 		<Flex h='100vh' justifyContent='center' alignItems='center'>
-			<div>
+			<Box
+				display='flex'
+				flexDirection='column'
+				alignItems='center'
+				justifyContent='center'
+			>
+				{alertMessage && (
+					<div
+						className={`alert ${
+							alertMessage.includes('Success') ? 'success' : 'error'
+						}`}
+					>
+						{alertMessage}
+					</div>
+				)}
 				<form onSubmit={formik.handleSubmit}>
 					<div className='form/control'>
-						<h1>Crear una partida nueva</h1>
-						<label htmlFor='GameName'>Choose a name for the game</label>
-						<input
-							type='text'
-							id='GameName'
-							name='GameName'
-							onChange={formik.handleChange}
-							onBlur={formik.handleBlur}
-							value={formik.values.username}
-						/>
-						{formik.errors.username ? (
-							<div className='error'> {formik.errors.username}</div>
-						) : null}
+						<Text
+							fontSize='2xl'
+							fontWeight='bold'
+							textAlign='center'
+							color='white'
+							mb='4'
+						>
+							Elige el nombre de la partida
+						</Text>
+						<FormControl>
+							<Input
+								type='text'
+								id='GameName'
+								name='GameName'
+								color='white'
+								onChange={formik.handleChange}
+								onBlur={formik.handleBlur}
+								value={formik.values.GameName}
+								mb='4'
+							/>
+							{formik.errors.GameName ? (
+								<div className='error'> {formik.errors.GameName}</div>
+							) : null}
+						</FormControl>
 					</div>
 				</form>
-				<Link to="'/Games/Partida-Inicial'">
-					<Button
-						px={4}
-						fontSize={'sm'}
-						rounded={'full'}
-						bg={'blue.400'}
-						color={'white'}
-						boxShadow={
-							'0px 1px 25px -5px rgb(66 153 225 / 48%), 0 10px 10px -5px rgb(66 153 225 / 43%)'
-						}
-						_hover={{
-							bg: 'blue.500',
-						}}
-						_focus={{
-							bg: 'blue.500',
-						}}
-						type='submit'
-						onClick={formik.handleSubmit}
-					>
-						Submit
-					</Button>
-				</Link>
-			</div>
+				<Button
+					variant='outline'
+					fontSize={'lg'}
+					colorScheme='transparent'
+					justifyContent='center'
+					color={'white'}
+					boxShadow={
+						'0px 1px 25px -5px rgb(66 153 225 / 48%), 0 10px 10px -5px rgb(66 153 225 / 43%)'
+					}
+					_hover={{
+						bg: 'green.600',
+					}}
+					_focus={{
+						bg: 'green.600',
+					}}
+					type='submit'
+					onClick={formik.handleSubmit}
+				>
+					Submit
+				</Button>
+			</Box>
 		</Flex>
 	);
 };
-export default CreateGameForm; // Export CreateGameForm as the default export
+export default CreateGameForm;

@@ -3,7 +3,8 @@ import {createSlice} from '@reduxjs/toolkit';
 const initialState = {
 	players: [],
 	position: 0,
-	rol: 0,
+	isFinish: 1,
+	currentPlayer: 0,
 };
 
 const gameSlice = createSlice({
@@ -16,11 +17,15 @@ const gameSlice = createSlice({
 		setPosition: (state, action) => {
 			state.position = action.payload;
 		},
-		setRol: (state, action) => {
-			state.rol = action.payload;
+		setIsFinish: (state, action) => {
+			state.isFinish = action.payload;
+		},
+		setCurrentPlayer: (state, action) => {
+			state.currentPlayer = action.payload;
 		},
 	},
 });
 
-export const {setPlayers, setPosition, setRol} = gameSlice.actions;
+export const {setPlayers, setPosition, setIsFinish, setCurrentPlayer} =
+	gameSlice.actions;
 export default gameSlice.reducer;

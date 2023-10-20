@@ -1,13 +1,15 @@
 // eslint-disable-next-line no-unused-vars
-import React from 'react';
+import React, {useState} from 'react';
 import {Card, Heading, CardBody, Box, Text} from '@chakra-ui/react';
-import PropTypes from 'prop-types';
 
-export const GameHistory = ({results}) => {
+import {useSelector} from 'react-redux';
+export const GameHistory = () => {
+	const gameStatus = useSelector((state) => state.game);
+	const players = gameStatus ? gameStatus.players : null;
 	// Check if the players array inside results is empty
-	if (results.players.length === 0) {
+	if (players.length === 0) {
 		return (
-			<Card display='flex'>
+			<Card>
 				<Heading as='h1' noOfLines={1}>
 					Game Over
 				</Heading>
@@ -24,28 +26,36 @@ export const GameHistory = ({results}) => {
 		);
 	}
 	// revisar la funcionalidad que checkea que todos estan vivos o muertos
-	const allStatusEndGame = results.players.map((player) => player.isAlive);
-	const inValidResult = checkAllSameStatus(allStatusEndGame);
-	if (!inValidResult) {
+	const allStatusEndGame = players.map((player) => player.is_alive);
+	const invalidResult = checkAllSameStatus(allStatusEndGame);
+	if (!invalidResult) {
 		return (
 			<Card display='flex'>
-				<Heading as='h1' noOfLines={1}>
+				<Heading as='h1' noOfLines={1} textAlign='center'>
 					Game Over
 				</Heading>
-				<Heading as='h2' noOfLines={1}>
+				<Heading as='h2' noOfLines={1} textAlign='center'>
 					Results
 				</Heading>
 				<CardBody>
-					{results.players.map((player) => {
-						return player.isAlive ? (
+					{players?.map((player) => {
+						return player.is_alive ? (
 							<Box key={player.id}>
-								<Heading size='xs'>Player {player.name}</Heading>
-								<Text>Won the game.</Text>
+								<Heading textAlign='center' bg='green.200' size='xs'>
+									Player {player.name}
+								</Heading>
+								<Text textAlign='center' bg='green.200'>
+									Won the game.
+								</Text>
 							</Box>
 						) : (
 							<Box key={player.id}>
-								<Heading size='xs'>Player {player.name}</Heading>
-								<Text>Failed to his team.</Text>
+								<Heading textAlign='center' bg='red.200' size='xs'>
+									Player {player.name}
+								</Heading>
+								<Text textAlign='center' bg='red.200'>
+									Failed to his team.
+								</Text>
 							</Box>
 						);
 					})}
@@ -71,19 +81,4 @@ export const GameHistory = ({results}) => {
 	function checkAllSameStatus(array) {
 		return array.every((value) => value === array[0]);
 	}
-};
-GameHistory.propTypes = {
-	results: PropTypes.shape({
-		myPlayer: PropTypes.shape({
-			name: PropTypes.string.isRequired,
-			id: PropTypes.number.isRequired,
-		}),
-		players: PropTypes.arrayOf(
-			PropTypes.shape({
-				name: PropTypes.string.isRequired,
-				id: PropTypes.number.isRequired,
-				isAlive: PropTypes.bool.isRequired,
-			}),
-		),
-	}),
 };

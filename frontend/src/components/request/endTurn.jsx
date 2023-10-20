@@ -1,8 +1,6 @@
-import {v4 as uuidv4} from 'uuid';
+const SERVER_URL = 'http://localhost:8000/game/next_turn';
 
-const SERVER_URL = 'https://localhost:8000/hand';
-
-const getCard = async (idPlayer) => {
+export const endTurn = async (idGame) => {
 	const parseJSONResponse = (response) => {
 		return new Promise((resolve) => {
 			response.json().then((json) => {
@@ -10,12 +8,8 @@ const getCard = async (idPlayer) => {
 					resolve({
 						status: response.status,
 						ok: response.ok,
-						pickedCards: json.data.picked_cards.map((card) => ({
-							id: uuidv4(),
-							token: card[0],
-							type: card[1],
-						})),
-						nextCardType: json.data.next_card_type,
+						positionTurn: json.data.current_turn,
+						idPlayerTurn: json.data.player_id,
 						detail: json.detail,
 					});
 				} else {
@@ -30,11 +24,11 @@ const getCard = async (idPlayer) => {
 	};
 
 	const config = {
-		method: 'PUT',
+		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json',
 		},
-		body: JSON.stringify(idPlayer),
+		body: JSON.stringify({game_id: idGame}),
 	};
 	return new Promise((resolve, reject) => {
 		fetch(SERVER_URL, config)
@@ -50,5 +44,3 @@ const getCard = async (idPlayer) => {
 			});
 	});
 };
-
-export default getCard;

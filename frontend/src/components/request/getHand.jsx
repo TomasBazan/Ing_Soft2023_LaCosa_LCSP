@@ -1,4 +1,6 @@
-const SERVER_URL = 'https://localhost:8000/hand';
+import {v4 as uuidv4} from 'uuid';
+
+const SERVER_URL = 'http://localhost:8000/hand';
 
 const getHand = async (idPlayer) => {
 	const parseJSONResponse = (response) => {
@@ -8,7 +10,11 @@ const getHand = async (idPlayer) => {
 					resolve({
 						status: response.status,
 						ok: response.ok,
-						cardToken: json.data.card_token,
+						cards: json.data.card_token.map((card) => ({
+							id: uuidv4(),
+							token: card[0],
+							type: card[1],
+						})),
 						detail: json.detail,
 					});
 				} else {

@@ -4,13 +4,15 @@ const getGameStatus = async (idPlayer) => {
 	const parseJSONResponse = (response) => {
 		return new Promise((resolve) => {
 			response.json().then((json) => {
+				console.log('json', json);
 				if (response.ok) {
 					resolve({
 						status: response.status,
 						ok: response.ok,
 						players: json.data.players,
 						position: json.data.my_position,
-						rol: json.data.my_rol,
+						isFinish: json.data.game_status,
+						currentPlayerId: json.data.current_player,
 					});
 				} else {
 					resolve({
@@ -22,11 +24,9 @@ const getGameStatus = async (idPlayer) => {
 			});
 		});
 	};
-
 	const config = {
 		method: 'GET',
 		headers: {
-			'Content-Type': 'application/json',
 			'id-player': idPlayer,
 		},
 	};
