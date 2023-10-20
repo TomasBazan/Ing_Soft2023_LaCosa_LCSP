@@ -10,7 +10,7 @@ export const gameHandlers = [
 				detail: 'Some detail mocked',
 				data: {
 					my_position: 0,
-					game_status: 1,
+					game_status: 2,
 					current_player: 1,
 					players: [
 						{name: 'tomas', id: 1, position: 0, is_alive: true},

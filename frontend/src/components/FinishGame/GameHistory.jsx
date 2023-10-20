@@ -31,27 +31,31 @@ export const GameHistory = () => {
 	if (!invalidResult) {
 		return (
 			<Card display='flex'>
-				<Heading as='h1' noOfLines={1}>
+				<Heading as='h1' noOfLines={1} textAlign='center'>
 					Game Over
 				</Heading>
-				<Heading as='h2' noOfLines={1}>
+				<Heading as='h2' noOfLines={1} textAlign='center'>
 					Results
 				</Heading>
 				<CardBody>
 					{players?.map((player) => {
 						return player.is_alive ? (
 							<Box key={player.id}>
-								<Heading bg='green.200' size='xs'>
+								<Heading textAlign='center' bg='green.200' size='xs'>
 									Player {player.name}
 								</Heading>
-								<Text bg='green.200'>Won the game.</Text>
+								<Text textAlign='center' bg='green.200'>
+									Won the game.
+								</Text>
 							</Box>
 						) : (
 							<Box key={player.id}>
-								<Heading bg='red.200' size='xs'>
+								<Heading textAlign='center' bg='red.200' size='xs'>
 									Player {player.name}
 								</Heading>
-								<Text bg='red.200'>Failed to his team.</Text>
+								<Text textAlign='center' bg='red.200'>
+									Failed to his team.
+								</Text>
 							</Box>
 						);
 					})}

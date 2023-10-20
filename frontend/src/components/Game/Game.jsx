@@ -12,7 +12,7 @@ import {
 	Flex,
 	Button,
 } from '@chakra-ui/react';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import getGameStatus from '../request/getGameStatus';
 import {useEffect} from 'react';
 import {
@@ -22,11 +22,12 @@ import {
 	setIsFinish,
 } from '../../appActions';
 import {endTurn} from '../request/endTurn';
-
+import {FinishGame} from '../../containers/FinishGame';
 const Game = () => {
 	const playerId = JSON.parse(sessionStorage.getItem('player')).id;
 	const idGame = sessionStorage.getItem('idGame');
 	const dispatch = useDispatch();
+	const gameStatus = useSelector((state) => state.game.isFinish);
 
 	useEffect(() => {
 		async function getDataOfGame() {
@@ -61,89 +62,93 @@ const Game = () => {
 		}
 	}
 
-	return (
-		<Center h='100%' w='100%'>
-			<Grid
-				h='90vh'
-				w='60vw'
-				m='0'
-				p='0'
-				templateRows='repeat(7, 1fr)'
-				templateColumns='repeat(5, 1fr)'
-				gap={4}
-			>
-				<GridItem rowSpan={1} colSpan={1} />
-				<GridItem rowSpan={1} colSpan={3} paddingTop='40px'>
-					<Positions relativePositionToTable={2} />
-				</GridItem>
-				<GridItem rowSpan={1} colSpan={1} />
-				<GridItem rowSpan={3} colSpan={1} paddingLeft='160px'>
-					<Positions relativePositionToTable={3} />
-				</GridItem>
-				<GridItem
-					boxShadow='2xl'
-					rowSpan={3}
-					colSpan={3}
-					bgImage='/src/assets/table_board.png'
-					gap={5}
-					borderRadius='lg'
+	if (gameStatus === 2) {
+		return <FinishGame />;
+	} else {
+		return (
+			<Center h='100%' w='100%'>
+				<Grid
+					h='90vh'
+					w='60vw'
+					m='0'
+					p='0'
+					templateRows='repeat(7, 1fr)'
+					templateColumns='repeat(5, 1fr)'
+					gap={4}
 				>
-					<Flex gap='12px' direction='row' justify='center'>
-						<Box w='200px' border='2px' color='gray.800' mt='5'>
-							<Text textAlign='center' color='white'>
-								DECK
-							</Text>
-							<Deck />
-						</Box>
-						<Box w='200px' border='2px' color='gray.800' mt='5'>
-							<Text textAlign='center' color='white'>
-								PLAY
-							</Text>
-							<PlayArea />
-						</Box>
-						<Box w='200px' border='2px' color='gray.800' mt='5'>
-							<Text textAlign='center' color='white'>
-								DISCARD
-							</Text>
-							<DiscardPile />
-						</Box>
-					</Flex>
-				</GridItem>
-				<GridItem rowSpan={3} colSpan={1} paddingRight='160px'>
-					<Positions relativePositionToTable={1} />
-				</GridItem>
-				<GridItem rowSpan={1} colSpan={1} />
-				<GridItem rowSpan={1} colSpan={3} paddingBottom='60px'>
-					<Positions relativePositionToTable={0} />
-				</GridItem>
-				<GridItem
-					display='flex'
-					justifyContent='center'
-					alignItems='center'
-					rowSpan={1}
-					colSpan={1}
-				>
-					<Button
-						variant='solid'
-						bg='teal'
-						aria-label='Call Sage'
-						fontSize='20px'
-						onClick={() => {
-							finishTurn();
-						}}
+					<GridItem rowSpan={1} colSpan={1} />
+					<GridItem rowSpan={1} colSpan={3} paddingTop='40px'>
+						<Positions relativePositionToTable={2} />
+					</GridItem>
+					<GridItem rowSpan={1} colSpan={1} />
+					<GridItem rowSpan={3} colSpan={1} paddingLeft='160px'>
+						<Positions relativePositionToTable={3} />
+					</GridItem>
+					<GridItem
+						boxShadow='2xl'
+						rowSpan={3}
+						colSpan={3}
+						bgImage='/src/assets/table_board.png'
+						gap={5}
+						borderRadius='lg'
 					>
-						Finish Turn
-					</Button>
-				</GridItem>
-				<GridItem rowSpan={2} colSpan={5}>
-					<Flex justify='center' direction='row'>
-						<Box maxW='60%'>
-							<Hand />
-						</Box>
-					</Flex>
-				</GridItem>
-			</Grid>
-		</Center>
-	);
+						<Flex gap='12px' direction='row' justify='center'>
+							<Box w='200px' border='2px' color='gray.800' mt='5'>
+								<Text textAlign='center' color='white'>
+									DECK
+								</Text>
+								<Deck />
+							</Box>
+							<Box w='200px' border='2px' color='gray.800' mt='5'>
+								<Text textAlign='center' color='white'>
+									PLAY
+								</Text>
+								<PlayArea />
+							</Box>
+							<Box w='200px' border='2px' color='gray.800' mt='5'>
+								<Text textAlign='center' color='white'>
+									DISCARD
+								</Text>
+								<DiscardPile />
+							</Box>
+						</Flex>
+					</GridItem>
+					<GridItem rowSpan={3} colSpan={1} paddingRight='160px'>
+						<Positions relativePositionToTable={1} />
+					</GridItem>
+					<GridItem rowSpan={1} colSpan={1} />
+					<GridItem rowSpan={1} colSpan={3} paddingBottom='60px'>
+						<Positions relativePositionToTable={0} />
+					</GridItem>
+					<GridItem
+						display='flex'
+						justifyContent='center'
+						alignItems='center'
+						rowSpan={1}
+						colSpan={1}
+					>
+						<Button
+							variant='solid'
+							bg='teal'
+							aria-label='Call Sage'
+							fontSize='20px'
+							onClick={() => {
+								finishTurn();
+							}}
+						>
+							Finish Turn
+						</Button>
+					</GridItem>
+					<GridItem rowSpan={2} colSpan={5}>
+						<Flex justify='center' direction='row'>
+							<Box maxW='60%'>
+								<Hand />
+							</Box>
+						</Flex>
+					</GridItem>
+				</Grid>
+			</Center>
+		);
+	}
 };
 export default Game;
