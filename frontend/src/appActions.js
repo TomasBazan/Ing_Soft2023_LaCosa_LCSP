@@ -1,11 +1,5 @@
 import {createAction} from '@reduxjs/toolkit';
 
-// Player actions
-export const setPlayerName = createAction('player/setName');
-export const setPlayerId = createAction('player/setId');
-export const setPlayerLogedIn = createAction('player/setLogedIn');
-export const setPlayerIdGame = createAction('player/setIdGame');
-
 // Hand actions
 export const setHand = createAction('hand/setHand');
 export const appendToHand = createAction('hand/appendToHand');

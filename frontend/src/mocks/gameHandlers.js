@@ -10,8 +10,8 @@ export const gameHandlers = [
 				detail: 'Some detail mocked',
 				data: {
 					my_position: 0,
-					my_rol: 0,
-					current_player: 6,
+					game_status: 2,
+					current_player: 1,
 					players: [
 						{name: 'tomas', id: 1, position: 0, is_alive: true},
 						{name: 'juan', id: 2, position: 1, is_alive: true},
@@ -26,6 +26,20 @@ export const gameHandlers = [
 						{name: 'santi', id: 11, position: 10, is_alive: true},
 						{name: 'chun', id: 12, position: 11, is_alive: false},
 					],
+				},
+			}),
+		);
+	}),
+	rest.post('http://localhost:8000/game/next_turn', (req, res, ctx) => {
+		console.log('endTurn:', req);
+		return res(
+			ctx.status(200),
+			ctx.json({
+				status: 200,
+				detail: 'Finished turn',
+				data: {
+					current_turn: 1,
+					player_id: 2,
 				},
 			}),
 		);

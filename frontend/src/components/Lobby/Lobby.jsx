@@ -8,23 +8,14 @@ import {VStack, OrderedList, ListItem, Text, Button} from '@chakra-ui/react';
 
 // mock respuestas por ahora 		{user_name: 'toomas', id: 5, is_host: 0},
 
-/* const resp1 = {
-	players: [
-		{user_name: 'pepe', id: 1, is_host: 1},
-		{user_name: 'papa', id: 2, is_host: 0},
-		{user_name: 'pupu', id: 3, is_host: 0},
-		{user_name: 'pipi', id: 4, is_host: 0},
-		{user_name: 'toomas', id: 5, is_host: 0},
-	],
-	can_start: 1,
-}; */
-
 const Lobby = () => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 
-	const gameId = useSelector((state) => state.player.idGame);
-	const userId = useSelector((state) => state.player.id);
+	const gameId = JSON.parse(sessionStorage.getItem('gameId')).id;
+	const userId = JSON.parse(sessionStorage.getItem('player')).id;
+	console.log('gameId: ', gameId);
+	console.log('userId: ', userId);
 	const gameStatus = useSelector((state) => state.lobby);
 	const [isHost, setIsHost] = useState(false);
 
@@ -40,8 +31,6 @@ const Lobby = () => {
 	};
 
 	console.log(gameStatus);
-
-	// const userId = 1;
 
 	const buscarJugadores = async () => {
 		try {
@@ -85,12 +74,26 @@ const Lobby = () => {
 	console.log('the gamestatus', gameStatus);
 	return (
 		<VStack spacing={4} align='center' m='4'>
-			<Text fontSize='xl' fontWeight='bold'>
+			<Text
+				bgGradient='linear(to-r,gray.200,white,gray.200)'
+				bgClip='text'
+				fontSize='4xl'
+				fontWeight='extrabold'
+			>
 				Players:
 			</Text>
 			<OrderedList>
 				{playersSort.map((player) => (
-					<ListItem key={player.id}>{player.name}</ListItem>
+					// bgGradient: 'linear(to-r, whatsapp.900,black,whatsapp.900)',
+					<ListItem
+						mt='2'
+						bgGradient='linear(to-r,gray.200,white,gray.200)'
+						bgClip='text'
+						fontSize='2xl'
+						key={player.id}
+					>
+						{player.name}
+					</ListItem>
 				))}
 			</OrderedList>
 			{gameStatus.canStart && isHost ? (

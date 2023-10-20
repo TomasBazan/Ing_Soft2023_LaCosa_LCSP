@@ -4,9 +4,17 @@ import {CardFooter, Button} from '@chakra-ui/react';
 import {Link} from 'react-router-dom';
 export const GoHome = () => {
 	return (
-		<CardFooter>
+		<CardFooter display='flex' justifyContent='center' justify='center'>
 			<Link to='/'>
-				<Button colorScheme='blackAlpha'>Play Again</Button>
+				<Button
+					variant='outline'
+					colorScheme='transparent'
+					_hover={{
+						bg: 'green.500',
+					}}
+				>
+					Play Again
+				</Button>
 			</Link>
 		</CardFooter>
 	);

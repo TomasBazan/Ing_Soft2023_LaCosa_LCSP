@@ -175,4 +175,12 @@
 
 ---
 
-FinishGame tiene que se ser llamado y pasarle como prop el estado final de la partida para que se pueda mostrar y no dependa de redux. De esta manera accedo facilmente a los datos para hacer el handeling y puedo testear facilmente
+```js
+sessionStorage player:
+{
+name: 'str',
+id: num,
+isLoged: bool
+};
+gameId: int
+```
