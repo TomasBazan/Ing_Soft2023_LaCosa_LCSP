@@ -33,7 +33,7 @@ const ListarPartidas = () => {
 
 		try {
 			const resp = await joinGame(bodyRequest);
-			alert(resp.detail);
+			console.log(resp);
 			const game = {
 				id: gameId,
 			};
@@ -44,48 +44,54 @@ const ListarPartidas = () => {
 			// alert(error.detail);
 		}
 	};
-
 	return (
-		<Center>
+		<Center mt={4}>
 			<VStack spacing={4}>
-				{partidas.map((partida, index) => (
-					<Box
-						key={index}
-						borderWidth='10px'
-						p={10}
-						borderRadius='md'
-						display='flex'
-						justifyContent='space-between' // Align items horizontally
-						alignItems='center' // Center items vertically
-						width='110%' // Adjust the width as needed
-						opacity='0.9'
-					>
-						<div>
-							<Text color='white' fontWeight='bold'>
-								{partida.name}
-							</Text>
-							<Text color='white'>
-								Players: {partida.player_quantity}/{partida.max_players}
-							</Text>
-						</div>
-						<div>
-							{partida.player_quantity < partida.max_players && (
-								<Button
-									colorScheme='transparent'
-									variant='outline'
-									color='white'
-									_hover={{
-										bg: 'green.600',
-									}}
-									size='sm'
-									onClick={() => handleUnirse(partida.game_id)}
-								>
-									Unirse
-								</Button>
-							)}
-						</div>
-					</Box>
-				))}
+				{partidas.length > 0 ? (
+					partidas.map((partida, index) => (
+						<Box
+							key={index}
+							borderWidth='10px'
+							p={10}
+							borderRadius='md'
+							display='flex'
+							justifyContent='space-between'
+							alignItems='center'
+							width='150%'
+							opacity='0.9'
+						>
+							<div>
+								<Text color='white' fontWeight='bold'>
+									{partida.name}
+								</Text>
+								<Text color='white'>
+									Jugadores: {partida.player_quantity}/{partida.max_players}
+								</Text>
+							</div>
+							<div>
+								{partida.player_quantity < partida.max_players && (
+									<Button
+										colorScheme='transparent'
+										variant='outline'
+										color='white'
+										_hover={{
+											bg: 'green.600',
+										}}
+										size='sm'
+										onClick={() => handleUnirse(partida.game_id)}
+									>
+										Unirse
+									</Button>
+								)}
+							</div>
+						</Box>
+					))
+				) : (
+					// Render a message when partidas array is empty
+					<Text color='white' fontWeight='bold' fontSize='3xl'>
+						No hay partidas disponibles
+					</Text>
+				)}
 			</VStack>
 		</Center>
 	);

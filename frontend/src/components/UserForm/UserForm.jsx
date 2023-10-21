@@ -25,7 +25,7 @@ const UserForm = () => {
 			const resp = await sendPlayerName({player: actualPlayer});
 			const updatedPlayer = {name: resp.name, id: resp.id, isLoged: true};
 			sessionStorage.setItem('player', JSON.stringify(updatedPlayer));
-		  setAlertMessage('Success: ' + resp.detail); // Set success message
+			setAlertMessage('Success: ' + resp.detail); // Set success message
 		} catch (error) {
 			console.error('Error: ' + error);
 			if (!error.ok) {
@@ -77,7 +77,7 @@ const UserForm = () => {
 						bg='transparent'
 						rounded='lg'
 					>
-             {alertMessage && (
+						{alertMessage && (
 							<div
 								className={`alert ${
 									alertMessage.includes('Success') ? 'success' : 'error'
@@ -134,7 +134,6 @@ const UserForm = () => {
 						</form>
 					</Box>
 				</Center>
-
 			</Box>
 		</Box>
 	);
