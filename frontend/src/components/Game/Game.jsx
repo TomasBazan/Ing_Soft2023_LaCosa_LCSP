@@ -25,7 +25,7 @@ import {endTurn} from '../request/endTurn';
 import {FinishGame} from '../../containers/FinishGame';
 export const Game = () => {
 	const playerId = JSON.parse(sessionStorage.getItem('player')).id;
-	// En el primer render falla con el JSON.parse
+	const currentPlayer = useSelector((state) => state.game.currentPlayer);
 	const idGame = JSON.parse(sessionStorage.getItem('gameId')).id;
 	const dispatch = useDispatch();
 	const gameStatus = useSelector((state) => state.game.isFinish);
@@ -130,12 +130,15 @@ export const Game = () => {
 					>
 						<Button
 							variant='solid'
-							bg='teal'
+							bg={playerId === currentPlayer ? 'teal' : 'gray'}
 							aria-label='Call Sage'
 							fontSize='20px'
 							onClick={() => {
-								finishTurn();
+								if (playerId === currentPlayer) {
+									finishTurn();
+								}
 							}}
+							disabled={playerId !== currentPlayer}
 						>
 							Finish Turn
 						</Button>
