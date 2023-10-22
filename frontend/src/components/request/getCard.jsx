@@ -2,7 +2,7 @@ import {v4 as uuidv4} from 'uuid';
 
 const SERVER_URL = 'http://localhost:8000/hand';
 
-const getCard = async (idPlayer) => {
+const getCard = async ({idPlayer}) => {
 	const parseJSONResponse = (response) => {
 		return new Promise((resolve) => {
 			response.json().then((json) => {
@@ -28,13 +28,15 @@ const getCard = async (idPlayer) => {
 			});
 		});
 	};
-
+	const bodyToSend = {
+		id_player: idPlayer,
+	};
 	const config = {
 		method: 'PUT',
 		headers: {
 			'Content-Type': 'application/json',
 		},
-		body: JSON.stringify(idPlayer),
+		body: JSON.stringify(bodyToSend),
 	};
 	return new Promise((resolve, reject) => {
 		fetch(SERVER_URL, config)
