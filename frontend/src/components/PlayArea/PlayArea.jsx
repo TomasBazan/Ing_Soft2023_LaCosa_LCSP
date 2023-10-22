@@ -11,7 +11,7 @@ const PlayArea = () => {
 	const selectedCard = useSelector((state) => state.hand.selectedCard);
 	const [displayCard, setDisplayCard] = useState('');
 
-	const userId = JSON.parse(sessionStorage.getItem('player')).id;
+	const idPlayer = JSON.parse(sessionStorage.getItem('player')).id;
 
 	/*
 		When clicking on the play area, the selected card is played (if there is one)
@@ -26,7 +26,7 @@ const PlayArea = () => {
 		if (selectedCard) {
 			// if card was played on the play area, then no target is selected
 			// eslint-disable-next-line no-unused-vars
-			const res = await playCard({selectedCard, userId, targetId: null});
+			const res = await playCard({selectedCard, idPlayer, targetId: -1});
 
 			// TODO: manage card effects: lanzallamas, vigila tus espaldas, etc.
 
