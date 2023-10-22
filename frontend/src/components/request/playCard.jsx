@@ -1,4 +1,4 @@
-const SERVER_URL = 'https://localhost:8000/hand/play';
+const SERVER_URL = 'http://localhost:8000/hand/play';
 // Should pass an object with the idPlayer, targetId and cardToken
 const playCard = async (values) => {
 	const parseJSONResponse = (response) => {

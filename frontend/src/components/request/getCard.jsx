@@ -1,6 +1,6 @@
 import {v4 as uuidv4} from 'uuid';
 
-const SERVER_URL = 'https://localhost:8000/hand';
+const SERVER_URL = 'http://localhost:8000/hand';
 
 const getCard = async (idPlayer) => {
 	const parseJSONResponse = (response) => {
