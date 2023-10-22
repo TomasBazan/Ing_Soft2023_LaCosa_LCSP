@@ -8,11 +8,22 @@ const playCard = async (values) => {
 					resolve({
 						status: response.status_code,
 						ok: response.ok,
-						idPlayer: json.data.id_player,
-						cardToken: json.data.card_token,
-						targetId: json.data.target_id,
-						user: json.data.user,
-						targetUser: json.data.target_user,
+						// player info
+						idPlayer: json.data.user.id,
+						playerName: json.data.user.name,
+						playerIsAlive: json.data.user.is_alive,
+						playerIsInfected: json.data.user.is_infected,
+						playerPosition: json.data.user.my_position,
+						// target player info
+						idTarget: json.data.user.id,
+						targetName: json.data.user.name,
+						targetIsAlive: json.data.user.is_alive,
+						targetIsInfected: json.data.user.is_infected,
+						targetPosition: json.data.user.my_position,
+						// game info
+						game: json.data.user.game,
+						theThingWon: json.data.the_thing_won,
+						theHumansWon: json.data.the_humans_won,
 					});
 				} else {
 					resolve({

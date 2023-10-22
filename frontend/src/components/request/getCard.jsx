@@ -12,8 +12,8 @@ const getCard = async (idPlayer) => {
 						ok: response.ok,
 						pickedCards: json.data.picked_cards.map((card) => ({
 							id: uuidv4(),
-							token: card[0],
-							type: card[1],
+							token: card.card_token,
+							type: card.type,
 						})),
 						nextCardType: json.data.next_card_type,
 						detail: json.detail,

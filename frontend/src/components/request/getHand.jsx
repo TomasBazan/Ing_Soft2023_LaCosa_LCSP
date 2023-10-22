@@ -10,10 +10,10 @@ const getHand = async (idPlayer) => {
 					resolve({
 						status: response.status,
 						ok: response.ok,
-						cards: json.data.card_token.map((card) => ({
+						cards: json.data.hand.map((card) => ({
 							id: uuidv4(),
-							token: card[0],
-							type: card[1],
+							token: card.card_token,
+							type: card.type,
 						})),
 						detail: json.detail,
 					});
