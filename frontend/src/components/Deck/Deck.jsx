@@ -4,6 +4,9 @@ import getCard from '../request/getCard';
 import React, {useState, useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {appendToHand} from '../../services/handSlice';
+import {addToPlayArea} from '../../appActions.js';
+
+const TYPE_PANIC = 0;
 
 const Deck = () => {
 	// userId del jugador en turno, deberíamos obtenerlo del estado de la partida
@@ -35,7 +38,11 @@ const Deck = () => {
 
 			// wait and update player's hand with picked card
 			setTimeout(() => {
-				dispatch(appendToHand([pickedCards]));
+				if (pickedCards.type === TYPE_PANIC) {
+					dispatch(addToPlayArea({card: pickedCards, target: -1}));
+				} else {
+					dispatch(appendToHand([pickedCards]));
+				}
 
 				setCard({type: res.nextCardType});
 				setDisplayFront(false);

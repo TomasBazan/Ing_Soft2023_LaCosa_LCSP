@@ -1,8 +1,7 @@
-// ! Unused file
 import {createSlice} from '@reduxjs/toolkit';
 
 const initialState = {
-	card: '',
+	card: null, // objeto de la forma {card, target}
 };
 
 const playAreaSlice = createSlice({
@@ -13,7 +12,7 @@ const playAreaSlice = createSlice({
 			state.card = action.payload;
 		},
 		cleanPlayArea: (state) => {
-			state.card = '';
+			state.card = null;
 		},
 	},
 });
