@@ -6,6 +6,10 @@ export const appendToHand = createAction('hand/appendToHand');
 export const removeFromHand = createAction('hand/removeFromHand');
 export const selectCard = createAction('hand/selectCard');
 export const cleanSelectedCard = createAction('hand/cleanSelectedCard');
+// Turn actions
+export const setAlreadyPlayed = createAction('hand/setAlreadyPlayed');
+export const setAlreadyPicked = createAction('hand/setAlreadyPicked');
+export const restoreTurnConditions = createAction('hand/restoreTurnConditions');
 // Play Area actions
 export const addToPlayArea = createAction('playArea/addToPlayArea');
 export const cleanPlayArea = createAction('playArea/cleanPlayArea');
@@ -21,3 +25,4 @@ export const setPlayerInGame = createAction('game/setPlayers');
 export const setPositionInGame = createAction('game/setPosition');
 export const setIsFinish = createAction('game/setIsFinish');
 export const setCurrentPlayerInGame = createAction('game/setCurrentPlayer');
+export const setFirstDeckCardBack = createAction('game/setFirstDeckCardBack');
