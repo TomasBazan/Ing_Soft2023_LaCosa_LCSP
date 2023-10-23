@@ -13,6 +13,9 @@ const Deck = () => {
 	// const userId = 1;
 	// TODO: @klartz revisar cambio de linea 10 por lines 11-12
 	const gameStatus = useSelector((state) => state.game);
+	const firstDeckCardBack = useSelector(
+		(state) => state.game.firstDeckCardBack,
+	);
 	const idPlayer = gameStatus.currentPlayer;
 
 	const [clicked, setClicked] = useState(false);
@@ -20,9 +23,10 @@ const Deck = () => {
 	const [displayFront, setDisplayFront] = useState(false);
 	const dispatch = useDispatch();
 
+	// when deck mounts
 	useEffect(() => {
-		// TODO: deberíamos obtener el tipo de la primera carta cuando empieza la partida
-		setCard({token: 'panic', type: 1});
+		setCard({token: '', type: firstDeckCardBack});
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	// when deck is clicked

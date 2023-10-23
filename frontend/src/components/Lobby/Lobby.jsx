@@ -23,6 +23,8 @@ const Lobby = () => {
 		console.log('me clickearon uwu');
 		try {
 			const resp = await startGame({idPlayer: userId});
+			// to be able to render first card back in deck
+			dispatch(setFirstDeckCardBack(resp.firstDeckCardBack));
 			console.log('la respuesta es', resp);
 			navigate(`/Games/${gameId}/play`);
 		} catch (error) {
