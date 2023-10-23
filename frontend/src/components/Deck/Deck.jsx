@@ -10,7 +10,7 @@ const Deck = () => {
 	// const userId = 1;
 	// TODO: @klartz revisar cambio de linea 10 por lines 11-12
 	const gameStatus = useSelector((state) => state.game);
-	const userId = gameStatus.currentPlayerId;
+	const idPlayer = gameStatus.currentPlayer;
 
 	const [clicked, setClicked] = useState(false);
 	const [card, setCard] = useState(null);
@@ -26,7 +26,7 @@ const Deck = () => {
 	const handleClick = async () => {
 		// if it wasn't clicked already
 		if (!clicked) {
-			const res = await getCard(userId);
+			const res = await getCard({idPlayer});
 			const pickedCards = res.pickedCards[0];
 
 			// display first card

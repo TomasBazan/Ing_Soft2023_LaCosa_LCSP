@@ -10,6 +10,7 @@ const startGame = async ({idPlayer}) => {
 					status: response.status,
 					ok: response.ok,
 					detail: json.detail,
+					firstDeckCardBack: json.data.first_card_type,
 				});
 			}),
 		);

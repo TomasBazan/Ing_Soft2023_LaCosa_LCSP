@@ -1,6 +1,7 @@
 import {rest} from 'msw';
 
 export const cardHandlers = [
+	// get player's hand
 	rest.get('https://localhost:8000/hand', (req, res, ctx) => {
 		console.log('Request intercepted:', req);
 		return res(
@@ -9,17 +10,18 @@ export const cardHandlers = [
 				status: 200,
 				message: '',
 				data: {
-					card_token: [
-						['img37.jpg', 1],
-						['img40.jpg', 1],
-						['img72.jpg', 1],
-						['img78.jpg', 1],
+					hand: [
+						{card_token: 'img37.jpg', type: 1},
+						{card_token: 'img40.jpg', type: 1},
+						{card_token: 'img72.jpg', type: 1},
+						{card_token: 'img78.jpg', type: 1},
 					],
 				},
 			}),
 		);
 	}),
 
+	// pick a card from the deck
 	rest.put('https://localhost:8000/hand', (req, res, ctx) => {
 		console.log('Request intercepted:', req);
 		return res(
@@ -27,7 +29,10 @@ export const cardHandlers = [
 			ctx.json({
 				status: 'int',
 				message: 'str',
-				data: {picked_cards: [['img37.jpg', 1]], next_card_type: 0},
+				data: {
+					picked_cards: [{card_token: 'img37.jpg', type: 1}],
+					next_card_type: 0,
+				},
 			}),
 		);
 	}),

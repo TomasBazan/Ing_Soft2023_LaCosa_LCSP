@@ -1,8 +1,8 @@
 import {v4 as uuidv4} from 'uuid';
 
-const SERVER_URL = 'https://localhost:8000/hand';
+const SERVER_URL = 'http://localhost:8000/hand';
 
-const getCard = async (idPlayer) => {
+const getCard = async ({idPlayer}) => {
 	const parseJSONResponse = (response) => {
 		return new Promise((resolve) => {
 			response.json().then((json) => {
@@ -12,8 +12,8 @@ const getCard = async (idPlayer) => {
 						ok: response.ok,
 						pickedCards: json.data.picked_cards.map((card) => ({
 							id: uuidv4(),
-							token: card[0],
-							type: card[1],
+							token: card.card_token,
+							type: card.type,
 						})),
 						nextCardType: json.data.next_card_type,
 						detail: json.detail,
@@ -28,13 +28,15 @@ const getCard = async (idPlayer) => {
 			});
 		});
 	};
-
+	const bodyToSend = {
+		id_player: idPlayer,
+	};
 	const config = {
 		method: 'PUT',
 		headers: {
 			'Content-Type': 'application/json',
 		},
-		body: JSON.stringify(idPlayer),
+		body: JSON.stringify(bodyToSend),
 	};
 	return new Promise((resolve, reject) => {
 		fetch(SERVER_URL, config)
