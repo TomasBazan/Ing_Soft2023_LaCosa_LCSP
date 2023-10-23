@@ -12,14 +12,18 @@ const Deck = () => {
 	const alreadyPicked = useSelector((state) => state.hand.alreadyPicked);
 	const playerInTurn = useSelector((state) => state.game.currentPlayer);
 	const idPlayer = JSON.parse(sessionStorage.getItem('player')).id;
+	const firstDeckCardBack = useSelector(
+		(state) => state.game.firstDeckCardBack,
+	);
 
 	const [card, setCard] = useState(null);
 	const [displayFront, setDisplayFront] = useState(false);
 	const dispatch = useDispatch();
 
+	// when deck mounts
 	useEffect(() => {
-		// TODO: deberíamos obtener el tipo de la primera carta cuando empieza la partida
-		setCard({token: 'panic', type: 1});
+		setCard({token: '', type: firstDeckCardBack});
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	// when deck is clicked
