@@ -1,11 +1,12 @@
 import getLobbyStatus from '../request/getLobbyStatus';
 import {useDispatch, useSelector} from 'react-redux';
-import {setCanStart, setLobby} from '../../appActions';
+import {setCanStart, setLobby, setFirstDeckCardBack} from '../../appActions';
 import {useEffect, useState} from 'react';
 import {useNavigate} from 'react-router-dom';
 import startGame from '../request/startGame';
 import deleteGameJoin from '../request/deleteGameJoin';
 import {VStack, OrderedList, ListItem, Text, Button} from '@chakra-ui/react';
+
 // mock respuestas por ahora 		{user_name: 'toomas', id: 5, is_host: 0},
 
 const Lobby = () => {
@@ -23,6 +24,8 @@ const Lobby = () => {
 		console.log('me clickearon uwu');
 		try {
 			const resp = await startGame({idPlayer: userId});
+			// to be able to render first card back in deck
+			dispatch(setFirstDeckCardBack(resp.firstDeckCardBack));
 			console.log('la respuesta es', resp);
 			navigate(`/Games/${gameId}/play`);
 		} catch (error) {
