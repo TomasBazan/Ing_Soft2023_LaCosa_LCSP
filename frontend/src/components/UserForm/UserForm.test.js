@@ -5,7 +5,7 @@ import {screen, waitFor} from '@testing-library/react';
 import {renderWithProviders} from '../../services/providerForTest/utils-for-tests';
 import UserForm from './UserForm';
 import {BrowserRouter} from 'react-router-dom';
-
+import 'jest-localstorage-mock';
 import userEvent from '@testing-library/user-event';
 
 jest.mock('../request/sendPlayerName', () => {
@@ -42,6 +42,9 @@ jest.mock('../request/sendPlayerName', () => {
 });
 
 describe('User Register Form', () => {
+	beforeEach(() => {
+		window.sessionStorage.clear();
+	});
 	test('correct renderig of User form', () => {
 		renderWithProviders(
 			<BrowserRouter>
