@@ -7,6 +7,7 @@ import {
 	setPlayerInGame as updatePlayers,
 	addToPlayArea,
 	cleanPlayArea,
+	setAlreadyPlayed,
 } from '../../appActions';
 import playCard from '../request/playCard';
 import {Box} from '@chakra-ui/react';
@@ -17,8 +18,10 @@ const PlayArea = () => {
 
 	const selectedCard = useSelector((state) => state.hand.selectedCard);
 	const playedCard = useSelector((state) => state.playArea.card);
+	const alreadyPlayed = useSelector((state) => state.hand.alreadyPlayed);
 	const [displayCard, setDisplayCard] = useState('');
 
+	const playerInTurn = useSelector((state) => state.game.currentPlayer);
 	const idPlayer = JSON.parse(sessionStorage.getItem('player')).id;
 
 	/*
@@ -30,7 +33,7 @@ const PlayArea = () => {
 	useEffect(() => {
 		// prevent applyCardEffect from running when playedCard changes state
 		// but it's not a valid card -> caused by react strict mode
-		if (!playedCard) {
+		if (!playedCard || alreadyPlayed || idPlayer !== playerInTurn) {
 			console.log('Error: invalid play');
 			return;
 		}
@@ -57,6 +60,7 @@ const PlayArea = () => {
 			dispatch(cleanPlayArea());
 			dispatch(addToDiscardPile(playedCard.card));
 		}, 500);
+		dispatch(setAlreadyPlayed()); // update this when turn is over
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [playedCard]);
 

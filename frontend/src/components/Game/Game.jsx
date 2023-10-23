@@ -20,6 +20,7 @@ import {
 	setPlayerInGame,
 	setPositionInGame,
 	setIsFinish,
+	restoreTurnConditions,
 } from '../../appActions';
 import {endTurn} from '../request/endTurn';
 import {FinishGame} from '../../containers/FinishGame';
@@ -57,6 +58,7 @@ export const Game = () => {
 		try {
 			const response = await endTurn(idGame);
 			dispatch(setCurrentPlayerInGame(response.idPlayerTurn));
+			dispatch(restoreTurnConditions()); // so that player can pick and play again
 		} catch (error) {
 			alert('Failed to finish turn, try again');
 			console.log(error);

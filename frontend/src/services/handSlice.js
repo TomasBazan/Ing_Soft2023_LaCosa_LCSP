@@ -4,6 +4,8 @@ import {createSlice} from '@reduxjs/toolkit';
 const initialState = {
 	cards: [],
 	selectedCard: '',
+	alreadyPlayed: false,
+	alreadyPicked: false,
 };
 
 // Cambios de estado para player
@@ -29,6 +31,16 @@ const handSlice = createSlice({
 		cleanSelectedCard: (state) => {
 			state.selectedCard = '';
 		},
+		setAlreadyPlayed: (state) => {
+			state.alreadyPlayed = true;
+		},
+		setAlreadyPicked: (state) => {
+			state.alreadyPicked = true;
+		},
+		restoreTurnConditions: (state) => {
+			state.alreadyPlayed = false;
+			state.alreadyPicked = false;
+		},
 	},
 });
 
@@ -39,6 +51,9 @@ export const {
 	removeFromHand,
 	selectCard,
 	cleanSelectedCard,
+	setAlreadyPlayed,
+	setAlreadyPicked,
+	restoreTurnConditions,
 } = handSlice.actions;
 // return de reducer for game
 export default handSlice.reducer;
