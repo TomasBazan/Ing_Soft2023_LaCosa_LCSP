@@ -30,8 +30,7 @@ const DiscardPile = () => {
 	const handleClick = async () => {
 		console.log('Click on discard pile');
 		if (selectedCard) {
-			// eslint-disable-next-line no-unused-vars
-			const res = await discardCard({discardedCard: selectedCard, idPlayer});
+			await discardCard({discardedCard: selectedCard, idPlayer});
 			dispatch(addToDiscardPile(selectedCard));
 			dispatch(removeFromHand(selectedCard));
 		}
