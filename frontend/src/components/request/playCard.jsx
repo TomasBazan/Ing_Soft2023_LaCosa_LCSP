@@ -1,6 +1,6 @@
 const SERVER_URL = 'http://localhost:8000/hand/play';
 // Should pass an object with the idPlayer, targetId and cardToken
-const playCard = async ({selectedCard, idPlayer, targetId}) => {
+const playCard = async ({playedCard, idPlayer, targetId}) => {
 	const parseJSONResponse = (response) => {
 		return new Promise((resolve) => {
 			response.json().then((json) => {
@@ -38,7 +38,7 @@ const playCard = async ({selectedCard, idPlayer, targetId}) => {
 	const bodyTosend = {
 		id_player: idPlayer,
 		target_id: targetId,
-		card_token: selectedCard.token,
+		card_token: playedCard.token,
 	};
 	const config = {
 		method: 'POST',

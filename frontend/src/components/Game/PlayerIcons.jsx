@@ -1,5 +1,7 @@
 import {Avatar, Text} from '@chakra-ui/react';
 import PropTypes from 'prop-types';
+import {useDispatch, useSelector} from 'react-redux';
+import {addToPlayArea} from '../../appActions';
 
 export const PlayerIcons = ({
 	relativePositionToTable,
@@ -7,18 +9,43 @@ export const PlayerIcons = ({
 	currentPlayerId = 0,
 }) => {
 	const myPlayerId = JSON.parse(sessionStorage.getItem('player')).id;
+	const selectedCard = useSelector((state) => state.hand.selectedCard);
+	const dispatch = useDispatch();
+
+	/* returns true if target is adjacent to current player, false otherwise  */
+	const validTarget = (player) => {
+		const currentPlayerPosition = getPlayerPosition(players, currentPlayerId);
+		return (
+			player.position === currentPlayerPosition + 1 ||
+			player.position === currentPlayerPosition - 1
+		);
+	};
 
 	const renderPlayer = (player) => {
+		/* if a player is clicked with a card selected the card is sent to the
+		play area with the player clicked as the target */
+		const handleClick = (player) => {
+			if (selectedCard && validTarget(player)) {
+				dispatch(addToPlayArea({card: selectedCard, target: player.id}));
+			}
+		};
+
 		return (
-			<Avatar
-				size='lg'
-				key={player.id}
-				color='white'
-				bg={currentPlayerId === player.id ? 'teal.500' : 'gray.900'}
-				border={myPlayerId === player.id ? '2px solid blue' : '0px'}
+			<button
+				onClick={() => {
+					handleClick(player);
+				}}
 			>
-				<Text fontSize='xl'>{player.name}</Text>
-			</Avatar>
+				<Avatar
+					size='lg'
+					key={player.id}
+					color='white'
+					bg={avatarColor(currentPlayerId, player)}
+					border={myPlayerId === player.id ? '2px solid blue' : '0px'}
+				>
+					<Text fontSize='xl'>{player.name}</Text>
+				</Avatar>
+			</button>
 		);
 	};
 
@@ -32,6 +59,27 @@ export const PlayerIcons = ({
 		return <>{players.slice(9, 12).map((player) => renderPlayer(player))}</>;
 	}
 	return null;
+};
+
+/* search for a player with id targetId in the players array */
+function getPlayerPosition(players, targetId) {
+	for (let i = 0; i < players.length; i++) {
+		if (players[i].id === targetId) {
+			return players[i].position;
+		}
+	}
+	return null; // if player not found
+}
+
+const avatarColor = (currentPlayerId, player) => {
+	let bgColor = 'gray.900';
+
+	if (currentPlayerId === player.id) {
+		bgColor = 'teal.500';
+	} else if (!player.is_alive) {
+		bgColor = 'red.500';
+	}
+	return bgColor;
 };
 
 PlayerIcons.propTypes = {
