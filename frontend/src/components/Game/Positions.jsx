@@ -51,10 +51,7 @@ Positions.propTypes = {
 };
 
 function getPlayers(players) {
-	const alivePlayers = players.filter((player) => player.is_alive === true);
-	const sortedPlayers = [...alivePlayers].sort(
-		(a, b) => a.position - b.position,
-	);
+	const sortedPlayers = [...players]?.sort((a, b) => a.position - b.position);
 	return sortedPlayers;
 }
 

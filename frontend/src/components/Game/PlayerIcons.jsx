@@ -14,7 +14,7 @@ export const PlayerIcons = ({
 				size='lg'
 				key={player.id}
 				color='white'
-				bg={currentPlayerId === player.id ? 'teal.500' : 'gray.900'}
+				bg={avatarColor(currentPlayerId, player)}
 				border={myPlayerId === player.id ? '2px solid blue' : '0px'}
 			>
 				<Text fontSize='xl'>{player.name}</Text>
@@ -32,6 +32,17 @@ export const PlayerIcons = ({
 		return <>{players.slice(9, 12).map((player) => renderPlayer(player))}</>;
 	}
 	return null;
+};
+
+const avatarColor = (currentPlayerId, player) => {
+	let bgColor = 'gray.900';
+
+	if (currentPlayerId === player.id) {
+		bgColor = 'teal.500';
+	} else if (!player.is_alive) {
+		bgColor = 'red.500';
+	}
+	return bgColor;
 };
 
 PlayerIcons.propTypes = {
