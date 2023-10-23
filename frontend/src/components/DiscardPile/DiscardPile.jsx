@@ -1,13 +1,20 @@
 import {Box} from '@chakra-ui/react';
 import {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {addToDiscardPile, removeFromHand} from '../../appActions';
+import {
+	addToDiscardPile,
+	removeFromHand,
+	setAlreadyPlayed,
+} from '../../appActions';
 import Card from '../Card/Card.jsx';
 import discardCard from '../request/discardCard';
 
 const DiscardPile = () => {
 	const selectedCard = useSelector((state) => state.hand.selectedCard);
 	const discardedCard = useSelector((state) => state.discardPile.discardedCard);
+	const alreadyPlayed = useSelector((state) => state.hand.alreadyPlayed);
+	const playerInTurn = useSelector((state) => state.game.currentPlayer);
+
 	const idPlayer = JSON.parse(sessionStorage.getItem('player')).id;
 	const [highlight, setHighlight] = useState(false);
 	const dispatch = useDispatch();
@@ -28,12 +35,15 @@ const DiscardPile = () => {
 		discard pile and removed from the player's hand.
 	*/
 	const handleClick = async () => {
-		console.log('Click on discard pile');
-		if (selectedCard) {
-			await discardCard({discardedCard: selectedCard, idPlayer});
-			dispatch(addToDiscardPile(selectedCard));
-			dispatch(removeFromHand(selectedCard));
+		if (!selectedCard || alreadyPlayed || idPlayer !== playerInTurn) {
+			console.log('Error: invalid play');
+			return;
 		}
+
+		await discardCard({discardedCard: selectedCard, idPlayer});
+		dispatch(addToDiscardPile(selectedCard));
+		dispatch(removeFromHand(selectedCard));
+		dispatch(setAlreadyPlayed());
 	};
 
 	return (
