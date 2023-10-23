@@ -8,7 +8,7 @@ import {Flex, Button, Text, FormControl, Input, Box} from '@chakra-ui/react';
 const CreateGameForm = () => {
 	const userId = JSON.parse(sessionStorage.getItem('player')).id;
 	const [alertMessage, setAlertMessage] = useState(''); // State for alert message
-	const initialValues = {GameName: ''};
+	const initialValues = {GameName: '', MinPlayers: '', MaxPlayers: ''};
 	const navigate = useNavigate();
 
 	const onSubmit = async (values) => {
@@ -17,8 +17,8 @@ const CreateGameForm = () => {
 			id_player: userId,
 			name: values.GameName,
 			// password: 'elpepe',
-			min_players: 4,
-			max_players: 12,
+			min_players: values.MinPlayers,
+			max_players: values.MaxPlayers,
 		};
 		try {
 			const resp = await createGame({game: Game});
@@ -41,6 +41,12 @@ const CreateGameForm = () => {
 		const errors = {};
 		if (!values.GameName) {
 			errors.GameName = 'this field is required';
+		}
+		if (values.MaxPlayers < 4 || values.MaxPlayers > 12) {
+			errors.MaxPlayers = 'the max number allowed is 12';
+		}
+		if (values.MinPlayers < 4 || values.MinPlayers > 12) {
+			errors.MinPlayers = 'the min number allowed is 4';
 		}
 		return errors;
 	};
@@ -93,6 +99,67 @@ const CreateGameForm = () => {
 							{formik.errors.GameName ? (
 								<div className='error'> {formik.errors.GameName}</div>
 							) : null}
+						</FormControl>
+					</div>
+					<div className='form/control'>
+						<Text fontSize='2xl' textAlign='center' color='white' mb='4'>
+							Cantidad de jugadores
+						</Text>
+						<FormControl>
+							<Flex alignItems='center'>
+								<Text fontSize='xl' color='white' mr='2'>
+									Min:
+								</Text>
+								<Input
+									type='number'
+									id='MinPlayers'
+									name='MinPlayers'
+									color='white'
+									onChange={formik.handleChange}
+									onBlur={formik.handleBlur}
+									value={formik.values.MinPlayers}
+									mb='4'
+									w='80px'
+								/>
+								{formik.errors.MaxPlayers ? (
+									<Text
+										fontSize='md'
+										color='white'
+										mr='6' /* Add margin to create space between the label and input */
+									>
+										{formik.errors.MinPlayers}
+									</Text>
+								) : null}
+							</Flex>
+							<Flex alignItems='center'>
+								<Text
+									fontSize='xl'
+									color='white'
+									mr='4' /* Add margin to create space between the label and input */
+								>
+									Max:
+								</Text>
+								<Input
+									type='number'
+									id='MaxPlayers'
+									name='MaxPlayers'
+									color='white'
+									onChange={formik.handleChange}
+									onBlur={formik.handleBlur}
+									value={formik.values.MaxPlayers}
+									mb='4'
+									w='80px'
+								/>
+								{formik.errors.MaxPlayers ? (
+									<Text
+										fontSize='md'
+										color='white'
+										mr='4' /* Add margin to create space between the label and input */
+									>
+										{formik.errors.MaxPlayers}
+									</Text>
+								) : null}
+							</Flex>
 						</FormControl>
 					</div>
 				</form>
