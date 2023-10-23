@@ -4,8 +4,8 @@ import {setCanStart, setLobby} from '../../appActions';
 import {useEffect, useState} from 'react';
 import {useNavigate} from 'react-router-dom';
 import startGame from '../request/startGame';
+import deleteGameJoin from '../request/deleteGameJoin';
 import {VStack, OrderedList, ListItem, Text, Button} from '@chakra-ui/react';
-
 // mock respuestas por ahora 		{user_name: 'toomas', id: 5, is_host: 0},
 
 const Lobby = () => {
@@ -19,12 +19,22 @@ const Lobby = () => {
 	const gameStatus = useSelector((state) => state.lobby);
 	const [isHost, setIsHost] = useState(false);
 
-	const onClick = async () => {
+	const StartGame = async () => {
 		console.log('me clickearon uwu');
 		try {
 			const resp = await startGame({idPlayer: userId});
 			console.log('la respuesta es', resp);
 			navigate(`/Games/${gameId}/play`);
+		} catch (error) {
+			alert(error.detail);
+		}
+	};
+
+	const Abandonar = async () => {
+		try {
+			const resp = await deleteGameJoin({idPlayer: userId});
+			console.log('la respuesta es', resp);
+			navigate(`/Games`);
 		} catch (error) {
 			alert(error.detail);
 		}
@@ -43,8 +53,13 @@ const Lobby = () => {
 			setIsHost(fetchedresp.isHost);
 		} catch (error) {
 			// Handle the error here
-			alert(error.detail);
-			console.error(error);
+			if (error.status === 400) {
+				if (error.detail === 'Player is not part of a game.') {
+					navigate(`/Games`);
+				}
+			} else {
+				alert(error.detail);
+			}
 		}
 	};
 	function orderPlayers(players) {
@@ -73,76 +88,44 @@ const Lobby = () => {
 
 	console.log('the gamestatus', gameStatus);
 	return (
-		<VStack spacing={4} align='center' m='4'>
-			<Text
-				bgGradient='linear(to-r,gray.200,white,gray.200)'
-				bgClip='text'
-				fontSize='4xl'
-				fontWeight='extrabold'
+		<div style={{position: 'relative'}}>
+			<VStack spacing={4} align='center' m='4'>
+				<Text
+					bgGradient='linear(to-r,gray.200,white,gray.200)'
+					bgClip='text'
+					fontSize='4xl'
+					fontWeight='extrabold'
+				>
+					Players:
+				</Text>
+				<OrderedList>
+					{playersSort.map((player) => (
+						<ListItem
+							mt='2'
+							bgGradient='linear(to-r,gray.200,white,gray.200)'
+							bgClip='text'
+							fontSize='2xl'
+							key={player.id}
+						>
+							{player.name}
+						</ListItem>
+					))}
+				</OrderedList>
+				{gameStatus.canStart && isHost ? (
+					<Button onClick={StartGame}>Begin</Button>
+				) : null}
+			</VStack>
+			<Button
+				position='fixed'
+				bottom='2rem'
+				right='2rem'
+				color='red.600'
+				onClick={Abandonar}
 			>
-				Players:
-			</Text>
-			<OrderedList>
-				{playersSort.map((player) => (
-					// bgGradient: 'linear(to-r, whatsapp.900,black,whatsapp.900)',
-					<ListItem
-						mt='2'
-						bgGradient='linear(to-r,gray.200,white,gray.200)'
-						bgClip='text'
-						fontSize='2xl'
-						key={player.id}
-					>
-						{player.name}
-					</ListItem>
-				))}
-			</OrderedList>
-			{gameStatus.canStart && isHost ? (
-				<Button onClick={onClick}>Begin</Button>
-			) : null}
-		</VStack>
+				Abandonar Partida
+			</Button>
+		</div>
 	);
 };
 
 export default Lobby;
-
-/* const Lobby = () => {
-	const dispatch = useDispatch();
-	const gameStatus = useSelector((state) => state.game);
-	const userId = 1; // Replace with the actual user ID
-
-	useEffect(() => {
-		const buscarJugadores = async () => {
-			try {
-				const fetchedresp = await getLobbyStatus(userId);
-				dispatch(setLobby(fetchedresp.players));
-				dispatch(setCanStart(fetchedresp.can_start)); // Assuming the response key is "can_start"
-			} catch (error) {
-				// Handle the error here
-				console.error(error);
-			}
-		};
-
-		buscarJugadores();
-	}, []); // Empty dependency array to ensure it runs only once
-
-	const onClick = async () => {
-		console.log('me clickearon uwu');
-	};
-
-	return (
-		<VStack spacing={4}>
-			<h2>Players:</h2>
-			<OrderedList>
-				{gameStatus.players.map((player) => (
-					<div key={player.id}>
-						<ListItem>{player.name}</ListItem>{' '}
-						{/* Change "name" to "user_name" if necessary }
-				</div>
-				))}
-			</OrderedList>
-			{gameStatus.can_start ? <Button onClick={onClick}>Begin</Button> : null}
-		</VStack>
-	);
-};
-
-export default Lobby; */
