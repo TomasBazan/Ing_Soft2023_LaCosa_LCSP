@@ -8,7 +8,7 @@ export const isValidCard = (cardToken) => {
 export const requiresTarget = (cardToken) => {
 	const cardName = getCardName(cardToken);
 	return cardName === 'lanzallamas' || cardName === 'cambio de lugar';
-}
+};
 
 /* Get a card's name from a token
    ! Van solo listadas las cartas implementadas y las de infección
@@ -36,4 +36,3 @@ const getCardName = (cardToken) => {
 			return null;
 	}
 };
-
