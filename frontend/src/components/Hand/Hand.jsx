@@ -4,7 +4,7 @@ import getHand from '../request/getHand';
 import {useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {setHand, selectCard, cleanSelectedCard} from '../../appActions';
-import isValidCard from '../../services/isValidCard.js';
+import isValidCard from '../../services/cardConditions.js';
 
 // represents a player's hand
 const Hand = () => {
