@@ -34,7 +34,7 @@ const Lobby = () => {
 		try {
 			const resp = await deleteGameJoin({idPlayer: userId});
 			console.log('la respuesta es', resp);
-			navigate(`/Games`);
+			navigate(`/`);
 		} catch (error) {
 			alert(error.detail);
 		}
