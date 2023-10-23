@@ -41,6 +41,10 @@ const Lobby = () => {
 			dispatch(setCanStart(fetchedresp.canStart)); // Assuming the response key is "can_start"
 			console.log('desp de dispatch', gameStatus);
 			setIsHost(fetchedresp.isHost);
+
+			if (fetchedresp.statusGame === 1) {
+				navigate(`/Games/${gameId}/play`);
+			}
 		} catch (error) {
 			// Handle the error here
 			alert(error.detail);
