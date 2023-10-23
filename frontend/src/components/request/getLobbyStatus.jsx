@@ -13,6 +13,7 @@ const getLobbyStatus = (idUser) => {
 						canStart: json.data.can_start,
 						isHost: json.data.is_host,
 						detail: json.detail,
+						statusGame: json.data.game_status,
 					});
 				}
 				resolve({
