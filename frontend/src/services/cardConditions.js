@@ -1,14 +1,16 @@
 /* returns true if card can be played */
-export const isValidCard = (cardToken) => {
+const isValidCard = (cardToken) => {
 	const cardName = getCardName(cardToken);
 	return cardName !== 'infectado' && cardName !== 'la cosa';
 };
+
+export default isValidCard;
 
 /* returns true if card requires a target to be selected in order to be played */
 export const requiresTarget = (cardToken) => {
 	const cardName = getCardName(cardToken);
 	return cardName === 'lanzallamas' || cardName === 'cambio de lugar';
-};
+}
 
 /* Get a card's name from a token
    ! Van solo listadas las cartas implementadas y las de infección
@@ -36,3 +38,4 @@ const getCardName = (cardToken) => {
 			return null;
 	}
 };
+
