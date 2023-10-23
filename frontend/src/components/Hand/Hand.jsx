@@ -4,6 +4,7 @@ import getHand from '../request/getHand';
 import {useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {setHand, selectCard, cleanSelectedCard} from '../../appActions';
+import isValidCard from '../../services/cardConditions.js';
 
 // represents a player's hand
 const Hand = () => {
@@ -28,7 +29,9 @@ const Hand = () => {
 	*/
 	const handleClick = async (clickedCard) => {
 		if (selectedCard !== clickedCard) {
-			dispatch(selectCard(clickedCard));
+			if (isValidCard(clickedCard.token)) {
+				dispatch(selectCard(clickedCard));
+			}
 		} else {
 			dispatch(cleanSelectedCard());
 		}
