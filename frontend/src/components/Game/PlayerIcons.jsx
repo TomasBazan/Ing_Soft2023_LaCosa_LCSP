@@ -40,6 +40,7 @@ export const PlayerIcons = ({
 					size='lg'
 					key={player.id}
 					color='white'
+					data-testid={'player-' + player.id}
 					bg={avatarColor(currentPlayerId, player)}
 					border={myPlayerId === player.id ? '2px solid blue' : '0px'}
 				>
