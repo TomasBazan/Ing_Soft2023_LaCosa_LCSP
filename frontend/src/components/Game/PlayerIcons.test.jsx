@@ -3,33 +3,18 @@ import React from 'react';
 import PlayerIcons from './PlayerIcons';
 import {waitFor, screen} from '@testing-library/react';
 import {renderWithProviders} from '../../services/providerForTest/utils-for-tests';
-import userEvent from '@testing-library/user-event';
-import {ChakraProvider, extendTheme} from '@chakra-ui/react';
-
-const customTheme = extendTheme({
-	colors: {
-		teal: {
-			500: '#319795',
-		},
-		gray: {
-			500: '#2D3748',
-		},
-		red: {
-			500: '#E53E3E',
-		},
-	},
-});
+import {ChakraProvider} from '@chakra-ui/react';
 
 describe('Player Icons tests', () => {
 	beforeEach(() => {
 		window.sessionStorage.clear();
 	});
-	const player1 = {
+	const player = {
 		name: 'player1',
 		id: 1,
 		loged: true,
 	};
-	const customInitialState1 = {
+	const customInitialState = {
 		hand: {
 			cards: [
 				{
@@ -81,11 +66,10 @@ describe('Player Icons tests', () => {
 		},
 	];
 	it('Shoul render the player icons and pass with 1', async () => {
-		/* const user =  */ userEvent.setup();
-		window.sessionStorage.setItem('player', JSON.stringify(player1));
+		window.sessionStorage.setItem('player', JSON.stringify(player));
 		window.sessionStorage.setItem('gameId', 1);
 		renderWithProviders(
-			<ChakraProvider theme={customTheme}>
+			<ChakraProvider>
 				<PlayerIcons
 					relativePositionToTable={realativePositionToTable1}
 					players={players1}
@@ -93,7 +77,7 @@ describe('Player Icons tests', () => {
 				/>
 			</ChakraProvider>,
 			{
-				preloadedState: customInitialState1,
+				preloadedState: customInitialState,
 			},
 		);
 		await waitFor(async () => {
@@ -104,6 +88,7 @@ describe('Player Icons tests', () => {
 			expect(screen.getByTestId('player-1')).toHaveStyle(
 				'border: 2px solid blue',
 			);
+			// Chakra ui wont fail if the color is not valid, only checks that the background color exists
 			expect(screen.getByTestId('player-1')).toHaveStyle(
 				'background-color: teal.500',
 			);
