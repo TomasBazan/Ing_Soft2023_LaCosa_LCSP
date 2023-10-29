@@ -8,6 +8,7 @@ import gameReducer from '../gameSlice';
 import handReducer from '../handSlice';
 import lobbyReducer from '../lobbySlice';
 import playAreaReducer from '../playAreaSlice';
+import discardPileReducer from '../discardPileSlice';
 import PropTypes from 'prop-types';
 
 export function renderWithProviders(
@@ -19,9 +20,10 @@ export function renderWithProviders(
 		store = configureStore({
 			reducer: {
 				hand: handReducer,
+				playArea: playAreaReducer,
+				discardPile: discardPileReducer,
 				lobby: lobbyReducer,
 				game: gameReducer,
-				playArea: playAreaReducer,
 			},
 			preloadedState,
 			// devTools: true,

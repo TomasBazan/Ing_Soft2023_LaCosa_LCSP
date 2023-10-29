@@ -53,7 +53,6 @@ const Hand = () => {
 						onClick={() => handleClick(card)}
 						info={card}
 						front={true}
-						test-id='handCard'
 					/>
 				</Box>
 			))}
