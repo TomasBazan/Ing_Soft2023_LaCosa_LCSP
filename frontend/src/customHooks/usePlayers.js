@@ -8,6 +8,6 @@ export const usePlayers = () => {
 		return sortedPlayers;
 	};
 	const players = getPlayers(game.players);
-	const currentPlayer = game.currentPlayer;
-	return {players, currentPlayer};
+	const currentPlayerId = game.currentPlayer;
+	return {players, currentPlayerId};
 };

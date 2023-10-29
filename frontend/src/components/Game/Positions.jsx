@@ -1,13 +1,10 @@
 import {Flex} from '@chakra-ui/react';
 import PropTypes from 'prop-types';
-import {useSelector} from 'react-redux';
 import PlayerIcons from './PlayerIcons';
+import {usePlayers} from '../../customHooks/usePlayers';
 
 export const Positions = ({relativePositionToTable}) => {
-	const game = useSelector((state) => state.game);
-	const players = getPlayers(game.players);
-	const currentPlayerId = game.currentPlayer;
-
+	const {players, currentPlayerId} = usePlayers();
 	if (relativePositionToTable === 0 || relativePositionToTable === 2) {
 		return (
 			<Flex justify='center' justifyContent='space-evenly' direction='row'>
@@ -49,10 +46,5 @@ Positions.propTypes = {
 	),
 	currentPlayerId: PropTypes.number,
 };
-
-function getPlayers(players) {
-	const sortedPlayers = [...players]?.sort((a, b) => a.position - b.position);
-	return sortedPlayers;
-}
 
 export default Positions;
