@@ -40,14 +40,18 @@ const PlayArea = () => {
 
 		const applyCardEffect = async () => {
 			// eslint-disable-next-line no-unused-vars
-			const res = await playCard({
-				playedCard: playedCard.card,
-				idPlayer,
-				targetId: playedCard.target,
-			});
-			const gameStatus = await getGameStatus(idPlayer);
-			const cardEffect = gameStatus.players;
-			dispatch(updatePlayers(cardEffect));
+			try {
+				const res = await playCard({
+					playedCard: playedCard.card,
+					idPlayer,
+					targetId: playedCard.target,
+				});
+				const gameStatus = await getGameStatus(idPlayer);
+				const cardEffect = gameStatus.players;
+				dispatch(updatePlayers(cardEffect));
+			} catch (error) {
+				console.log('Error in PlayArea', error);
+			}
 		};
 
 		applyCardEffect();
@@ -77,7 +81,13 @@ const PlayArea = () => {
 
 	// display card in play area. If card is empty, display nothing
 	return (
-		<Box w='100%' h='100%' className='play-area' onClick={handleClick}>
+		<Box
+			w='100%'
+			h='100%'
+			className='play-area'
+			data-testid='play-area'
+			onClick={handleClick}
+		>
 			{displayCard && <Card info={displayCard} front={true} />}
 		</Box>
 	);

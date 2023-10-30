@@ -23,7 +23,7 @@ const Card = ({className, onClick, info, front}) => {
 			<img
 				className='card-image'
 				src={`http://localhost:5173/src/assets/cards/${cardImageSource(front)}`}
-				alt='card'
+				alt={`card ${cardImageSource(front)}`}
 				onClick={onClick}
 				data-testid='card-image'
 			/>

@@ -10,6 +10,7 @@ module.exports = {
 		//'eslint-plugin-testing-library',
 		//'eslint-plugin-jest-dom',
 		'eslint-config-prettier',
+		'plugin:cypress/recommended',
 	],
 	ignorePatterns: ['dist', '.eslintrc.cjs'],
 	parserOptions: {ecmaVersion: 'latest', sourceType: 'module'},
