@@ -19,12 +19,13 @@ const Card = ({className, onClick, info, front}) => {
 	};
 
 	return (
-		<button aria-label='cardButton' className={className}>
+		<button className={className} data-testid='card-button'>
 			<img
 				className='card-image'
 				src={`http://localhost:5173/src/assets/cards/${cardImageSource(front)}`}
 				alt={`card ${cardImageSource(front)}`}
 				onClick={onClick}
+				data-testid='card-image'
 			/>
 		</button>
 	);

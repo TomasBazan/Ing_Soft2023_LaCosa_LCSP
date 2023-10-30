@@ -54,7 +54,7 @@ const Deck = () => {
 		}
 	};
 	return (
-		<div className='deck'>
+		<div className='deck' data-testid='deck'>
 			<Card onClick={handleClick} info={card} front={displayFront} />
 		</div>
 	);
