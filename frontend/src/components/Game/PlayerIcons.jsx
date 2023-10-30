@@ -50,13 +50,13 @@ export const PlayerIcons = ({
 	};
 
 	if (relativePositionToTable === 0) {
-		return <>{players.slice(0, 3).map((player) => renderPlayer(player))}</>;
+		return <>{players.map((player) => renderPlayer(player))}</>;
 	} else if (relativePositionToTable === 1) {
-		return <>{players.slice(3, 6).map((player) => renderPlayer(player))}</>;
+		return <>{players.map((player) => renderPlayer(player))}</>;
 	} else if (relativePositionToTable === 2) {
-		return <>{players.slice(6, 9).map((player) => renderPlayer(player))}</>;
+		return <>{players.map((player) => renderPlayer(player))}</>;
 	} else if (relativePositionToTable === 3) {
-		return <>{players.slice(9, 12).map((player) => renderPlayer(player))}</>;
+		return <>{players.map((player) => renderPlayer(player))}</>;
 	}
 	return null;
 };
