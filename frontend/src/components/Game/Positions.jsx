@@ -6,7 +6,6 @@ import {usePlayers} from '../../customHooks/usePlayers';
 export const Positions = ({relativePositionToTable}) => {
 	const {players, currentPlayerId} = usePlayers();
 	const bounds = getBoundsPlayerDistribution(players);
-	console.log('bounds', bounds);
 	if (relativePositionToTable === 0 || relativePositionToTable === 2) {
 		if (relativePositionToTable === 0) {
 			return (
@@ -19,11 +18,12 @@ export const Positions = ({relativePositionToTable}) => {
 				</Flex>
 			);
 		} else {
+			const reversePlayers = [...players].reverse();
 			return (
 				<Flex justify='center' justifyContent='space-evenly' direction='row'>
 					<PlayerIcons
 						relativePositionToTable={relativePositionToTable}
-						players={players.slice(bounds[2].from, bounds[2].until)}
+						players={reversePlayers.slice(bounds[2].from, bounds[2].until)}
 						currentPlayerId={currentPlayerId}
 					/>
 				</Flex>
