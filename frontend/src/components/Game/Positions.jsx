@@ -18,12 +18,13 @@ export const Positions = ({relativePositionToTable}) => {
 				</Flex>
 			);
 		} else {
-			const reversePlayers = [...players].reverse();
 			return (
 				<Flex justify='center' justifyContent='space-evenly' direction='row'>
 					<PlayerIcons
 						relativePositionToTable={relativePositionToTable}
-						players={reversePlayers.slice(bounds[2].from, bounds[2].until)}
+						players={[
+							...players.slice(bounds[2].from, bounds[2].until),
+						].reverse()}
 						currentPlayerId={currentPlayerId}
 					/>
 				</Flex>
@@ -41,7 +42,9 @@ export const Positions = ({relativePositionToTable}) => {
 				>
 					<PlayerIcons
 						relativePositionToTable={relativePositionToTable}
-						players={players.slice(bounds[1].from, bounds[1].until)}
+						players={[
+							...players.slice(bounds[1].from, bounds[1].until),
+						].reverse()}
 						currentPlayerId={currentPlayerId}
 					/>
 				</Flex>
