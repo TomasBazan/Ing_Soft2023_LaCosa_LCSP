@@ -10,7 +10,7 @@ describe('Card component', () => {
 		const {getByAltText} = render(<Card info={card} front={true} />);
 
 		// Assert that the image source is correct
-		expect(getByAltText('card').src).toContain(`/src/assets/cards/img22.jpg`);
+		expect(getByAltText(/card/i).src).toContain(`/src/assets/cards/img22.jpg`);
 	});
 
 	it('should render card back with correct source', () => {
@@ -18,7 +18,9 @@ describe('Card component', () => {
 		const {getByAltText} = render(<Card info={card} front={false} />);
 
 		// Assert that the image source is correct
-		expect(getByAltText('card').src).toContain(`/src/assets/cards/reverse.jpg`);
+		expect(getByAltText(/card/i).src).toContain(
+			`/src/assets/cards/reverse.jpg`,
+		);
 	});
 
 	it('should call onClick handler when card is clicked', () => {
@@ -31,7 +33,7 @@ describe('Card component', () => {
 		);
 
 		// simulate a user clicking on the card
-		fireEvent.click(getByAltText('card'));
+		fireEvent.click(getByAltText(/card/i));
 
 		// assert that the mock handler was called exactly once
 		expect(mockClickHandler).toHaveBeenCalledTimes(1);
