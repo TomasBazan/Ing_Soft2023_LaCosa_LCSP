@@ -14,8 +14,6 @@ const getGameList = () => {
 		});
 	};
 
-	// const bodyRequest = {};
-
 	const config = {
 		method: 'GET',
 		headers: {
@@ -23,7 +21,6 @@ const getGameList = () => {
 		},
 	};
 	return new Promise((resolve, reject) => {
-		console.log('config', config);
 		fetch(SERVER_URL, config)
 			.then(handleJSONParser)
 			.then((response) => {

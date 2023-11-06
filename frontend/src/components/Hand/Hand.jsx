@@ -46,6 +46,7 @@ const Hand = () => {
 					key={card.id}
 					width='170px' // Set the width to control the card size
 					height='200px' // Set the height to control the card size
+					data-testid='handCard'
 				>
 					<Card
 						className={`card ${selectedCard === card ? 'selected' : ''}`}

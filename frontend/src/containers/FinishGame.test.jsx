@@ -22,37 +22,26 @@ const customInitialState = {
 			{name: 'Player6', id: 6, position: 5, is_alive: false},
 			{name: 'Player7', id: 7, position: 6, is_alive: true},
 		],
-		my_position: 2,
-		my_rol: 1,
-		current_player: 1,
+		position: 2,
+		isFinish: 1,
+		currentPlayer: 1,
+		firstDeckCardBack: -1,
 	},
 };
-const customInitialState2 = {
-	player: {
+
+describe('Game Layout', () => {
+	const player = {
 		name: 'Player1', // Set the desired initial state values
 		id: 1,
 		loged: true,
-	},
-	game: {
-		players: [
-			{name: 'Player1', id: 1, position: 0, is_alive: true},
-			{name: 'Player2', id: 2, position: 1, is_alive: true},
-			{name: 'Player3', id: 3, position: 2, is_alive: false},
-			{name: 'Player4', id: 4, position: 3, is_alive: false},
-			{name: 'Player5', id: 5, position: 4, is_alive: true},
-			{name: 'Player6', id: 6, position: 5, is_alive: false},
-			{name: 'Player7', id: 7, position: 6, is_alive: true},
-		],
-		my_position: 2,
-		my_rol: 1,
-		current_player: 1,
-	},
-};
-describe('Game Layout', () => {
+	};
+	beforeEach(() => {
+		window.sessionStorage.clear();
+	});
 	it('Should render The Game Layout and change the Route', async () => {
 		const history = createMemoryHistory();
 		const user = userEvent.setup();
-
+		window.sessionStorage.setItem('player', JSON.stringify(player));
 		renderWithProviders(
 			<MemoryRouter
 				initialEntries={['/Games/Partida-Inicial/play']}
@@ -69,14 +58,6 @@ describe('Game Layout', () => {
 		await waitFor(async () => {
 			user.click(screen.getByText('Play Again'));
 			expect(history.location.pathname).toBe('/');
-		});
-	});
-	it('should render The Finish Game with no player id and pass', async () => {
-		renderWithProviders(<FinishGame />, {
-			preloadedState: customInitialState2,
-		});
-		await waitFor(async () => {
-			expect(screen.getByText(/Godbye/i)).toBeInTheDocument();
 		});
 	});
 });

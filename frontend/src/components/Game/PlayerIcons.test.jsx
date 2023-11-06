@@ -84,7 +84,7 @@ describe('Player Icons tests', () => {
 			expect(screen.getByText('player1')).toBeInTheDocument();
 			expect(screen.getByText('player2')).toBeInTheDocument();
 			expect(screen.getByText('player3')).toBeInTheDocument();
-			expect(screen.getAllByTestId(/player/i).length).toBe(3);
+			expect(screen.getAllByText(/player/i).length).toBe(3);
 			expect(screen.getByTestId('player-1')).toHaveStyle(
 				'border: 2px solid blue',
 			);

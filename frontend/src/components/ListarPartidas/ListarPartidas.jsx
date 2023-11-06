@@ -8,6 +8,8 @@ const ListarPartidas = () => {
 	const navigate = useNavigate();
 	const userId = JSON.parse(sessionStorage.getItem('player')).id;
 	const [partidas, setPartidas] = useState([]); // Initialize partidas as an empty array
+	const [alert, setAlert] = useState();
+	const [alert1, setAlert1] = useState();
 
 	useEffect(() => {
 		const buscarPartidas = async () => {
@@ -15,16 +17,14 @@ const ListarPartidas = () => {
 				const resp = await getGameList();
 				setPartidas(resp.games);
 			} catch (error) {
-				console.log('la respuesta es en catch :', error);
+				setAlert(error.detail);
 				setPartidas([]);
-				// alert(error.detail);
 			}
 		};
 		buscarPartidas();
-	}, [partidas]);
+	}, []);
 
 	const handleUnirse = async (gameId) => {
-		console.log('el id de la partida es', gameId);
 		const bodyRequest = {
 			idGame: gameId,
 			password: null,
@@ -33,20 +33,29 @@ const ListarPartidas = () => {
 
 		try {
 			const resp = await joinGame(bodyRequest);
-			console.log(resp);
 			const game = {
 				id: gameId,
 			};
 			sessionStorage.setItem('gameId', JSON.stringify(game));
+			console.log(resp);
 			navigate(`/Games/${gameId}`);
 		} catch (error) {
-			console.log('el error es', error);
-			// alert(error.detail);
+			setAlert1(error.detail);
 		}
 	};
 	return (
 		<Center mt={4}>
 			<VStack spacing={4}>
+				{alert ? (
+					<Text color='red.600' fontSize='xl'>
+						{alert}
+					</Text>
+				) : null}
+				{alert1 ? (
+					<Text color='red.600' fontSize='xl'>
+						{alert1}
+					</Text>
+				) : null}
 				{partidas.length > 0 ? (
 					partidas.map((partida, index) => (
 						<Box
