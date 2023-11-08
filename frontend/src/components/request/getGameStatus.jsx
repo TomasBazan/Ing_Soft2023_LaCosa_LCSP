@@ -1,10 +1,13 @@
-const SERVER_URL = 'http://localhost:8000/game';
+// import {json} from 'react-router-dom';
 
-const getGameStatus = async (idPlayer) => {
+// const SERVER_URL = 'http://localhost:8000/game';
+
+const getGameStatus = async (idPlayer, connection) => {
 	const parseJSONResponse = (response) => {
 		return new Promise((resolve) => {
 			response.json().then((json) => {
 				console.log('json', json);
+				console.log(idPlayer);
 				if (response.ok) {
 					resolve({
 						status: response.status,
@@ -24,24 +27,18 @@ const getGameStatus = async (idPlayer) => {
 			});
 		});
 	};
-	const config = {
-		method: 'GET',
-		headers: {
-			'id-player': idPlayer,
-		},
-	};
-	return new Promise((resolve, reject) => {
-		fetch(SERVER_URL, config)
-			.then(parseJSONResponse)
-			.then((response) => {
-				if (response.ok) {
-					return resolve(response);
-				}
-				return reject(response);
-			})
-			.catch((error) => {
-				return reject(error);
-			});
+
+	// chequear que onda el async en WS
+	connection.addEventListener('getGameStatus', async (response) => {
+		console.log(response.data);
+		const promise = await parseJSONResponse(response.data);
+
+		if (!promise.ok) {
+			const error = {status: promise.status, detail: promise.detail};
+			throw error;
+		} else {
+			return promise;
+		}
 	});
 };
 export default getGameStatus;

@@ -25,16 +25,31 @@ import {
 import {endTurn} from '../request/endTurn';
 import {FinishGame} from '../../containers/FinishGame';
 export const Game = () => {
-	const playerId = JSON.parse(sessionStorage.getItem('player')).id;
+	const idPlayer = JSON.parse(sessionStorage.getItem('player')).id;
 	const currentPlayer = useSelector((state) => state.game.currentPlayer);
 	const idGame = JSON.parse(sessionStorage.getItem('gameId')).id;
 	const dispatch = useDispatch();
 	const gameStatus = useSelector((state) => state.game.isFinish);
 
 	useEffect(() => {
+		const connection = new WebSocket('ws://localhost:8000/ws'); // testearlo al ws o http.
+		console.log('***CREATED WEBSOCKET');
+
+		connection.onopen = () => {
+			console.log('***ONOPEN id=', idPlayer);
+			// send the playerid
+
+			const idToSend = {'id-player': idPlayer};
+			connection.send(JSON.stringify(idToSend)); // event: game_status.
+		};
+
+		console.log('***CREATED ONOPEN');
+
 		async function getDataOfGame() {
 			try {
-				const gameStatus = await getGameStatus(playerId);
+				const gameStatus = await getGameStatus(idPlayer, connection);
+				console.log('THE gameStatus is ');
+				console.log(gameStatus);
 				dispatch(setPlayerInGame(gameStatus.players));
 				dispatch(setPositionInGame(gameStatus.position));
 				dispatch(setIsFinish(gameStatus.isFinish));
@@ -48,11 +63,12 @@ export const Game = () => {
 			}
 		}
 
-		const intervalId = setInterval(() => {
-			getDataOfGame();
-		}, 1000);
-		return () => clearInterval(intervalId);
-	}, [dispatch, playerId]);
+		getDataOfGame();
+
+		return () => {
+			connection.close();
+		};
+	}, [dispatch, idPlayer]);
 
 	async function finishTurn() {
 		try {
@@ -132,15 +148,15 @@ export const Game = () => {
 					>
 						<Button
 							variant='solid'
-							bg={playerId === currentPlayer ? 'teal' : 'gray'}
+							bg={idPlayer === currentPlayer ? 'teal' : 'gray'}
 							aria-label='Call Sage'
 							fontSize='20px'
 							onClick={() => {
-								if (playerId === currentPlayer) {
+								if (idPlayer === currentPlayer) {
 									finishTurn();
 								}
 							}}
-							disabled={playerId !== currentPlayer}
+							disabled={idPlayer !== currentPlayer}
 						>
 							Finish Turn
 						</Button>
