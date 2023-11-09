@@ -2,21 +2,23 @@
 import React, {useEffect, useState} from 'react';
 import {Textarea, Card, Flex, Button, Box, FormControl} from '@chakra-ui/react';
 import {useFormik} from 'formik';
+import PropTypes from 'prop-types';
 
-export const Chat = (conection) => {
+export const Chat = ({connection}) => {
 	const [messages, setMessages] = useState([]);
 	const initialValues = {message: ''};
 	// add the data of sessionStorage of the Player name and id maybe
 	// recieve the messages from the server
 	useEffect(() => {
-		conection.addEventListener('message', (event) => {
+		const messageHandler = (event) => {
 			const message = JSON.parse(event.data);
 			if (message.type === 'chat_message') {
 				setMessages([...messages, message.content]);
 			}
-		});
+		};
+		connection.addEventListener('message', messageHandler);
 		return () => {
-			conection.removeEventListener('message');
+			connection.removeEventListener('message', messageHandler);
 		};
 	});
 	const onSubmit = /* async */ (values) => {
@@ -25,7 +27,7 @@ export const Chat = (conection) => {
 			type: 'chat_message',
 			content: values.message,
 		};
-		conection.send(JSON.stringify(chatMessage));
+		connection.send(JSON.stringify(chatMessage));
 		formik.resetForm();
 	};
 	const handleEnterPress = (event) => {
@@ -74,5 +76,7 @@ export const Chat = (conection) => {
 		</Card>
 	);
 };
-
+Chat.propTypes = {
+	connection: PropTypes.instanceOf(WebSocket),
+};
 export default Chat;
