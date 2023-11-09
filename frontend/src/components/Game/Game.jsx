@@ -2,7 +2,8 @@ import Deck from '../Deck/Deck';
 import Hand from '../Hand/Hand';
 import PlayArea from '../PlayArea/PlayArea';
 import DiscardPile from '../DiscardPile/DiscardPile';
-import Positions from './Positions.jsx';
+import Positions from './Positions';
+import {Chat} from './Chat';
 import {
 	Grid,
 	Center,
@@ -72,19 +73,25 @@ export const Game = () => {
 			<Center h='100%' w='100%'>
 				<Grid
 					h='90vh'
-					w='60vw'
-					m='0'
-					p='0'
+					w='90vw'
+					m='10'
+					p=''
 					templateRows='repeat(7, 1fr)'
-					templateColumns='repeat(5, 1fr)'
+					templateColumns='repeat(9, 1fr)'
 					gap={4}
 				>
-					<GridItem rowSpan={1} colSpan={1} />
-					<GridItem rowSpan={1} colSpan={3} paddingTop='40px'>
+					<GridItem textAlign='center' bg='yellow' rowSpan={7} colSpan={2}>
+						<Text>logs</Text>
+					</GridItem>
+					<GridItem bg='white' rowSpan={1} colSpan={1} />
+					<GridItem bg='white' rowSpan={1} colSpan={3} paddingTop='40px'>
 						<Positions relativePositionToTable={2} />
 					</GridItem>
-					<GridItem rowSpan={1} colSpan={1} />
-					<GridItem rowSpan={3} colSpan={1} paddingLeft='160px'>
+					<GridItem bg='white' rowSpan={1} colSpan={1} />
+					<GridItem bg='yellow' rowSpan={7} colSpan={2}>
+						<Chat />
+					</GridItem>
+					<GridItem bg='white' rowSpan={3} colSpan={1} paddingLeft='160px'>
 						<Positions relativePositionToTable={3} />
 					</GridItem>
 					<GridItem
@@ -116,14 +123,15 @@ export const Game = () => {
 							</Box>
 						</Flex>
 					</GridItem>
-					<GridItem rowSpan={3} colSpan={1} paddingRight='160px'>
+					<GridItem bg='white' rowSpan={3} colSpan={1} paddingRight='160px'>
 						<Positions relativePositionToTable={1} />
 					</GridItem>
-					<GridItem rowSpan={1} colSpan={1} />
-					<GridItem rowSpan={1} colSpan={3} paddingBottom='60px'>
+					<GridItem rowSpan={1} colSpan={1} bg='white' />
+					<GridItem bg='white' rowSpan={1} colSpan={3} paddingBottom='60px'>
 						<Positions relativePositionToTable={0} />
 					</GridItem>
 					<GridItem
+						bg='white'
 						display='flex'
 						justifyContent='center'
 						alignItems='center'
@@ -145,7 +153,7 @@ export const Game = () => {
 							Finish Turn
 						</Button>
 					</GridItem>
-					<GridItem rowSpan={2} colSpan={5}>
+					<GridItem bg='white' rowSpan={2} colSpan={5}>
 						<Flex justify='center' direction='row'>
 							<Box maxW='60%'>
 								<Hand />
