@@ -1,16 +1,31 @@
 // eslint-disable-next-line no-unused-vars
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Textarea, Card, Flex, Button, Box, FormControl} from '@chakra-ui/react';
 import {useFormik} from 'formik';
 
-export const Chat = () => {
+export const Chat = (conection) => {
 	const [messages, setMessages] = useState([]);
 	const initialValues = {message: ''};
 	// add the data of sessionStorage of the Player name and id maybe
-
+	// recieve the messages from the server
+	useEffect(() => {
+		conection.addEventListener('message', (event) => {
+			const message = JSON.parse(event.data);
+			if (message.type === 'chat_message') {
+				setMessages([...messages, message.content]);
+			}
+		});
+		return () => {
+			conection.removeEventListener('message');
+		};
+	});
 	const onSubmit = /* async */ (values) => {
 		setMessages([...messages, values.message]);
-		// here it goes the send of the text to the back
+		const chatMessage = {
+			type: 'chat_message',
+			content: values.message,
+		};
+		conection.send(JSON.stringify(chatMessage));
 		formik.resetForm();
 	};
 	const handleEnterPress = (event) => {
