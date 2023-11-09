@@ -28,20 +28,21 @@ jest.mock('../request/getHand', () => {
 	};
 });
 
+const initialState = {
+	hand: {
+		cards: [],
+		selectedCard: '',
+	},
+};
+
 describe('Hand component', () => {
 	beforeEach(() => {
-		const initialState = {
-			hand: {
-				cards: [],
-				selectedCard: '',
-			},
-		};
-
 		sessionStorage.setItem('player', JSON.stringify({id: 1}));
-		renderWithProviders(<Hand />, {preloadedState: initialState});
 	});
 
 	it('should render the players hand initially', async () => {
+		renderWithProviders(<Hand />, {preloadedState: initialState});
+
 		const handComponent = screen.getByTestId('hand');
 		expect(handComponent).toBeInTheDocument();
 
@@ -61,6 +62,11 @@ describe('Hand component', () => {
 	});
 
 	it('should select a valid card when clicked once', () => {
+		// eslint-disable-next-line no-unused-vars
+		const {store, _rtl} = renderWithProviders(<Hand />, {
+			preloadedState: initialState,
+		});
+
 		const cardButtons = screen.getAllByTestId('card-button');
 		const cardImages = screen.getAllByTestId('card-image');
 		const validCard = cardImages[2];
@@ -70,6 +76,11 @@ describe('Hand component', () => {
 	});
 
 	it("shouldn't select a non valid card when clicked once", () => {
+		// eslint-disable-next-line no-unused-vars
+		const {store, _rtl} = renderWithProviders(<Hand />, {
+			preloadedState: initialState,
+		});
+
 		const cardButtons = screen.getAllByTestId('card-button');
 		const cardImages = screen.getAllByTestId('card-image');
 		const laCosa = cardImages[0];
