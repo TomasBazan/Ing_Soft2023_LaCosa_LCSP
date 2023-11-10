@@ -183,6 +183,19 @@ describe('PlayArea component', () => {
 		const spy = jest.spyOn(store, 'dispatch');
 		expect(spy).not.toHaveBeenCalled();
 	});
+
+	it("shouldn't play a card if none is selected", async () => {
+		// eslint-disable-next-line no-unused-vars
+		const {store, _rtl} = renderWithProviders(<PlayArea />, {
+			preloadedState: mockStore,
+		});
+
+		const playArea = screen.getByTestId('play-area');
+		fireEvent.click(playArea);
+
+		const spy = jest.spyOn(store, 'dispatch');
+		expect(spy).not.toHaveBeenCalled();
+	});
 });
 
 // returns undefined because the response to this http request is not used
