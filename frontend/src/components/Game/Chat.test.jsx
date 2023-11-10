@@ -10,7 +10,7 @@ describe('Test of Chat', () => {
 	beforeEach(() => {
 		jest.clearAllMocks();
 	});
-	it.skip('Component should render without crashing', async () => {
+	it('Component should render without crashing', async () => {
 		jest.spyOn(global.WebSocket.prototype, 'addEventListener');
 		const connection = new WebSocket('ws://localhost:');
 		renderWithProviders(<Chat connection={connection} />);
