@@ -14,7 +14,7 @@ import {
 } from '@chakra-ui/react';
 import {useDispatch, useSelector} from 'react-redux';
 import getGameStatus from '../request/getGameStatus';
-import {useEffect} from 'react';
+import {useEffect, useState} from 'react';
 import {
 	setCurrentPlayerInGame,
 	setPlayerInGame,
@@ -30,45 +30,49 @@ export const Game = () => {
 	const idGame = JSON.parse(sessionStorage.getItem('gameId')).id;
 	const dispatch = useDispatch();
 	const gameStatus = useSelector((state) => state.game.isFinish);
+	const [socket, setSocket] = useState(null);
 
 	useEffect(() => {
-		const connection = new WebSocket('ws://localhost:8000/ws'); // testearlo al ws o http.
+		const connection = new WebSocket('ws://localhost:8000/ws/game_status'); // testearlo al ws o http.
+		setSocket(connection);
+		console.log(connection);
 		console.log('***CREATED WEBSOCKET');
 
 		connection.onopen = () => {
 			console.log('***ONOPEN id=', idPlayer);
 			// send the playerid
 
-			const idToSend = {'id-player': idPlayer};
+			const idToSend = {type: 'game_status', content: {id_player: idPlayer}};
+			console.log('sending ', JSON.stringify(idToSend));
+			console.log('on the web socket');
 			connection.send(JSON.stringify(idToSend)); // event: game_status.
 		};
 
-		console.log('***CREATED ONOPEN');
+		const idToSend = {content: {id_player: idPlayer}};
+
+		/* 		connection.addEventListener('game_status', (response) => {
+			console.log('im listening the event');
+			console.log('the response is');
+			console.log(response.data);
+		}); */
 
 		async function getDataOfGame() {
-			try {
-				const gameStatus = await getGameStatus(idPlayer, connection);
-				console.log('THE gameStatus is ');
-				console.log(gameStatus);
-				dispatch(setPlayerInGame(gameStatus.players));
-				dispatch(setPositionInGame(gameStatus.position));
-				dispatch(setIsFinish(gameStatus.isFinish));
-				dispatch(setCurrentPlayerInGame(gameStatus.currentPlayerId));
-			} catch (error) {
-				if (!error.ok) {
-					console.log('Error unexpected fetching data of the game');
-				} else {
-					console.log('Error in getGameStatus', error);
-				}
-			}
+			const gameStatus = await getGameStatus(idPlayer, socket);
+			console.log('THE gameStatus is ');
+			console.log(gameStatus);
+			dispatch(setPlayerInGame(gameStatus.players));
+			dispatch(setPositionInGame(gameStatus.position));
+			dispatch(setIsFinish(gameStatus.isFinish));
+			dispatch(setCurrentPlayerInGame(gameStatus.currentPlayerId));
 		}
 
 		getDataOfGame();
-
 		return () => {
-			connection.close();
+			//connection.close();
+			connection.onmessage = null;
+			console.log('on return');
 		};
-	}, [dispatch, idPlayer]);
+	}, [idPlayer, dispatch]);
 
 	async function finishTurn() {
 		try {
