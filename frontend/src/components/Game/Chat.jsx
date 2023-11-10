@@ -7,33 +7,39 @@ import PropTypes from 'prop-types';
 export const Chat = ({connection}) => {
 	const [messages, setMessages] = useState([]);
 	const initialValues = {message: ''};
-	// add the data of sessionStorage of the Player name and id maybe
-	// recieve the messages from the server
+
 	useEffect(() => {
 		const messageHandler = (event) => {
-			const message = JSON.parse(event.data);
-			if (message.type === 'chat_message') {
-				setMessages([...messages, message.content]);
+			if (event.type === 'chat_message') {
+				console.log('Recieved a message: ', event.content);
+				setMessages([...messages, event.content]);
 			}
 		};
-		connection.addEventListener('message', messageHandler);
-		return () => {
-			connection.removeEventListener('message', messageHandler);
-		};
-	});
-	const onSubmit = /* async */ (values) => {
-		setMessages([...messages, values.message]);
-		const chatMessage = {
-			type: 'chat_message',
-			content: values.message,
-		};
-		connection.send(JSON.stringify(chatMessage));
+		if (connection) {
+			connection.onmessage = function (event) {
+				const message = JSON.parse(event.data);
+				console.log('In message, recieved a messasge:', message);
+				if (message.type === 'chat_message') {
+					console.log('Recieved a message: ', message.content);
+					messageHandler(message);
+				}
+			};
+		}
+	}, [connection, messages]);
+	const onSubmit = async (values) => {
+		if (connection) {
+			const chatMessage = {
+				type: 'chat_message',
+				content: values.message,
+			};
+			connection.send(JSON.stringify(chatMessage));
+		}
 		formik.resetForm();
 	};
-	const handleEnterPress = (event) => {
+	const handleEnterPress = async (event) => {
 		if (event.key === 'Enter' && !event.shiftKey) {
 			event.preventDefault();
-			onSubmit(formik.values);
+			await onSubmit(formik.values);
 		}
 	};
 	const formik = useFormik({
@@ -76,6 +82,7 @@ export const Chat = ({connection}) => {
 		</Card>
 	);
 };
+
 Chat.propTypes = {
 	connection: PropTypes.instanceOf(WebSocket),
 };
