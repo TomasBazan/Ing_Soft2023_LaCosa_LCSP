@@ -14,7 +14,7 @@ import {
 } from '@chakra-ui/react';
 import {useDispatch, useSelector} from 'react-redux';
 import getGameStatus from '../request/getGameStatus';
-import {useEffect, useState} from 'react';
+import {useEffect} from 'react';
 import {
 	setCurrentPlayerInGame,
 	setPlayerInGame,
@@ -30,11 +30,9 @@ export const Game = () => {
 	const idGame = JSON.parse(sessionStorage.getItem('gameId')).id;
 	const dispatch = useDispatch();
 	const gameStatus = useSelector((state) => state.game.isFinish);
-	const [socket, setSocket] = useState(null);
 
 	useEffect(() => {
 		const connection = new WebSocket('ws://localhost:8000/ws/game_status'); // testearlo al ws o http.
-		setSocket(connection);
 		console.log(connection);
 		console.log('***CREATED WEBSOCKET');
 
@@ -48,16 +46,7 @@ export const Game = () => {
 			connection.send(JSON.stringify(idToSend)); // event: game_status.
 		};
 
-		const idToSend = {content: {id_player: idPlayer}};
-
-		/* 		connection.addEventListener('game_status', (response) => {
-			console.log('im listening the event');
-			console.log('the response is');
-			console.log(response.data);
-		}); */
-
-		async function getDataOfGame() {
-			const gameStatus = await getGameStatus(idPlayer, socket);
+		function getDataOfGame(gameStatus) {
 			console.log('THE gameStatus is ');
 			console.log(gameStatus);
 			dispatch(setPlayerInGame(gameStatus.players));
@@ -66,10 +55,15 @@ export const Game = () => {
 			dispatch(setCurrentPlayerInGame(gameStatus.currentPlayerId));
 		}
 
-		getDataOfGame();
+		connection.onmessage = function (response) {
+			console.log('on message: ', response);
+			const resp = JSON.parse(response.data);
+			const gameStatus = getGameStatus(resp, idPlayer);
+			getDataOfGame(gameStatus);
+		};
+
 		return () => {
-			//connection.close();
-			connection.onmessage = null;
+			// connection.close();
 			console.log('on return');
 		};
 	}, [idPlayer, dispatch]);
