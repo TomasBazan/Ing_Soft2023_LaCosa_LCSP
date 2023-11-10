@@ -168,7 +168,7 @@ describe('PlayArea component', () => {
 			...mockStore,
 			hand: {
 				...mockStore.hand,
-				alreadyPicked: false,
+				alreadyPlayed: true,
 			},
 			playArea: {
 				card: {card: {id: '2', token: 'img22.jpg', type: 1}, target: -1},
