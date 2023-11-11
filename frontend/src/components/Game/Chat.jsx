@@ -49,7 +49,7 @@ export const Chat = ({connection}) => {
 	return (
 		<Card>
 			<Flex direction='column'>
-				<Box h='600px' overflowY='scroll' bg='blackAlpha.700'>
+				<Box h='600px' color='black' overflowY='scroll' bg='green.100'>
 					{messages.map((msg, index) => (
 						<div key={index}>{msg}</div>
 					))}
@@ -57,7 +57,9 @@ export const Chat = ({connection}) => {
 				<form onSubmit={formik.handleSubmit}>
 					<FormControl>
 						<Textarea
-							bg='blackAlpha.700'
+							border='2px green solid'
+							bg='green.100'
+							color='black'
 							name='message'
 							placeholder='Type a message'
 							h='110px'
@@ -67,14 +69,25 @@ export const Chat = ({connection}) => {
 							value={formik.values.message}
 						></Textarea>
 					</FormControl>
-					<Flex justify='end' h='90px'>
+					<Flex
+						bg='green.100'
+						direction='row'
+						justify='center'
+						p='5px'
+						h='90px'
+					>
 						<Button
 							type='submit'
 							size='lg'
+							m='5px'
+							bg='green.300'
 							justifyContent='center'
 							onClick={formik.handleSubmit}
 						>
 							Send
+						</Button>
+						<Button onClick={formik.resetForm} bg='green.300' size='lg' m='5px'>
+							Cancel
 						</Button>
 					</Flex>
 				</form>

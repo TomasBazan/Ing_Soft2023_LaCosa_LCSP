@@ -12,10 +12,17 @@ import {
 	GridItem,
 	Flex,
 	Button,
+	Modal,
+	ModalOverlay,
+	ModalHeader,
+	ModalBody,
+	ModalFooter,
+	ModalContent,
+	useDisclosure,
 } from '@chakra-ui/react';
 import {useDispatch, useSelector} from 'react-redux';
 import getGameStatus from '../request/getGameStatus';
-import {useEffect} from 'react';
+import {useEffect, useState} from 'react';
 import {
 	setCurrentPlayerInGame,
 	setPlayerInGame,
@@ -31,6 +38,18 @@ export const Game = () => {
 	const idGame = JSON.parse(sessionStorage.getItem('gameId')).id;
 	const dispatch = useDispatch();
 	const gameStatus = useSelector((state) => state.game.isFinish);
+	const {isOpen, onOpen, onClose} = useDisclosure();
+	const [displayDefense, setDisplayDefense] = useState(false);
+	const [textNotice, setTextNotice] = useState('');
+	const [renderModal, setRenderModal] = useState(null);
+	useEffect(() => {
+		if (!isOpen) {
+			setDisplayDefense(false);
+		}
+		if (displayDefense) {
+			onOpen();
+		}
+	}, [isOpen, onOpen, displayDefense]);
 
 	useEffect(() => {
 		async function getDataOfGame() {
@@ -71,6 +90,27 @@ export const Game = () => {
 	} else {
 		return (
 			<Center h='100%' w='100%'>
+				<>
+					<Modal isOpen={isOpen} onClose={onClose}>
+						<ModalOverlay
+							bg='none'
+							backdropFilter='auto'
+							backdropInvert='80%'
+							backdropBlur='2px'
+						/>
+						<ModalContent>
+							<ModalHeader>{textNotice}</ModalHeader>
+
+							<ModalBody>{renderModal}</ModalBody>
+
+							<ModalFooter>
+								<Button colorScheme='red' variant='ghost' onClick={onClose}>
+									Resolve
+								</Button>
+							</ModalFooter>
+						</ModalContent>
+					</Modal>
+				</>
 				<Grid
 					h='90vh'
 					w='90vw'
@@ -83,15 +123,15 @@ export const Game = () => {
 					<GridItem textAlign='center' bg='yellow' rowSpan={7} colSpan={2}>
 						<Text>logs</Text>
 					</GridItem>
-					<GridItem bg='white' rowSpan={1} colSpan={1} />
-					<GridItem bg='white' rowSpan={1} colSpan={3} paddingTop='40px'>
+					<GridItem rowSpan={1} colSpan={1} />
+					<GridItem rowSpan={1} colSpan={3} paddingTop='40px'>
 						<Positions relativePositionToTable={2} />
 					</GridItem>
-					<GridItem bg='white' rowSpan={1} colSpan={1} />
+					<GridItem rowSpan={1} colSpan={1} />
 					<GridItem bg='yellow' rowSpan={7} colSpan={2}>
 						<Chat />
 					</GridItem>
-					<GridItem bg='white' rowSpan={3} colSpan={1} paddingLeft='160px'>
+					<GridItem rowSpan={3} colSpan={1} paddingLeft='160px'>
 						<Positions relativePositionToTable={3} />
 					</GridItem>
 					<GridItem
@@ -123,37 +163,55 @@ export const Game = () => {
 							</Box>
 						</Flex>
 					</GridItem>
-					<GridItem bg='white' rowSpan={3} colSpan={1} paddingRight='160px'>
+					<GridItem rowSpan={3} colSpan={1} paddingRight='160px'>
 						<Positions relativePositionToTable={1} />
 					</GridItem>
-					<GridItem rowSpan={1} colSpan={1} bg='white' />
-					<GridItem bg='white' rowSpan={1} colSpan={3} paddingBottom='60px'>
+					<GridItem rowSpan={1} colSpan={1} />
+					<GridItem rowSpan={1} colSpan={3} paddingBottom='60px'>
 						<Positions relativePositionToTable={0} />
 					</GridItem>
-					<GridItem
-						bg='white'
-						display='flex'
-						justifyContent='center'
-						alignItems='center'
-						rowSpan={1}
-						colSpan={1}
-					>
-						<Button
-							variant='solid'
-							bg={playerId === currentPlayer ? 'teal' : 'gray'}
-							aria-label='Call Sage'
-							fontSize='20px'
-							onClick={() => {
-								if (playerId === currentPlayer) {
-									finishTurn();
-								}
-							}}
-							disabled={playerId !== currentPlayer}
+					<GridItem rowSpan={1} colSpan={1}>
+						<Flex
+							direction='column'
+							p='5px'
+							justifyContent='center'
+							alignItems='center'
 						>
-							Finish Turn
-						</Button>
+							<Button
+								m='10px'
+								variant='solid'
+								bg={playerId === currentPlayer ? 'teal' : 'gray'}
+								aria-label='Call Sage'
+								fontSize='20px'
+								onClick={() => {
+									if (playerId === currentPlayer) {
+										finishTurn();
+									}
+								}}
+								disabled={playerId !== currentPlayer}
+							>
+								Finish Turn
+							</Button>
+							<Button
+								variant='solid'
+								bg={playerId === currentPlayer ? 'teal' : 'gray'}
+								aria-label='Call Sage'
+								fontSize='20px'
+								onClick={() => {
+									// if (playerId === currentPlayer) { // add assertion when full turn is done
+									// }
+									setTextNotice('You have to exchange a card');
+									setRenderModal(<Hand />);
+									onOpen();
+								}}
+								disabled={playerId !== currentPlayer}
+							>
+								Exchange card
+							</Button>
+						</Flex>
 					</GridItem>
-					<GridItem bg='white' rowSpan={2} colSpan={5}>
+
+					<GridItem rowSpan={2} colSpan={5}>
 						<Flex justify='center' direction='row'>
 							<Box maxW='60%'>
 								<Hand />
