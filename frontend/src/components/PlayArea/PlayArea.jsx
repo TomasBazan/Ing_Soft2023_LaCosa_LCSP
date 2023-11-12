@@ -39,7 +39,7 @@ const PlayArea = () => {
 		}
 
 		const applyCardEffect = async () => {
-			// eslint-disable-next-line no-unused-vars
+			 
 			try {
 				const res = await playCard({
 					playedCard: playedCard.card,

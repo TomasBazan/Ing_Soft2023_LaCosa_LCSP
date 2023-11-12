@@ -15,7 +15,7 @@ import {
 } from '@chakra-ui/react';
 import {useDispatch, useSelector} from 'react-redux';
 import getGameStatus from '../request/getGameStatus';
-import {useEffect} from 'react';
+import {useEffect, useState} from 'react';
 import {
 	setCurrentPlayerInGame,
 	setPlayerInGame,
@@ -31,16 +31,13 @@ export const Game = () => {
 	const idGame = JSON.parse(sessionStorage.getItem('gameId')).id;
 	const dispatch = useDispatch();
 	const gameStatus = useSelector((state) => state.game.isFinish);
-
+	const [socketChat, setSocketChat] = useState(null);
 	useEffect(() => {
 		const connection = new WebSocket('ws://localhost:8000/ws/game_status'); // testearlo al ws o http.
 		console.log(connection);
 		console.log('***CREATED WEBSOCKET');
 
 		connection.onopen = () => {
-			console.log('***ONOPEN id=', idPlayer);
-			// send the playerid
-
 			const idToSend = {type: 'game_status', content: {id_player: idPlayer}};
 			console.log('sending ', JSON.stringify(idToSend));
 			console.log('on the web socket');
@@ -55,7 +52,6 @@ export const Game = () => {
 			dispatch(setIsFinish(gameStatus.isFinish));
 			dispatch(setCurrentPlayerInGame(gameStatus.currentPlayerId));
 		}
-
 		connection.onmessage = function (response) {
 			console.log('on message: ', response);
 			const resp = JSON.parse(response.data);
@@ -68,6 +64,14 @@ export const Game = () => {
 			console.log('on return');
 		};
 	}, [idPlayer, dispatch]);
+
+	// Chat
+	useEffect(() => {
+		const connection = new WebSocket(
+			`ws://localhost:8000/ws/chat?id_player=${idPlayer}`,
+		);
+		setSocketChat(connection);
+	}, [idPlayer]);
 
 	async function finishTurn() {
 		try {
@@ -103,7 +107,7 @@ export const Game = () => {
 					</GridItem>
 					<GridItem bg='white' rowSpan={1} colSpan={1} />
 					<GridItem bg='yellow' rowSpan={7} colSpan={2}>
-						<Chat />
+						<Chat connection={socketChat} />
 					</GridItem>
 					<GridItem bg='white' rowSpan={3} colSpan={1} paddingLeft='160px'>
 						<Positions relativePositionToTable={3} />
